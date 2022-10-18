@@ -1,0 +1,13 @@
+{
+    "required": true,
+    "package": "org.auioc.mcmod.clientesh.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [],
+    "client": [],
+    "server": [],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "refmap": "clientesh.mixin-refmap.json",
+    "minVersion": "0.8"
+}
