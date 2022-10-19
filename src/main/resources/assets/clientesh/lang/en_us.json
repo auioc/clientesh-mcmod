@@ -1,6 +1,7 @@
 {
     "clientesh.hud.label.fps": "FPS: ",
     "clientesh.hud.label.coordinates": "XYZ: ",
+    "clientesh.hud.label.block_postion": "Block: ",
     "clientesh.hud.label.seed": "Seed: ",
     "clientesh.hud.label.dimension": "Dimension: ",
     "clientesh.hud.label.speed": "Speed: ",

@@ -20,6 +20,16 @@ public class CEHudConfig {
 
     }
 
+    protected static class BlockPositionRC {
+
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b.define("format", "%d %d %d [%d %d %d]");
+        }
+
+    }
+
     protected static class SpeedRC {
 
         public static EnumValue<SpeedUnit> unit;

@@ -9,10 +9,7 @@ import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.api.mixin.IMixinMinecraft;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
-import org.auioc.mcmod.clientesh.content.hud.CEHudConfig.CoordinatesRC;
-import org.auioc.mcmod.clientesh.content.hud.CEHudConfig.SpeedRC;
-import org.auioc.mcmod.clientesh.content.hud.CEHudConfig.SystemTimeRC;
-import org.auioc.mcmod.clientesh.content.hud.CEHudConfig.VelocityRC;
+import org.auioc.mcmod.clientesh.content.hud.CEHudConfig.*;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -32,6 +29,7 @@ public class CEHudInfo {
     public static final HudInfo MINECRAFT_VERSION = HudInfo.create("MINECRAFT_VERSION", CEHudInfo::minecraftVersion);
     public static final HudInfo FPS = HudInfo.create("FPS", CEHudInfo::fps);
     public static final HudInfo COORDINATES = HudInfo.create("COORDINATES", CoordinatesRC::build, CEHudInfo::coordinates);
+    public static final HudInfo BLOCK_POSITION = HudInfo.create("BLOCK_POSITION", BlockPositionRC::build, CEHudInfo::blockPostion);
     public static final HudInfo SEED = HudInfo.create("SEED", CEHudInfo::seed);
     public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", CEHudInfo::dimension);
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
@@ -77,6 +75,11 @@ public class CEHudInfo {
 
     private static Component coordinates() {
         return label("coordinates").append(format(CoordinatesRC.format.get(), e().getX(), e().getY(), e().getZ()));
+    }
+
+    private static Component blockPostion() {
+        var pos = e().blockPosition();
+        return label("block_postion").append(format(BlockPositionRC.format.get(), pos.getX(), pos.getY(), pos.getZ(), pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15));
     }
 
     private static List<Component> seed() {

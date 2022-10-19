@@ -1,6 +1,7 @@
 {
     "clientesh.hud.label.fps": "帧率：",
     "clientesh.hud.label.coordinates": "坐标：",
+    "clientesh.hud.label.block_postion": "方块：",
     "clientesh.hud.label.seed": "种子：",
     "clientesh.hud.label.dimension": "维度：",
     "clientesh.hud.label.speed": "速率：",
