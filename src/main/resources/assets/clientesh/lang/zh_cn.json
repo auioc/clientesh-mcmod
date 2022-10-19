@@ -1,7 +1,8 @@
 {
-    "clientesh.hud.label.fps": "FPS：",
+    "clientesh.hud.label.fps": "帧率：",
     "clientesh.hud.label.coordinates": "坐标：",
-    "clientesh.hud.label.seed": "种子: ",
+    "clientesh.hud.label.seed": "种子：",
+    "clientesh.hud.label.dimension": "维度：",
     "clientesh.hud.label.speed": "速率：",
     "clientesh.hud.label.velocity": "速度：",
     "clientesh.hud.label.system_time": "系统时间："

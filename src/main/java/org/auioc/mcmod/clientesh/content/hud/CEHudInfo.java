@@ -33,6 +33,7 @@ public class CEHudInfo {
     public static final HudInfo FPS = HudInfo.create("FPS", CEHudInfo::fps);
     public static final HudInfo COORDINATES = HudInfo.create("COORDINATES", CoordinatesRC::build, CEHudInfo::coordinates);
     public static final HudInfo SEED = HudInfo.create("SEED", CEHudInfo::seed);
+    public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", CEHudInfo::dimension);
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
     public static final HudInfo VELOCITY = HudInfo.create("VELOCITY", VelocityRC::build, CEHudInfo::velocity);
     public static final HudInfo SYSTEM_TIME = HudInfo.create("SYSTEM_TIME", SystemTimeRC::build, CEHudInfo::systemTime);
@@ -45,11 +46,6 @@ public class CEHudInfo {
 
     private static MutableComponent label(String key) {
         return TextUtils.translatable(ClientEsh.i18n("hud.label.") + key);
-    }
-
-    @SuppressWarnings("unused")
-    private static MutableComponent str(String str) {
-        return TextUtils.literal(str);
     }
 
     private static MutableComponent format(String format, Object... args) {
@@ -85,6 +81,10 @@ public class CEHudInfo {
 
     private static List<Component> seed() {
         return (SeedGetter.hasSeed()) ? List.of(label("seed").append(format("%s", SeedGetter.get()))) : List.of();
+    }
+
+    private static Component dimension() {
+        return label("dimension").append(e().getLevel().dimension().location().toString());
     }
 
     private static Vec3 getVelocity(SpeedUnit unit) {
