@@ -1,6 +1,6 @@
 package org.auioc.mcmod.clientesh.event;
 
-import org.auioc.mcmod.clientesh.config.CEConfig;
+import org.auioc.mcmod.clientesh.content.tweak.CETweakersConfig;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaker;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -16,7 +16,7 @@ public class CEForgeEventHandler {
         var screen = event.getScreen();
 
         if (screen instanceof PauseScreen pauseScreen) {
-            if (CEConfig.enablePauseScreenTweaker.get()) PauseScreenTweaker.handle(event, pauseScreen);
+            if (CETweakersConfig.enablePauseScreenTweaker.get()) PauseScreenTweaker.handle(event, pauseScreen);
         }
     }
 
