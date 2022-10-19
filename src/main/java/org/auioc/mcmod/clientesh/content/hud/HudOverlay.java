@@ -60,18 +60,20 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
         for (int i = 0, l = lines.size(); i < l; ++i) {
             var line = lines.get(i);
 
-            int w = font.width(line);
+            if (line != null) {
+                int w = font.width(line);
 
-            if (this.background && !this.fullBackground) {
-                int x1 = (right) ? x0 + 1 : x0 - 1;
-                int y1 = y - 1;
-                int x2 = (right) ? x0 - w - 1 : x0 + w + 1;
-                int y2 = y + font.lineHeight + ((i + 1 == l) ? 0 : -1);
-                fill(poseStack, x1, y1, x2, y2, backgroundColor);
+                if (this.background && !this.fullBackground) {
+                    int x1 = (right) ? x0 + 1 : x0 - 1;
+                    int y1 = y - 1;
+                    int x2 = (right) ? x0 - w - 1 : x0 + w + 1;
+                    int y2 = y + font.lineHeight + ((i + 1 == l) ? 0 : -1);
+                    fill(poseStack, x1, y1, x2, y2, backgroundColor);
+                }
+
+                int x = (right) ? x0 - w : x0;
+                font.drawShadow(poseStack, line, x, y, this.fontColor);
             }
-
-            int x = (right) ? x0 - w : x0;
-            font.drawShadow(poseStack, line, x, y, this.fontColor);
 
             y += this.font.lineHeight;
         }
@@ -80,8 +82,10 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     private void drawFullBackground(PoseStack poseStack, ArrayList<Component> lines, final int x0, final int y0, boolean right) {
         int maxWidth = 0;
         for (var line : lines) {
-            int w = this.font.width(line);
-            if (w > maxWidth) maxWidth = w;
+            if (line != null) {
+                int w = this.font.width(line);
+                if (w > maxWidth) maxWidth = w;
+            }
         }
 
         int height = this.font.lineHeight * lines.size() + 1;
