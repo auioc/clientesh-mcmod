@@ -2,7 +2,10 @@ package org.auioc.mcmod.clientesh.api.hud;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class HudLines {
 
     protected static final ArrayList<HudInfo> L = new ArrayList<>();

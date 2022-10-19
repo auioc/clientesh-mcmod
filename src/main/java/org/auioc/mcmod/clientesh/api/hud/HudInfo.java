@@ -5,9 +5,12 @@ import java.util.function.Supplier;
 import javax.annotation.Nullable;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.IExtensibleEnum;
 
+@OnlyIn(Dist.CLIENT)
 public enum HudInfo implements IExtensibleEnum {
 
     _EMPTY_(() -> TextUtils.empty());

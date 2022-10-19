@@ -9,9 +9,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.client.gui.IIngameOverlay;
 
+@OnlyIn(Dist.CLIENT)
 public class HudOverlay extends GuiComponent implements IIngameOverlay {
 
     private static final Minecraft MC = Minecraft.getInstance();

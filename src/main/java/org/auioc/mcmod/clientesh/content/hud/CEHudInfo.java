@@ -19,7 +19,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class CEHudInfo {
 
     // ============================================================================================================== //
@@ -41,6 +44,7 @@ public class CEHudInfo {
         return TextUtils.translatable(ClientEsh.i18n("hud.label.") + key);
     }
 
+    @SuppressWarnings("unused")
     private static MutableComponent str(String str) {
         return TextUtils.literal(str);
     }

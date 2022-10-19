@@ -2,10 +2,13 @@ package org.auioc.mcmod.clientesh.event;
 
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.config.CEConfig;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 
+@OnlyIn(Dist.CLIENT)
 public class CEModEventHandler {
 
     @SubscribeEvent

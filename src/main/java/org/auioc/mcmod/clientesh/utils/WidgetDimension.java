@@ -1,5 +1,9 @@
 package org.auioc.mcmod.clientesh.utils;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
 public class WidgetDimension {
 
     public int x;

@@ -1,10 +1,13 @@
 package org.auioc.mcmod.clientesh.content.hud;
 
 import org.auioc.mcmod.arnicalib.game.world.position.SpeedUnit;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.EnumValue;
 
+@OnlyIn(Dist.CLIENT)
 public class CEHudConfig {
 
     protected static class CoordinatesRC {
