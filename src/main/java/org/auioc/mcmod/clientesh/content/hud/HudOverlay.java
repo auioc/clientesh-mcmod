@@ -7,7 +7,6 @@ import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.api.hud.HudLines;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.ForgeIngameGui;
@@ -17,22 +16,21 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
 
     private static final Minecraft MC = Minecraft.getInstance();
     public static final String NAME = ClientEsh.MOD_NAME + HudOverlay.class.getSimpleName();
-    private static final int BG_COLOR = -1873784752;
-    private static final int FG_COLOR = 14737632;
-
-    private Font font;
 
     @Override
     public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
         if (MC.options.renderDebug) return;
         if (MC.cameraEntity == null) return;
 
-        this.font = MC.font;
+        final var font = MC.font;
+        final boolean background = HudConfig.background.get();
+        final int backgroundColor = HudConfig.backgroundColor.get();
+        final int fontColor = HudConfig.fontColor.get();
 
         int top = 2;
         for (var text : getLines(HudLines.getLeft())) {
-            if (HudConfig.background.get()) fill(poseStack, 1, top - 1, 2 + font.width(text) + 1, top + font.lineHeight - 1, BG_COLOR);
-            font.draw(poseStack, text, 2, top, FG_COLOR);
+            if (background) fill(poseStack, 1, top - 1, 2 + font.width(text) + 1, top + font.lineHeight - 1, backgroundColor);
+            font.drawShadow(poseStack, text, 2, top, fontColor);
             top += font.lineHeight;
         }
 
@@ -40,8 +38,8 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
         for (var text : getLines(HudLines.getRight())) {
             int w = font.width(text);
             int left = width - 2 - w;
-            if (HudConfig.background.get()) fill(poseStack, left - 1, top - 1, left + w + 1, top + font.lineHeight - 1, BG_COLOR);
-            font.draw(poseStack, text, left, top, FG_COLOR);
+            if (background) fill(poseStack, left - 1, top - 1, left + w + 1, top + font.lineHeight - 1, backgroundColor);
+            font.drawShadow(poseStack, text, left, top, fontColor);
             top += font.lineHeight;
         }
     }
