@@ -17,6 +17,8 @@ import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 @OnlyIn(Dist.CLIENT)
 public class HudConfig {
 
+    public static IntValue xOffset;
+    public static IntValue yOffset;
     public static BooleanValue background;
     public static BooleanValue fullBackground;
     public static IntValue backgroundColor;
@@ -25,25 +27,34 @@ public class HudConfig {
     public static ConfigValue<List<? extends String>> right;
 
     public static void build(final ForgeConfigSpec.Builder b) {
-        background = b.define("background", true);
-        fullBackground = b.define("fullBackground", true);
-        backgroundColor = b.defineInRange("backgroundColor", -1873784752, Integer.MIN_VALUE, Integer.MAX_VALUE);
-        fontColor = b.defineInRange("fontColor", 14737632, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        b.push("render");
+        {
+            xOffset = b.defineInRange("xOffset", 2, 0, Integer.MAX_VALUE);
+            yOffset = b.defineInRange("yOffset", 2, 0, Integer.MAX_VALUE);
+            background = b.define("background", true);
+            fullBackground = b.define("fullBackground", true);
+            backgroundColor = b.defineInRange("backgroundColor", -1873784752, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            fontColor = b.defineInRange("fontColor", 14737632, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+        b.pop();
 
-
-        var allowedInfo = Arrays.asList(HudInfo.values()).stream().sorted(Comparator.comparing(Enum::name)).toList();
-        var allowedInfoNames = allowedInfo.stream().map(Enum::name).toList();
-        left = b
-            .comment("Allowed values: " + allowedInfoNames.stream().collect(Collectors.joining(", ")))
-            .define("left", new ArrayList<String>(), (o) -> checkStringList(o, allowedInfoNames));
-        right = b.define("right", new ArrayList<String>(), (o) -> checkStringList(o, allowedInfoNames));
 
         b.push("info");
-        for (var row : allowedInfo) {
-            if (row.hasConfig()) {
-                b.push(WordUtils.toCamelCase(row.name().toLowerCase()));
-                row.buildConfig(b);
-                b.pop();
+        var allowedInfo = Arrays.asList(HudInfo.values()).stream().sorted(Comparator.comparing(Enum::name)).toList();
+        {
+            var allowedInfoNames = allowedInfo.stream().map(Enum::name).toList();
+            left = b
+                .comment("Allowed values: " + allowedInfoNames.stream().collect(Collectors.joining(", ")))
+                .define("left", new ArrayList<String>(), (o) -> checkStringList(o, allowedInfoNames));
+            right = b.define("right", new ArrayList<String>(), (o) -> checkStringList(o, allowedInfoNames));
+        }
+        {
+            for (var row : allowedInfo) {
+                if (row.hasConfig()) {
+                    b.push(WordUtils.toCamelCase(row.name().toLowerCase()));
+                    row.buildConfig(b);
+                    b.pop();
+                }
             }
         }
         b.pop();
@@ -51,8 +62,8 @@ public class HudConfig {
     }
 
     public static void onLoad(CommentedConfig config) {
-        List<String> l = config.get("hud.left");
-        List<String> r = config.get("hud.right");
+        List<String> l = config.get("hud.info.left");
+        List<String> r = config.get("hud.info.right");
         if (l != null && r != null) HudLines.load(HudInfo.valueOf(l), HudInfo.valueOf(r));
 
     }

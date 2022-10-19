@@ -21,6 +21,8 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     private static final Minecraft MC = Minecraft.getInstance();
     public static final String NAME = ClientEsh.MOD_NAME + HudOverlay.class.getSimpleName();
 
+    private int xOffset;
+    private int yOffset;
     private Font font;
     private boolean background;
     private boolean fullBackground;
@@ -32,14 +34,16 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
         if (MC.options.renderDebug) return;
         if (MC.cameraEntity == null) return;
 
+        this.xOffset = HudConfig.xOffset.get();
+        this.yOffset = HudConfig.yOffset.get();
         this.font = MC.font;
         this.background = HudConfig.background.get();
         this.fullBackground = HudConfig.fullBackground.get();
         this.backgroundColor = HudConfig.backgroundColor.get();
         this.fontColor = HudConfig.fontColor.get();
 
-        drawText(poseStack, getLines(HudLines.getLeft()), 2, 2, false);
-        drawText(poseStack, getLines(HudLines.getRight()), width - 2, 2, true);
+        drawText(poseStack, getLines(HudLines.getLeft()), xOffset, yOffset, false);
+        drawText(poseStack, getLines(HudLines.getRight()), width - xOffset, yOffset, true);
 
     }
 
