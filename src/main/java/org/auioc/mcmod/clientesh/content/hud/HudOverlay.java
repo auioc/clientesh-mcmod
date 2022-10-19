@@ -33,6 +33,7 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
         if (MC.options.renderDebug) return;
         if (MC.cameraEntity == null) return;
+        if (!HudConfig.enabled.get()) return;
 
         this.xOffset = HudConfig.xOffset.get();
         this.yOffset = HudConfig.yOffset.get();
@@ -44,12 +45,14 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
 
         drawText(poseStack, getLines(HudLines.getLeft()), xOffset, yOffset, false);
         drawText(poseStack, getLines(HudLines.getRight()), width - xOffset, yOffset, true);
-
     }
 
     private static ArrayList<Component> getLines(ArrayList<HudInfo> infoList) {
         var lines = new ArrayList<Component>();
-        infoList.stream().map(HudInfo::getText).forEach(lines::addAll);
+        infoList.stream().map(HudInfo::getText).forEach((l) -> {
+            if (l != null) lines.addAll(l);
+            else lines.add(null);
+        });
         return lines;
     }
 

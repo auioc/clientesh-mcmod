@@ -17,6 +17,7 @@ import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 @OnlyIn(Dist.CLIENT)
 public class HudConfig {
 
+    public static BooleanValue enabled;
     public static IntValue xOffset;
     public static IntValue yOffset;
     public static BooleanValue background;
@@ -27,6 +28,8 @@ public class HudConfig {
     public static ConfigValue<List<? extends String>> right;
 
     public static void build(final ForgeConfigSpec.Builder b) {
+        enabled = b.define("enabled", true);
+
         b.push("render");
         {
             xOffset = b.defineInRange("xOffset", 2, 0, Integer.MAX_VALUE);

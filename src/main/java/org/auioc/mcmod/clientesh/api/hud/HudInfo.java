@@ -1,6 +1,5 @@
 package org.auioc.mcmod.clientesh.api.hud;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
 import net.minecraft.network.chat.Component;
@@ -24,11 +23,7 @@ public enum HudInfo implements IExtensibleEnum {
     }
 
     private HudInfo(@Nullable ConfigBuilder configBuilder, ComponentSupplier textSupplier) {
-        this(configBuilder, () -> new ArrayList<>(1) {
-            {
-                add(textSupplier.get());
-            }
-        });
+        this(configBuilder, () -> List.of(textSupplier.get()));
     }
 
     private HudInfo(ComponentsSupplier textSupplier) {
@@ -39,6 +34,7 @@ public enum HudInfo implements IExtensibleEnum {
         this(null, textSupplier);
     }
 
+    @Nullable
     public List<Component> getText() {
         return textSupplier.get();
     }
@@ -84,7 +80,6 @@ public enum HudInfo implements IExtensibleEnum {
     @FunctionalInterface
     public static interface ComponentSupplier {
 
-        @Nullable
         Component get();
 
     }
