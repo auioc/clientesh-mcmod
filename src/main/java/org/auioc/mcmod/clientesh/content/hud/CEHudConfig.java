@@ -30,6 +30,16 @@ public class CEHudConfig {
 
     }
 
+    protected static class ChunkPositionRC {
+
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b.define("format", "%d %d %d %s [%d %d in %s]");
+        }
+
+    }
+
     protected static class SpeedRC {
 
         public static EnumValue<SpeedUnit> unit;

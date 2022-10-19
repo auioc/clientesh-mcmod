@@ -14,9 +14,12 @@ import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
+import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -30,6 +33,7 @@ public class CEHudInfo {
     public static final HudInfo FPS = HudInfo.create("FPS", CEHudInfo::fps);
     public static final HudInfo COORDINATES = HudInfo.create("COORDINATES", CoordinatesRC::build, CEHudInfo::coordinates);
     public static final HudInfo BLOCK_POSITION = HudInfo.create("BLOCK_POSITION", BlockPositionRC::build, CEHudInfo::blockPostion);
+    public static final HudInfo CHUNK_POSITION = HudInfo.create("CHUNK_POSITION", ChunkPositionRC::build, CEHudInfo::chunkPostion);
     public static final HudInfo SEED = HudInfo.create("SEED", CEHudInfo::seed);
     public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", CEHudInfo::dimension);
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
@@ -80,6 +84,21 @@ public class CEHudInfo {
     private static Component blockPostion() {
         var pos = e().blockPosition();
         return label("block_postion").append(format(BlockPositionRC.format.get(), pos.getX(), pos.getY(), pos.getZ(), pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15));
+    }
+
+    private static Component chunkPostion() {
+        var bPos = e().blockPosition();
+        var cPos = new ChunkPos(bPos);
+        boolean isSlimeChunk = false;
+        if (SeedGetter.hasSeed()) isSlimeChunk = WorldgenRandom.seedSlimeChunk(cPos.x, cPos.z, SeedGetter.get(), 987234911L).nextInt(10) == 0;
+        return label("chunk_postion").append(
+            format(
+                ChunkPositionRC.format.get(),
+                cPos.x, SectionPos.blockToSectionCoord(bPos.getY()), cPos.z,
+                (isSlimeChunk) ? " (slimechunk)" : "",
+                cPos.getRegionLocalX(), cPos.getRegionLocalZ(), String.format("r.%d.%d.mca", cPos.getRegionX(), cPos.getRegionZ())
+            )
+        );
     }
 
     private static List<Component> seed() {
