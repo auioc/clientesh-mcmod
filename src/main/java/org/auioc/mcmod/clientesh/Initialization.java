@@ -4,6 +4,7 @@ package org.auioc.mcmod.clientesh;
 import org.auioc.mcmod.arnicalib.game.mod.ExtensionPointUtils;
 import org.auioc.mcmod.clientesh.config.CEConfig;
 import org.auioc.mcmod.clientesh.event.CEForgeEventHandler;
+import org.auioc.mcmod.clientesh.event.CEModEventHandler;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -13,7 +14,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @OnlyIn(Dist.CLIENT)
-@SuppressWarnings("unused")
 public final class Initialization {
 
     private Initialization() {}
@@ -32,7 +32,9 @@ public final class Initialization {
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CEConfig.SPEC);
     }
 
-    private static void modSetup() {}
+    private static void modSetup() {
+        MOD_BUS.register(CEModEventHandler.class);
+    }
 
     private static void forgeSetup() {
         FORGE_BUS.register(CEForgeEventHandler.class);
