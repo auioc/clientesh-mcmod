@@ -7,6 +7,7 @@ import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.api.hud.HudLines;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,37 +21,72 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     private static final Minecraft MC = Minecraft.getInstance();
     public static final String NAME = ClientEsh.MOD_NAME + HudOverlay.class.getSimpleName();
 
+    private Font font;
+    private boolean background;
+    private boolean fullBackground;
+    private int backgroundColor;
+    private int fontColor;
+
     @Override
     public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
         if (MC.options.renderDebug) return;
         if (MC.cameraEntity == null) return;
 
-        final var font = MC.font;
-        final boolean background = HudConfig.background.get();
-        final int backgroundColor = HudConfig.backgroundColor.get();
-        final int fontColor = HudConfig.fontColor.get();
+        this.font = MC.font;
+        this.background = HudConfig.background.get();
+        this.fullBackground = HudConfig.fullBackground.get();
+        this.backgroundColor = HudConfig.backgroundColor.get();
+        this.fontColor = HudConfig.fontColor.get();
 
-        int top = 2;
-        for (var text : getLines(HudLines.getLeft())) {
-            if (background) fill(poseStack, 1, top - 1, 2 + font.width(text) + 1, top + font.lineHeight - 1, backgroundColor);
-            font.drawShadow(poseStack, text, 2, top, fontColor);
-            top += font.lineHeight;
-        }
+        drawText(poseStack, getLines(HudLines.getLeft()), 2, 2, false);
+        drawText(poseStack, getLines(HudLines.getRight()), width - 2, 2, true);
 
-        top = 2;
-        for (var text : getLines(HudLines.getRight())) {
-            int w = font.width(text);
-            int left = width - 2 - w;
-            if (background) fill(poseStack, left - 1, top - 1, left + w + 1, top + font.lineHeight - 1, backgroundColor);
-            font.drawShadow(poseStack, text, left, top, fontColor);
-            top += font.lineHeight;
-        }
     }
 
     private static ArrayList<Component> getLines(ArrayList<HudInfo> infoList) {
         var lines = new ArrayList<Component>();
         infoList.stream().map(HudInfo::getText).forEach(lines::addAll);
         return lines;
+    }
+
+    private void drawText(PoseStack poseStack, ArrayList<Component> lines, final int x0, final int y0, boolean right) {
+        if (this.background && this.fullBackground) drawFullBackground(poseStack, lines, x0, y0, right);
+
+        int y = y0;
+        for (int i = 0, l = lines.size(); i < l; ++i) {
+            var line = lines.get(i);
+
+            int w = font.width(line);
+
+            if (this.background && !this.fullBackground) {
+                int x1 = (right) ? x0 + 1 : x0 - 1;
+                int y1 = y - 1;
+                int x2 = (right) ? x0 - w - 1 : x0 + w + 1;
+                int y2 = y + font.lineHeight + ((i + 1 == l) ? 0 : -1);
+                fill(poseStack, x1, y1, x2, y2, backgroundColor);
+            }
+
+            int x = (right) ? x0 - w : x0;
+            font.drawShadow(poseStack, line, x, y, this.fontColor);
+
+            y += this.font.lineHeight;
+        }
+    }
+
+    private void drawFullBackground(PoseStack poseStack, ArrayList<Component> lines, final int x0, final int y0, boolean right) {
+        int maxWidth = 0;
+        for (var line : lines) {
+            int w = this.font.width(line);
+            if (w > maxWidth) maxWidth = w;
+        }
+
+        int height = this.font.lineHeight * lines.size() + 1;
+
+        int x1 = (right) ? x0 - maxWidth - 1 : x0 - 1;
+        int y1 = y0 - 1;
+        int x2 = (right) ? x0 + 1 : x0 + maxWidth + 1;
+        int y2 = y0 + height - 1;
+        fill(poseStack, x1, y1, x2, y2, this.backgroundColor);
     }
 
 }

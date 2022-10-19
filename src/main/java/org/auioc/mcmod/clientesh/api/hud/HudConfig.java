@@ -18,6 +18,7 @@ import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 public class HudConfig {
 
     public static BooleanValue background;
+    public static BooleanValue fullBackground;
     public static IntValue backgroundColor;
     public static IntValue fontColor;
     public static ConfigValue<List<? extends String>> left;
@@ -25,6 +26,7 @@ public class HudConfig {
 
     public static void build(final ForgeConfigSpec.Builder b) {
         background = b.define("background", true);
+        fullBackground = b.define("fullBackground", true);
         backgroundColor = b.defineInRange("backgroundColor", -1873784752, Integer.MIN_VALUE, Integer.MAX_VALUE);
         fontColor = b.defineInRange("fontColor", 14737632, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
