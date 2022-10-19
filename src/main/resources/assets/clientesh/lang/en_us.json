@@ -1,1 +1,7 @@
-{}
+{
+    "clientesh.hud.label.fps": "FPS: ",
+    "clientesh.hud.label.coordinates": "XYZ: ",
+    "clientesh.hud.label.speed": "Speed: ",
+    "clientesh.hud.label.velocity": "Velocity: ",
+    "clientesh.hud.label.system_time": "System time: "
+}
