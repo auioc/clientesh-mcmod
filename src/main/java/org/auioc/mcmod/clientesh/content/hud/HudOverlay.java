@@ -1,12 +1,15 @@
 package org.auioc.mcmod.clientesh.content.hud;
 
+import java.util.ArrayList;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudConfig;
+import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.api.hud.HudLines;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.client.gui.IIngameOverlay;
 
@@ -27,22 +30,26 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
         this.font = MC.font;
 
         int top = 2;
-        for (var info : HudLines.getLeft()) {
-            var text = info.getText();
+        for (var text : getLines(HudLines.getLeft())) {
             if (HudConfig.background.get()) fill(poseStack, 1, top - 1, 2 + font.width(text) + 1, top + font.lineHeight - 1, BG_COLOR);
             font.draw(poseStack, text, 2, top, FG_COLOR);
             top += font.lineHeight;
         }
 
         top = 2;
-        for (var info : HudLines.getRight()) {
-            var text = info.getText();
+        for (var text : getLines(HudLines.getRight())) {
             int w = font.width(text);
             int left = width - 2 - w;
-            fill(poseStack, left - 1, top - 1, left + w + 1, top + font.lineHeight - 1, BG_COLOR);
+            if (HudConfig.background.get()) fill(poseStack, left - 1, top - 1, left + w + 1, top + font.lineHeight - 1, BG_COLOR);
             font.draw(poseStack, text, left, top, FG_COLOR);
             top += font.lineHeight;
         }
+    }
+
+    private static ArrayList<Component> getLines(ArrayList<HudInfo> infoList) {
+        var lines = new ArrayList<Component>();
+        infoList.stream().map(HudInfo::getText).forEach(lines::addAll);
+        return lines;
     }
 
 }
