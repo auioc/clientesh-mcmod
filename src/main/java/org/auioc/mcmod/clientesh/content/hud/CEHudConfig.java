@@ -15,7 +15,9 @@ public class CEHudConfig {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.define("format", "%.3f / %.3f / %.3f");
+            format = b
+                .comment("1: x", "2: y", "3: z")
+                .define("format", "%1$.3f / %2$.3f / %3$.3f");
         }
 
     }
@@ -25,7 +27,9 @@ public class CEHudConfig {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.define("format", "%d %d %d [%d %d %d]");
+            format = b
+                .comment("1: x", "2: y", "3: z", "4: in chunk x", "5: in chunk y", "6: in chunk z")
+                .define("format", "%1$d %2$d %3$d [%4$d %5$d %6$d]");
         }
 
     }
@@ -35,7 +39,9 @@ public class CEHudConfig {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.define("format", "%d %d %d %s [%d %d in %s]");
+            format = b
+                .comment("1: x", "2: y", "3: z", "4: slimechunk", "5: region local x", "6: region local z", "7: region file")
+                .define("format", "%1$d %2$d %3$d %4$s [%5$d %6$d in %7$s]");
         }
 
     }
@@ -47,7 +53,9 @@ public class CEHudConfig {
 
         public static void build(final Builder b) {
             unit = b.defineEnum("unit", SpeedUnit.METRES_PER_SECOND);
-            format = b.define("format", "%.3f (%s)");
+            format = b
+                .comment("1: speed", "2: unit")
+                .define("format", "%1$.3f (%2$s)");
         }
 
     }
@@ -59,7 +67,9 @@ public class CEHudConfig {
 
         public static void build(final Builder b) {
             unit = b.defineEnum("unit", SpeedUnit.METRES_PER_SECOND);
-            format = b.define("format", "%.3f / %.3f / %.3f (%s)");
+            format = b
+                .comment("1: x", "2: y", "3: z", "4: unit")
+                .define("format", "%1$.3f / %2$.3f / %3$.3f (%4$s)");
         }
 
     }
@@ -69,7 +79,9 @@ public class CEHudConfig {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.define("format", "yyyy-MM-dd'T'HH:mm:ssX");
+            format = b
+                .comment("https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/text/SimpleDateFormat.html")
+                .define("format", "yyyy-MM-dd'T'HH:mm:ssX");
         }
 
     }
@@ -79,7 +91,9 @@ public class CEHudConfig {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.define("format", "Day %d, %02d:%02d");
+            format = b
+                .comment("1: day", "2: hour", "3: minute")
+                .define("format", "Day %1$d, %2$02d:%3$02d");
         }
 
     }
