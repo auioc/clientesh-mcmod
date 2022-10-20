@@ -1,6 +1,7 @@
 package org.auioc.mcmod.clientesh.content.hud;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudConfig;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
@@ -50,7 +51,7 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     private static ArrayList<Component> getLines(ArrayList<HudInfo> infoList) {
         var lines = new ArrayList<Component>();
         infoList.stream().map(HudInfo::getText).forEach((l) -> {
-            if (l != null) lines.addAll(l);
+            if (l != null) Collections.addAll(lines, l);
             else lines.add(null);
         });
         return lines;

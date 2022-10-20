@@ -11,7 +11,7 @@ import net.minecraftforge.common.IExtensibleEnum;
 @OnlyIn(Dist.CLIENT)
 public enum HudInfo implements IExtensibleEnum {
 
-    _EMPTY_(() -> (List<Component>) null);
+    _EMPTY_(() -> (Component[]) null);
 
     @Nullable
     private final ConfigBuilder configBuilder;
@@ -23,7 +23,8 @@ public enum HudInfo implements IExtensibleEnum {
     }
 
     private HudInfo(@Nullable ConfigBuilder configBuilder, ComponentSupplier textSupplier) {
-        this(configBuilder, () -> List.of(textSupplier.get()));
+        this(configBuilder, () -> new Component[] {textSupplier.get()});
+
     }
 
     private HudInfo(ComponentsSupplier textSupplier) {
@@ -35,7 +36,7 @@ public enum HudInfo implements IExtensibleEnum {
     }
 
     @Nullable
-    public List<Component> getText() {
+    public Component[] getText() {
         return textSupplier.get();
     }
 
@@ -88,7 +89,7 @@ public enum HudInfo implements IExtensibleEnum {
     public static interface ComponentsSupplier {
 
         @Nullable
-        List<Component> get();
+        Component[] get();
 
     }
 

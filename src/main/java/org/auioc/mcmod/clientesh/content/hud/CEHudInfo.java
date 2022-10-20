@@ -2,7 +2,6 @@ package org.auioc.mcmod.clientesh.content.hud;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.arnicalib.game.world.position.SpeedUnit;
 import org.auioc.mcmod.clientesh.ClientEsh;
@@ -101,8 +100,8 @@ public class CEHudInfo {
         );
     }
 
-    private static List<Component> seed() {
-        return (SeedGetter.hasSeed()) ? List.of(label("seed").append(format("%s", SeedGetter.get()))) : List.of();
+    private static Component[] seed() {
+        return (SeedGetter.hasSeed()) ? new Component[] {label("seed").append(format("%s", SeedGetter.get()))} : new Component[0];
     }
 
     private static Component dimension() {
