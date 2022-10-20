@@ -16,28 +16,49 @@ public enum HudInfo implements IExtensibleEnum {
     @Nullable
     private final ConfigBuilder configBuilder;
     private final ComponentsSupplier textSupplier;
+    private final boolean requiresChunk;
 
-    private HudInfo(@Nullable ConfigBuilder configBuilder, ComponentsSupplier textSupplier) {
+    private HudInfo(@Nullable ConfigBuilder configBuilder, ComponentsSupplier textSupplier, boolean requiresChunk) {
         this.configBuilder = configBuilder;
         this.textSupplier = textSupplier;
+        this.requiresChunk = requiresChunk;
+    }
+
+    private HudInfo(@Nullable ConfigBuilder configBuilder, ComponentSupplier textSupplier, boolean requiresChunk) {
+        this(configBuilder, () -> new Component[] {textSupplier.get()}, requiresChunk);
+    }
+
+    private HudInfo(@Nullable ConfigBuilder configBuilder, ComponentsSupplier textSupplier) {
+        this(configBuilder, textSupplier, false);
     }
 
     private HudInfo(@Nullable ConfigBuilder configBuilder, ComponentSupplier textSupplier) {
-        this(configBuilder, () -> new Component[] {textSupplier.get()});
+        this(configBuilder, textSupplier, false);
+    }
 
+    private HudInfo(ComponentsSupplier textSupplier, boolean requiresChunk) {
+        this(null, textSupplier, requiresChunk);
+    }
+
+    private HudInfo(ComponentSupplier textSupplier, boolean requiresChunk) {
+        this(null, textSupplier, requiresChunk);
     }
 
     private HudInfo(ComponentsSupplier textSupplier) {
-        this(null, textSupplier);
+        this(textSupplier, false);
     }
 
     private HudInfo(ComponentSupplier textSupplier) {
-        this(null, textSupplier);
+        this(textSupplier, false);
     }
 
     @Nullable
     public Component[] getText() {
         return textSupplier.get();
+    }
+
+    public boolean requiresChunk() {
+        return requiresChunk;
     }
 
     public boolean hasConfig() {
@@ -54,11 +75,27 @@ public enum HudInfo implements IExtensibleEnum {
     }
 
 
+    public static HudInfo create(String name, ConfigBuilder configBuilder, ComponentsSupplier textSupplier, boolean requiresChunk) {
+        throw new IllegalStateException("Enum not extended");
+    }
+
+    public static HudInfo create(String name, ConfigBuilder configBuilder, ComponentSupplier textSupplier, boolean requiresChunk) {
+        throw new IllegalStateException("Enum not extended");
+    }
+
     public static HudInfo create(String name, ConfigBuilder configBuilder, ComponentsSupplier textSupplier) {
         throw new IllegalStateException("Enum not extended");
     }
 
     public static HudInfo create(String name, ConfigBuilder configBuilder, ComponentSupplier textSupplier) {
+        throw new IllegalStateException("Enum not extended");
+    }
+
+    public static HudInfo create(String name, ComponentsSupplier textSupplier, boolean requiresChunk) {
+        throw new IllegalStateException("Enum not extended");
+    }
+
+    public static HudInfo create(String name, ComponentSupplier textSupplier, boolean requiresChunk) {
         throw new IllegalStateException("Enum not extended");
     }
 

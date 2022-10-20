@@ -2,11 +2,13 @@ package org.auioc.mcmod.clientesh.content.hud;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudConfig;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.api.hud.HudLines;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
@@ -30,6 +32,7 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     private boolean fullBackground;
     private int backgroundColor;
     private int fontColor;
+    private boolean chunkLoaded;
 
     @Override
     public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
@@ -47,6 +50,7 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
             this.fullBackground = HudConfig.fullBackground.get();
             this.backgroundColor = HudConfig.backgroundColor.get();
             this.fontColor = HudConfig.fontColor.get();
+            this.chunkLoaded = MC.level.isLoaded(MC.cameraEntity.blockPosition());
 
             poseStack.pushPose();
             {
@@ -59,12 +63,17 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
         MC.getProfiler().pop();
     }
 
-    private static ArrayList<Component> getLines(ArrayList<HudInfo> infoList) {
+    private ArrayList<Component> getLines(ArrayList<HudInfo> infoList) {
         var lines = new ArrayList<Component>();
-        infoList.stream().map(HudInfo::getText).forEach((l) -> {
-            if (l != null) Collections.addAll(lines, l);
-            else lines.add(null);
-        });
+        boolean waiting = false;
+        for (var info : infoList) {
+            if (!info.requiresChunk() || (info.requiresChunk() && this.chunkLoaded)) {
+                var text = info.getText();
+                if (text != null) Collections.addAll(lines, text);
+                else lines.add(null);
+            } else waiting = true;
+        }
+        if (waiting) lines.add(TextUtils.literal("Waiting for chunk...").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
         return lines;
     }
 

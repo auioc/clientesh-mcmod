@@ -38,8 +38,8 @@ public class CEHudInfo {
     public static final HudInfo BLOCK_POSITION = HudInfo.create("BLOCK_POSITION", BlockPositionRC::build, CEHudInfo::blockPostion);
     public static final HudInfo CHUNK_POSITION = HudInfo.create("CHUNK_POSITION", ChunkPositionRC::build, CEHudInfo::chunkPostion);
     public static final HudInfo SEED = HudInfo.create("SEED", CEHudInfo::seed);
-    public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", CEHudInfo::dimension);
-    public static final HudInfo BIOME = HudInfo.create("BIOME", CEHudInfo::biome);
+    public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", CEHudInfo::dimension, true);
+    public static final HudInfo BIOME = HudInfo.create("BIOME", CEHudInfo::biome, true);
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
     public static final HudInfo VELOCITY = HudInfo.create("VELOCITY", VelocityRC::build, CEHudInfo::velocity);
     public static final HudInfo SYSTEM_TIME = HudInfo.create("SYSTEM_TIME", SystemTimeRC::build, CEHudInfo::systemTime);
