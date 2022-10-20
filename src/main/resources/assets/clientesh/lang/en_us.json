@@ -5,6 +5,7 @@
     "clientesh.hud.label.chunk_postion": "Chunk: ",
     "clientesh.hud.label.seed": "Seed: ",
     "clientesh.hud.label.dimension": "Dimension: ",
+    "clientesh.hud.label.biome": "Biome: ",
     "clientesh.hud.label.speed": "Speed: ",
     "clientesh.hud.label.velocity": "Velocity: ",
     "clientesh.hud.label.system_time": "System time: "

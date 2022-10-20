@@ -35,6 +35,7 @@ public class CEHudInfo {
     public static final HudInfo CHUNK_POSITION = HudInfo.create("CHUNK_POSITION", ChunkPositionRC::build, CEHudInfo::chunkPostion);
     public static final HudInfo SEED = HudInfo.create("SEED", CEHudInfo::seed);
     public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", CEHudInfo::dimension);
+    public static final HudInfo BIOME = HudInfo.create("BIOME", CEHudInfo::biome);
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
     public static final HudInfo VELOCITY = HudInfo.create("VELOCITY", VelocityRC::build, CEHudInfo::velocity);
     public static final HudInfo SYSTEM_TIME = HudInfo.create("SYSTEM_TIME", SystemTimeRC::build, CEHudInfo::systemTime);
@@ -51,6 +52,10 @@ public class CEHudInfo {
 
     private static MutableComponent format(String format, Object... args) {
         return TextUtils.literal(String.format(format, args));
+    }
+
+    public static Component[] lines(Component... lines) {
+        return lines;
     }
 
     private static Entity e() {
@@ -101,11 +106,16 @@ public class CEHudInfo {
     }
 
     private static Component[] seed() {
-        return (SeedGetter.hasSeed()) ? new Component[] {label("seed").append(format("%s", SeedGetter.get()))} : new Component[0];
+        return (SeedGetter.hasSeed()) ? lines(label("seed").append(format("%s", SeedGetter.get()))) : lines();
     }
 
     private static Component dimension() {
         return label("dimension").append(e().getLevel().dimension().location().toString());
+    }
+
+    private static Component[] biome() {
+        var b = e().getLevel().getBiome(e().blockPosition()).unwrapKey();
+        return (b.isPresent()) ? lines(label("biome").append(b.get().location().toString())) : lines();
     }
 
     private static Vec3 getVelocity(SpeedUnit unit) {
