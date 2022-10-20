@@ -1,13 +1,13 @@
 {
-    "clientesh.hud.label.fps": "FPS: ",
-    "clientesh.hud.label.coordinates": "XYZ: ",
-    "clientesh.hud.label.block_postion": "Block: ",
-    "clientesh.hud.label.chunk_postion": "Chunk: ",
-    "clientesh.hud.label.seed": "Seed: ",
-    "clientesh.hud.label.dimension": "Dimension: ",
-    "clientesh.hud.label.biome": "Biome: ",
-    "clientesh.hud.label.speed": "Speed: ",
-    "clientesh.hud.label.velocity": "Velocity: ",
-    "clientesh.hud.label.system_time": "System time: ",
-    "clientesh.hud.label.game_time": "Game time: "
+    "clientesh.hud.biome.label": "Biome: ",
+    "clientesh.hud.block_postion.label": "Block: ",
+    "clientesh.hud.chunk_postion.label": "Chunk: ",
+    "clientesh.hud.coordinates.label": "XYZ: ",
+    "clientesh.hud.dimension.label": "Dimension: ",
+    "clientesh.hud.fps.label": "FPS: ",
+    "clientesh.hud.game_time.label": "Game time: ",
+    "clientesh.hud.seed.label": "Seed: ",
+    "clientesh.hud.speed.label": "Speed: ",
+    "clientesh.hud.system_time.label": "System time: ",
+    "clientesh.hud.velocity.label": "Velocity: "
 }

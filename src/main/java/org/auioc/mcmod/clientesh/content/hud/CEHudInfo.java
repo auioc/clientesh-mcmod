@@ -49,7 +49,7 @@ public class CEHudInfo {
     private static final Minecraft MC = Minecraft.getInstance();
 
     private static MutableComponent label(String key) {
-        return TextUtils.translatable(ClientEsh.i18n("hud.label.") + key);
+        return TextUtils.translatable(ClientEsh.i18n("hud.") + key + ".label");
     }
 
     private static MutableComponent format(String format, Object... args) {
