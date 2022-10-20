@@ -43,7 +43,8 @@ public class CEHudInfo {
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
     public static final HudInfo VELOCITY = HudInfo.create("VELOCITY", VelocityRC::build, CEHudInfo::velocity);
     public static final HudInfo SYSTEM_TIME = HudInfo.create("SYSTEM_TIME", SystemTimeRC::build, CEHudInfo::systemTime);
-    public static final HudInfo GAME_TIME = HudInfo.create("GAME_TIME", GameTimeRC::build, CEHudInfo::gameTime);
+    public static final HudInfo GAME_TIME = HudInfo.create("GAME_TIME", GameTimeRC::build, CEHudInfo::gameTime, true);
+    public static final HudInfo MOONPHASE = HudInfo.create("MOONPHASE", CEHudInfo::moonphase, true);
 
     // ============================================================================================================== //
 
@@ -53,6 +54,14 @@ public class CEHudInfo {
 
     private static MutableComponent label(String key) {
         return TextUtils.translatable(ClientEsh.i18n("hud.") + key + ".label");
+    }
+
+    private static String value(String key, String subkey, Object... args) {
+        return TextUtils.translatable(ClientEsh.i18n("hud.") + key + ".value." + subkey, args).getString();
+    }
+
+    private static String value(String key, String subkey) {
+        return value(key, subkey, TextUtils.NO_ARGS);
     }
 
     private static MutableComponent format(String format, Object... args) {
@@ -66,6 +75,18 @@ public class CEHudInfo {
     private static Entity e() {
         return MC.cameraEntity;
     }
+
+    // ============================================================================================================== //
+
+    private static Vec3 _getVelocity(SpeedUnit unit) {
+        var e = e();
+        double vX = unit.convertFrom(e.getX() - e.xOld);
+        double vY = unit.convertFrom(e.getY() - e.yOld);
+        double vZ = unit.convertFrom(e.getZ() - e.zOld);
+        return new Vec3(vX, vY, vZ);
+    }
+
+    // ============================================================================================================== //
 
     private static Component minecraftVersion() {
         return format(
@@ -123,22 +144,14 @@ public class CEHudInfo {
         return (b.isPresent()) ? lines(label("biome").append(b.get().location().toString())) : lines();
     }
 
-    private static Vec3 getVelocity(SpeedUnit unit) {
-        var e = e();
-        double vX = unit.convertFrom(e.getX() - e.xOld);
-        double vY = unit.convertFrom(e.getY() - e.yOld);
-        double vZ = unit.convertFrom(e.getZ() - e.zOld);
-        return new Vec3(vX, vY, vZ);
-    }
-
     private static Component speed() {
         var unit = SpeedRC.unit.get();
-        return label("speed").append(format(SpeedRC.format.get(), getVelocity(unit).length(), unit.getSymbol()));
+        return label("speed").append(format(SpeedRC.format.get(), _getVelocity(unit).length(), unit.getSymbol()));
     }
 
     private static Component velocity() {
         var unit = VelocityRC.unit.get();
-        var v = getVelocity(unit);
+        var v = _getVelocity(unit);
         return label("velocity").append(format(VelocityRC.format.get(), v.x, v.y, v.z, unit.getSymbol()));
     }
 
@@ -149,6 +162,10 @@ public class CEHudInfo {
     private static Component gameTime() {
         var t = MCTimeUtils.formatDayTime(e().level.getDayTime());
         return label("game_time").append(format(GameTimeRC.format.get(), t[0], t[1], t[2], t[3]));
+    }
+
+    private static Component moonphase() {
+        return label("moonphase").append(value("moonphase", String.valueOf(e().level.getMoonPhase())));
     }
 
     private static Component facing() {
