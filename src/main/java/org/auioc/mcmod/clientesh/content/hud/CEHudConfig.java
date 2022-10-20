@@ -22,6 +22,18 @@ public class CEHudConfig {
 
     }
 
+    protected static class FacingRC {
+
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b
+                .comment("1: direction", "2: axis", "3: yaw", "4: pitch")
+                .define("format", "%1$s (%2$s) (%3$.1f / %4$.1f)");
+        }
+
+    }
+
     protected static class BlockPositionRC {
 
         public static ConfigValue<String> format;

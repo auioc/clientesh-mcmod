@@ -4,6 +4,7 @@
     "clientesh.hud.chunk_postion.label": "Chunk: ",
     "clientesh.hud.coordinates.label": "XYZ: ",
     "clientesh.hud.dimension.label": "Dimension: ",
+    "clientesh.hud.facing.label": "Facing: ",
     "clientesh.hud.fps.label": "FPS: ",
     "clientesh.hud.game_time.label": "Game time: ",
     "clientesh.hud.seed.label": "Seed: ",

@@ -14,9 +14,11 @@ import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
+import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
@@ -32,6 +34,7 @@ public class CEHudInfo {
     public static final HudInfo MINECRAFT_VERSION = HudInfo.create("MINECRAFT_VERSION", CEHudInfo::minecraftVersion);
     public static final HudInfo FPS = HudInfo.create("FPS", CEHudInfo::fps);
     public static final HudInfo COORDINATES = HudInfo.create("COORDINATES", CoordinatesRC::build, CEHudInfo::coordinates);
+    public static final HudInfo FACING = HudInfo.create("FACING", FacingRC::build, CEHudInfo::facing);
     public static final HudInfo BLOCK_POSITION = HudInfo.create("BLOCK_POSITION", BlockPositionRC::build, CEHudInfo::blockPostion);
     public static final HudInfo CHUNK_POSITION = HudInfo.create("CHUNK_POSITION", ChunkPositionRC::build, CEHudInfo::chunkPostion);
     public static final HudInfo SEED = HudInfo.create("SEED", CEHudInfo::seed);
@@ -146,6 +149,12 @@ public class CEHudInfo {
     private static Component gameTime() {
         var t = MCTimeUtils.formatDayTime(e().level.getDayTime());
         return label("game_time").append(format(GameTimeRC.format.get(), t[0], t[1], t[2], t[3]));
+    }
+
+    private static Component facing() {
+        var d = e().getDirection();
+        String axis = ((d.getAxisDirection() == Direction.AxisDirection.POSITIVE) ? "+" : "-") + (d.getAxis().getName());
+        return label("facing").append(format(FacingRC.format.get(), d.toString(), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
     }
 
 }
