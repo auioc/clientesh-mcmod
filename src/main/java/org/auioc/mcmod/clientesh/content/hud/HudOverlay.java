@@ -36,6 +36,8 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
         if (MC.cameraEntity == null) return;
         if (!HudConfig.enabled.get()) return;
 
+        MC.getProfiler().push("clienteshHud");
+
         this.xOffset = HudConfig.xOffset.get();
         this.yOffset = HudConfig.yOffset.get();
         this.font = MC.font;
@@ -46,6 +48,8 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
 
         drawText(poseStack, getLines(HudLines.getLeft()), xOffset, yOffset, false);
         drawText(poseStack, getLines(HudLines.getRight()), width - xOffset, yOffset, true);
+
+        MC.getProfiler().pop();
     }
 
     private static ArrayList<Component> getLines(ArrayList<HudInfo> infoList) {
