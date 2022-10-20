@@ -12,6 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
 @OnlyIn(Dist.CLIENT)
@@ -20,6 +21,7 @@ public class HudConfig {
     public static BooleanValue enabled;
     public static IntValue xOffset;
     public static IntValue yOffset;
+    public static DoubleValue scale;
     public static BooleanValue background;
     public static BooleanValue fullBackground;
     public static IntValue backgroundColor;
@@ -34,6 +36,7 @@ public class HudConfig {
         {
             xOffset = b.defineInRange("xOffset", 2, 0, Integer.MAX_VALUE);
             yOffset = b.defineInRange("yOffset", 2, 0, Integer.MAX_VALUE);
+            scale = b.defineInRange("scale", 1.0D, 0.0D, 4.0D);
             background = b.define("background", true);
             fullBackground = b.define("fullBackground", true);
             backgroundColor = b.defineInRange("backgroundColor", -1873784752, Integer.MIN_VALUE, Integer.MAX_VALUE);

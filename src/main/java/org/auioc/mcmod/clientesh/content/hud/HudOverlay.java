@@ -24,6 +24,7 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
 
     private int xOffset;
     private int yOffset;
+    private float scale;
     private Font font;
     private boolean background;
     private boolean fullBackground;
@@ -37,18 +38,24 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
         if (!HudConfig.enabled.get()) return;
 
         MC.getProfiler().push("clienteshHud");
+        {
+            this.xOffset = HudConfig.xOffset.get();
+            this.yOffset = HudConfig.yOffset.get();
+            this.scale = (float) (double) HudConfig.scale.get();
+            this.font = MC.font;
+            this.background = HudConfig.background.get();
+            this.fullBackground = HudConfig.fullBackground.get();
+            this.backgroundColor = HudConfig.backgroundColor.get();
+            this.fontColor = HudConfig.fontColor.get();
 
-        this.xOffset = HudConfig.xOffset.get();
-        this.yOffset = HudConfig.yOffset.get();
-        this.font = MC.font;
-        this.background = HudConfig.background.get();
-        this.fullBackground = HudConfig.fullBackground.get();
-        this.backgroundColor = HudConfig.backgroundColor.get();
-        this.fontColor = HudConfig.fontColor.get();
-
-        drawText(poseStack, getLines(HudLines.getLeft()), xOffset, yOffset, false);
-        drawText(poseStack, getLines(HudLines.getRight()), width - xOffset, yOffset, true);
-
+            poseStack.pushPose();
+            {
+                poseStack.scale(scale, scale, scale);
+                drawText(poseStack, getLines(HudLines.getLeft()), xOffset, yOffset, false);
+                drawText(poseStack, getLines(HudLines.getRight()), width - xOffset, yOffset, true);
+            }
+            poseStack.popPose();
+        }
         MC.getProfiler().pop();
     }
 
@@ -72,14 +79,14 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
                 int w = font.width(line);
 
                 if (this.background && !this.fullBackground) {
-                    int x1 = (right) ? x0 + 1 : x0 - 1;
+                    int x1 = (right) ? (int) ((x0 + 1) / this.scale) : x0 - 1;
                     int y1 = y - 1;
-                    int x2 = (right) ? x0 - w - 1 : x0 + w + 1;
+                    int x2 = (right) ? (int) ((x0 - (w * this.scale) - 1) / this.scale) : x0 + w + 1;
                     int y2 = y + font.lineHeight + ((i + 1 == l) ? 0 : -1);
                     fill(poseStack, x1, y1, x2, y2, backgroundColor);
                 }
 
-                int x = (right) ? x0 - w : x0;
+                int x = (right) ? (int) ((x0 - (w * this.scale)) / this.scale) : x0;
                 font.drawShadow(poseStack, line, x, y, this.fontColor);
             }
 
@@ -98,9 +105,9 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
 
         int height = this.font.lineHeight * lines.size() + 1;
 
-        int x1 = (right) ? x0 - maxWidth - 1 : x0 - 1;
+        int x1 = (right) ? (int) ((x0 - (maxWidth * this.scale) - 1) / this.scale) : x0 - 1;
         int y1 = y0 - 1;
-        int x2 = (right) ? x0 + 1 : x0 + maxWidth + 1;
+        int x2 = (right) ? (int) ((x0 + 1) / this.scale) : x0 + maxWidth + 1;
         int y2 = y0 + height - 1;
         fill(poseStack, x1, y1, x2, y2, this.backgroundColor);
     }
