@@ -5,8 +5,13 @@
     "clientesh.hud.coordinates.label": "坐标：",
     "clientesh.hud.dimension.label": "维度：",
     "clientesh.hud.facing.label": "朝向：",
+    "clientesh.hud.facing.value.east": "东",
+    "clientesh.hud.facing.value.north": "北",
+    "clientesh.hud.facing.value.south": "南",
+    "clientesh.hud.facing.value.west": "西",
     "clientesh.hud.fps.label": "帧率：",
     "clientesh.hud.game_time.label": "游戏时间: ",
+    "clientesh.hud.game_time.value.day": "第%s天",
     "clientesh.hud.light.label": "亮度：",
     "clientesh.hud.moonphase.label": "月相：",
     "clientesh.hud.moonphase.value.0": "满月",
@@ -20,5 +25,8 @@
     "clientesh.hud.seed.label": "种子：",
     "clientesh.hud.speed.label": "速率：",
     "clientesh.hud.system_time.label": "系统时间：",
-    "clientesh.hud.velocity.label": "速度："
+    "clientesh.hud.velocity.label": "速度：",
+    "dimension.minecraft.overworld": "主世界",
+    "dimension.minecraft.the_end": "末路之地",
+    "dimension.minecraft.the_nether": "下界"
 }

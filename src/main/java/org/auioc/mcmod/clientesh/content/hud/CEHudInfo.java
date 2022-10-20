@@ -41,8 +41,8 @@ public class CEHudInfo {
     public static final HudInfo BLOCK_POSITION = HudInfo.create("BLOCK_POSITION", BlockPositionRC::build, CEHudInfo::blockPostion);
     public static final HudInfo CHUNK_POSITION = HudInfo.create("CHUNK_POSITION", ChunkPositionRC::build, CEHudInfo::chunkPostion);
     public static final HudInfo SEED = HudInfo.create("SEED", CEHudInfo::seed);
-    public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", CEHudInfo::dimension, true);
-    public static final HudInfo BIOME = HudInfo.create("BIOME", CEHudInfo::biome, true);
+    public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", DimensionRC::build, CEHudInfo::dimension, true);
+    public static final HudInfo BIOME = HudInfo.create("BIOME", BiomeRC::build, CEHudInfo::biome, true);
     public static final HudInfo LIGHT = HudInfo.create("LIGHT", LightRC::build, CEHudInfo::light, true);
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
     public static final HudInfo VELOCITY = HudInfo.create("VELOCITY", VelocityRC::build, CEHudInfo::velocity);
@@ -60,8 +60,16 @@ public class CEHudInfo {
         return TextUtils.translatable(ClientEsh.i18n("hud.") + key + ".label");
     }
 
+    private static String i10n(String key, Object... args) {
+        return TextUtils.translatable(key, args).getString();
+    }
+
+    private static String i10n(String key) {
+        return i10n(key, TextUtils.NO_ARGS);
+    }
+
     private static String value(String key, String subkey, Object... args) {
-        return TextUtils.translatable(ClientEsh.i18n("hud.") + key + ".value." + subkey, args).getString();
+        return i10n(ClientEsh.i18n("hud.") + key + ".value." + subkey, args);
     }
 
     private static String value(String key, String subkey) {
@@ -148,12 +156,17 @@ public class CEHudInfo {
     }
 
     private static Component dimension() {
-        return label("dimension").append(level().dimension().location().toString());
+        var id = level().dimension().location();
+        return label("dimension").append(format(DimensionRC.format.get(), i10n(String.format("dimension.%s.%s", id.getNamespace(), id.getPath())), id.toString()));
     }
 
     private static Component[] biome() {
         var b = level().getBiome(blockpos()).unwrapKey();
-        return (b.isPresent()) ? lines(label("biome").append(b.get().location().toString())) : lines();
+        if (b.isPresent()) {
+            var id = b.get().location();
+            return lines(label("biome").append(format(BiomeRC.format.get(), i10n(String.format("biome.%s.%s", id.getNamespace(), id.getPath())), id.toString())));
+        }
+        return lines();
     }
 
     private static Component light() {
@@ -177,7 +190,7 @@ public class CEHudInfo {
 
     private static Component gameTime() {
         var t = MCTimeUtils.formatDayTime(level().getDayTime());
-        return label("game_time").append(format(GameTimeRC.format.get(), t[0], t[1], t[2], t[3]));
+        return label("game_time").append(format(GameTimeRC.format.get(), value("game_time", "day", t[0]), t[1], t[2], t[3]));
     }
 
     private static Component moonphase() {
@@ -186,8 +199,8 @@ public class CEHudInfo {
 
     private static Component facing() {
         var d = e().getDirection();
-        String axis = ((d.getAxisDirection() == Direction.AxisDirection.POSITIVE) ? "+" : "-") + (d.getAxis().getName());
-        return label("facing").append(format(FacingRC.format.get(), d.toString(), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
+        String axis = ((d.getAxisDirection() == Direction.AxisDirection.POSITIVE) ? "+" : "-") + (d.getAxis().getName().toUpperCase());
+        return label("facing").append(format(FacingRC.format.get(), value("facing", d.toString()), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
     }
 
 }

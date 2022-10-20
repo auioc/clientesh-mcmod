@@ -22,6 +22,29 @@ public class CEHudConfig {
 
     }
 
+    protected static class DimensionRC {
+
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b
+                .comment("1: name", "2: id")
+                .define("format", "%1$s (%2$s)");
+        }
+
+    }
+    protected static class BiomeRC {
+
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b
+                .comment("1: name", "2: id")
+                .define("format", "%1$s (%2$s)");
+        }
+
+    }
+
     protected static class FacingRC {
 
         public static ConfigValue<String> format;
@@ -117,7 +140,7 @@ public class CEHudConfig {
         public static void build(final Builder b) {
             format = b
                 .comment("1: day", "2: hour", "3: minute")
-                .define("format", "Day %1$d, %2$02d:%3$02d");
+                .define("format", "%1$s %2$02d:%3$02d");
         }
 
     }
