@@ -14,6 +14,7 @@ import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.Component;
@@ -21,6 +22,8 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -40,6 +43,7 @@ public class CEHudInfo {
     public static final HudInfo SEED = HudInfo.create("SEED", CEHudInfo::seed);
     public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", CEHudInfo::dimension, true);
     public static final HudInfo BIOME = HudInfo.create("BIOME", CEHudInfo::biome, true);
+    public static final HudInfo LIGHT = HudInfo.create("LIGHT", LightRC::build, CEHudInfo::light, true);
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
     public static final HudInfo VELOCITY = HudInfo.create("VELOCITY", VelocityRC::build, CEHudInfo::velocity);
     public static final HudInfo SYSTEM_TIME = HudInfo.create("SYSTEM_TIME", SystemTimeRC::build, CEHudInfo::systemTime);
@@ -74,6 +78,14 @@ public class CEHudInfo {
 
     private static Entity e() {
         return MC.cameraEntity;
+    }
+
+    private static Level level() {
+        return MC.level;
+    }
+
+    private static BlockPos blockpos() {
+        return MC.cameraEntity.blockPosition();
     }
 
     // ============================================================================================================== //
@@ -112,12 +124,12 @@ public class CEHudInfo {
     }
 
     private static Component blockPostion() {
-        var pos = e().blockPosition();
+        var pos = blockpos();
         return label("block_postion").append(format(BlockPositionRC.format.get(), pos.getX(), pos.getY(), pos.getZ(), pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15));
     }
 
     private static Component chunkPostion() {
-        var bPos = e().blockPosition();
+        var bPos = blockpos();
         var cPos = new ChunkPos(bPos);
         boolean isSlimeChunk = false;
         if (SeedGetter.hasSeed()) isSlimeChunk = WorldgenRandom.seedSlimeChunk(cPos.x, cPos.z, SeedGetter.get(), 987234911L).nextInt(10) == 0;
@@ -125,7 +137,7 @@ public class CEHudInfo {
             format(
                 ChunkPositionRC.format.get(),
                 cPos.x, SectionPos.blockToSectionCoord(bPos.getY()), cPos.z,
-                (isSlimeChunk) ? " (slimechunk)" : "",
+                (isSlimeChunk) ? "(slimechunk)" : "",
                 cPos.getRegionLocalX(), cPos.getRegionLocalZ(), String.format("r.%d.%d.mca", cPos.getRegionX(), cPos.getRegionZ())
             )
         );
@@ -136,12 +148,16 @@ public class CEHudInfo {
     }
 
     private static Component dimension() {
-        return label("dimension").append(e().getLevel().dimension().location().toString());
+        return label("dimension").append(level().dimension().location().toString());
     }
 
     private static Component[] biome() {
-        var b = e().getLevel().getBiome(e().blockPosition()).unwrapKey();
+        var b = level().getBiome(blockpos()).unwrapKey();
         return (b.isPresent()) ? lines(label("biome").append(b.get().location().toString())) : lines();
+    }
+
+    private static Component light() {
+        return label("light").append(format(LightRC.format.get(), level().getBrightness(LightLayer.SKY, blockpos()), level().getBrightness(LightLayer.BLOCK, blockpos())));
     }
 
     private static Component speed() {
@@ -160,12 +176,12 @@ public class CEHudInfo {
     }
 
     private static Component gameTime() {
-        var t = MCTimeUtils.formatDayTime(e().level.getDayTime());
+        var t = MCTimeUtils.formatDayTime(level().getDayTime());
         return label("game_time").append(format(GameTimeRC.format.get(), t[0], t[1], t[2], t[3]));
     }
 
     private static Component moonphase() {
-        return label("moonphase").append(value("moonphase", String.valueOf(e().level.getMoonPhase())));
+        return label("moonphase").append(value("moonphase", String.valueOf(level().getMoonPhase())));
     }
 
     private static Component facing() {

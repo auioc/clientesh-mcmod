@@ -7,6 +7,7 @@
     "clientesh.hud.facing.label": "Facing: ",
     "clientesh.hud.fps.label": "FPS: ",
     "clientesh.hud.game_time.label": "Game time: ",
+    "clientesh.hud.light.label": "Light: ",
     "clientesh.hud.moonphase.label": "Moonphase: ",
     "clientesh.hud.moonphase.value.0": "full moon",
     "clientesh.hud.moonphase.value.1": "waning gibbous",

@@ -7,6 +7,7 @@
     "clientesh.hud.facing.label": "朝向：",
     "clientesh.hud.fps.label": "帧率：",
     "clientesh.hud.game_time.label": "游戏时间: ",
+    "clientesh.hud.light.label": "亮度：",
     "clientesh.hud.moonphase.label": "月相：",
     "clientesh.hud.moonphase.value.0": "满月",
     "clientesh.hud.moonphase.value.1": "亏凸月",

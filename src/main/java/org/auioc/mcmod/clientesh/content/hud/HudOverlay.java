@@ -50,7 +50,8 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
             this.fullBackground = HudConfig.fullBackground.get();
             this.backgroundColor = HudConfig.backgroundColor.get();
             this.fontColor = HudConfig.fontColor.get();
-            this.chunkLoaded = MC.level.isLoaded(MC.cameraEntity.blockPosition());
+            var pos = MC.cameraEntity.blockPosition();
+            this.chunkLoaded = MC.level.getChunkSource().hasChunk(pos.getX() >> 4, pos.getZ() >> 4);
 
             poseStack.pushPose();
             {

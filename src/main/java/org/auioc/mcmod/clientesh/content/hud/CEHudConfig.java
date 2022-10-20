@@ -53,7 +53,19 @@ public class CEHudConfig {
         public static void build(final Builder b) {
             format = b
                 .comment("1: x", "2: y", "3: z", "4: slimechunk", "5: region local x", "6: region local z", "7: region file")
-                .define("format", "%1$d %2$d %3$d %4$s [%5$d %6$d in %7$s]");
+                .define("format", "%1$d %2$d %3$d [%5$d %6$d in %7$s] %4$s");
+        }
+
+    }
+
+    protected static class LightRC {
+
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b
+                .comment("1: sky", "2: block")
+                .define("format", "sky %1$d, block %2$d");
         }
 
     }
