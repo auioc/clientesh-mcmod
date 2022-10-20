@@ -8,5 +8,6 @@
     "clientesh.hud.label.biome": "Biome: ",
     "clientesh.hud.label.speed": "Speed: ",
     "clientesh.hud.label.velocity": "Velocity: ",
-    "clientesh.hud.label.system_time": "System time: "
+    "clientesh.hud.label.system_time": "System time: ",
+    "clientesh.hud.label.game_time": "Game time: "
 }

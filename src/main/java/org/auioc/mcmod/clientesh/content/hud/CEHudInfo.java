@@ -3,6 +3,7 @@ package org.auioc.mcmod.clientesh.content.hud;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
+import org.auioc.mcmod.arnicalib.game.world.MCTimeUtils;
 import org.auioc.mcmod.arnicalib.game.world.position.SpeedUnit;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
@@ -39,6 +40,7 @@ public class CEHudInfo {
     public static final HudInfo SPEED = HudInfo.create("SPEED", SpeedRC::build, CEHudInfo::speed);
     public static final HudInfo VELOCITY = HudInfo.create("VELOCITY", VelocityRC::build, CEHudInfo::velocity);
     public static final HudInfo SYSTEM_TIME = HudInfo.create("SYSTEM_TIME", SystemTimeRC::build, CEHudInfo::systemTime);
+    public static final HudInfo GAME_TIME = HudInfo.create("GAME_TIME", GameTimeRC::build, CEHudInfo::gameTime);
 
     // ============================================================================================================== //
 
@@ -139,6 +141,11 @@ public class CEHudInfo {
 
     private static Component systemTime() {
         return label("system_time").append(new SimpleDateFormat(SystemTimeRC.format.get()).format(new Date(System.currentTimeMillis())));
+    }
+
+    private static Component gameTime() {
+        var t = MCTimeUtils.formatDayTime(e().level.getDayTime());
+        return label("game_time").append(format(GameTimeRC.format.get(), t[0], t[1], t[2], t[3]));
     }
 
 }

@@ -74,4 +74,14 @@ public class CEHudConfig {
 
     }
 
+    protected static class GameTimeRC {
+
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b.define("format", "Day %d, %02d:%02d");
+        }
+
+    }
+
 }
