@@ -24,8 +24,10 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     private static final Minecraft MC = Minecraft.getInstance();
     public static final String NAME = ClientEsh.MOD_NAME + HudOverlay.class.getSimpleName();
 
-    private int xOffset;
-    private int yOffset;
+    private int leftColXOffset;
+    private int leftColYOffset;
+    private int rightColXOffset;
+    private int rightColYOffset;
     private float scale;
     private Font font;
     private boolean background;
@@ -42,8 +44,10 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
 
         MC.getProfiler().push("clienteshHud");
         {
-            this.xOffset = HudConfig.xOffset.get();
-            this.yOffset = HudConfig.yOffset.get();
+            this.leftColXOffset = HudConfig.leftColXOffset.get();
+            this.leftColYOffset = HudConfig.leftColYOffset.get();
+            this.rightColXOffset = HudConfig.rightColXOffset.get();
+            this.rightColYOffset = HudConfig.rightColYOffset.get();
             this.scale = (float) (double) HudConfig.scale.get();
             this.font = MC.font;
             this.background = HudConfig.background.get();
@@ -56,8 +60,8 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
             poseStack.pushPose();
             {
                 poseStack.scale(scale, scale, scale);
-                drawText(poseStack, getLines(HudLines.getLeft()), xOffset, yOffset, false);
-                drawText(poseStack, getLines(HudLines.getRight()), width - xOffset, yOffset, true);
+                drawText(poseStack, getLines(HudLines.getLeft()), leftColXOffset, leftColYOffset, false);
+                drawText(poseStack, getLines(HudLines.getRight()), width - rightColXOffset, rightColYOffset, true);
             }
             poseStack.popPose();
         }
@@ -79,6 +83,8 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     }
 
     private void drawText(PoseStack poseStack, ArrayList<Component> lines, final int x0, final int y0, boolean right) {
+        if (lines.isEmpty()) return;
+
         if (this.background && this.fullBackground) drawFullBackground(poseStack, lines, x0, y0, right);
 
         int y = y0;
