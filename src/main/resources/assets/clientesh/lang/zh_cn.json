@@ -1,5 +1,5 @@
 {
-    "clientesh.hud.air_supply.label": "氧气供应值：",
+    "clientesh.hud.air_supply.label": "氧气：",
     "clientesh.hud.attack_cooldown.label": "攻击冷却: ",
     "clientesh.hud.biome.label": "生物群系: ",
     "clientesh.hud.block_postion.label": "方块：",
@@ -12,7 +12,8 @@
     "clientesh.hud.facing.value.south": "南",
     "clientesh.hud.facing.value.west": "西",
     "clientesh.hud.fps.label": "帧率：",
-    "clientesh.hud.frozen_ticks.label": "冰冻值：",
+    "clientesh.hud.health.label": "生命：",
+    "clientesh.hud.frozen_ticks.label": "冰冻：",
     "clientesh.hud.game_time.label": "游戏时间: ",
     "clientesh.hud.game_time.value.day": "第%s天",
     "clientesh.hud.light.label": "亮度：",

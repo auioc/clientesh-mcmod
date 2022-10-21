@@ -8,6 +8,7 @@ import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Option;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -74,6 +75,10 @@ public class CEHudInfo {
 
     protected static Entity e() {
         return MC.cameraEntity;
+    }
+
+    protected static LocalPlayer p() {
+        return MC.player;
     }
 
     protected static Level level() {

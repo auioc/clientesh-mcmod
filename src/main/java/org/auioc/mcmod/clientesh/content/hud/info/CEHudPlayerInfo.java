@@ -18,6 +18,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
     public static final HudInfo AIR_SUPPLY = HudInfo.create("AIR_SUPPLY", AirSupplyC::build, CEHudPlayerInfo::airSupply);
     public static final HudInfo FROZEN_TICKS = HudInfo.create("FROZEN_TICKS", FrozenTicksC::build, CEHudPlayerInfo::frozenTicks);
     public static final HudInfo ATTACK_COOLDOWN = HudInfo.create("ATTACK_COOLDOWN", AttackCooldownC::build, CEHudPlayerInfo::attackCooldown);
+    public static final HudInfo HEALTH = HudInfo.create("HEALTH", HealthC::build, CEHudPlayerInfo::health);
 
     // ============================================================================================================== //
     //#region supplier
@@ -35,8 +36,12 @@ public class CEHudPlayerInfo extends CEHudInfo {
     }
 
     private static Component[] attackCooldown() {
-        float s = MC.player.getAttackStrengthScale(0.0F);
+        float s = p().getAttackStrengthScale(0.0F);
         return (AttackCooldownC.hideIfFull.get() && s == 1.0F) ? lines() : lines(label("attack_cooldown").append(format(AttackCooldownC.format.get(), s * 100.0F)));
+    }
+
+    private static Component health() {
+        return label("health").append(format(HealthC.format.get(), p().getHealth(), p().getMaxHealth()));
     }
 
     //#endregion supplier
@@ -71,6 +76,14 @@ public class CEHudPlayerInfo extends CEHudInfo {
         public static void build(final Builder b) {
             hideIfFull = b.define("hide_if_full", false);
             format = b.define("format", "%.1f%%");
+        }
+    }
+
+    private static class HealthC {
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b.comment("1: current", "2: max").define("format", "%1$.1f / %2$.1f");
         }
     }
 
