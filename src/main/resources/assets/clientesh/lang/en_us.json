@@ -17,6 +17,7 @@
     "clientesh.hud.game_time.label": "Game time: ",
     "clientesh.hud.game_time.value.day": "Day %s,",
     "clientesh.hud.health.label": "Health: ",
+    "clientesh.hud.hunger.label": "Hunger: ",
     "clientesh.hud.light.label": "Light: ",
     "clientesh.hud.moonphase.label": "Moonphase: ",
     "clientesh.hud.moonphase.value.0": "Full moon",

@@ -21,6 +21,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
     public static final HudInfo FROZEN_TICKS = HudInfo.create("FROZEN_TICKS", FrozenTicksC::build, CEHudPlayerInfo::frozenTicks);
     public static final HudInfo ATTACK_COOLDOWN = HudInfo.create("ATTACK_COOLDOWN", AttackCooldownC::build, CEHudPlayerInfo::attackCooldown);
     public static final HudInfo HEALTH = HudInfo.create("HEALTH", HealthC::build, CEHudPlayerInfo::health);
+    public static final HudInfo HUNGER = HudInfo.create("HUNGER", HungerC::build, CEHudPlayerInfo::hunger);
     public static final HudInfo ARMOR = HudInfo.create("ARMOR", ArmorC::build, CEHudPlayerInfo::armor);
 
     // ============================================================================================================== //
@@ -45,6 +46,11 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
     private static Component health() {
         return label("health").append(format(HealthC.format.get(), p().getHealth(), p().getMaxHealth()));
+    }
+
+    private static Component hunger() {
+        var food = p().getFoodData();
+        return label("hunger").append(format(HungerC.format.get(), food.getFoodLevel(), food.getSaturationLevel()));
     }
 
     private static Component[] armor() {
@@ -92,6 +98,14 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             format = b.comment("1: current", "2: max").define("format", "%1$.1f / %2$.1f");
+        }
+    }
+
+    private static class HungerC {
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b.comment("1: food level", "2: food saturation level", "3: food exhaustion level (nyi)").define("format", "%1$d, %2$.1f");
         }
     }
 
