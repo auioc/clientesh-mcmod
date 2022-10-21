@@ -1,9 +1,12 @@
-package org.auioc.mcmod.clientesh.content.hud;
+package org.auioc.mcmod.clientesh.content.hud.info;
 
 import org.auioc.mcmod.arnicalib.game.world.position.SpeedUnit;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeConfigSpec.*;
+import net.minecraftforge.common.ForgeConfigSpec.Builder;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
+import net.minecraftforge.common.ForgeConfigSpec.EnumValue;
 
 @OnlyIn(Dist.CLIENT)
 public class CEHudConfig {
@@ -153,18 +156,5 @@ public class CEHudConfig {
 
     }
 
-    protected static class PlayerAirSupplyRC {
-
-        public static BooleanValue hideIfFull;
-        public static ConfigValue<String> format;
-
-        public static void build(final Builder b) {
-            hideIfFull = b.define("hide_if_full", false);
-            format = b
-                .comment("1: current", "2: max")
-                .define("format", "%1$d / %2$d");
-        }
-
-    }
 
 }

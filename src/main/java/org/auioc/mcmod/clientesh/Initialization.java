@@ -3,8 +3,8 @@ package org.auioc.mcmod.clientesh;
 
 import org.auioc.mcmod.arnicalib.game.mod.ExtensionPointUtils;
 import org.auioc.mcmod.clientesh.config.CEConfig;
-import org.auioc.mcmod.clientesh.content.hud.CEHudInfo;
 import org.auioc.mcmod.clientesh.content.hud.HudOverlay;
+import org.auioc.mcmod.clientesh.content.hud.info.CEHudInfo;
 import org.auioc.mcmod.clientesh.event.CEForgeEventHandler;
 import org.auioc.mcmod.clientesh.event.CEModEventHandler;
 import net.minecraftforge.api.distmarker.Dist;
@@ -36,7 +36,7 @@ public final class Initialization {
     }
 
     private static void modSetup() {
-        CEHudInfo.init();
+        CEHudInfo.register();
         MOD_BUS.register(CEModEventHandler.class);
     }
 

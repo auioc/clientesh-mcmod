@@ -1,4 +1,4 @@
-package org.auioc.mcmod.clientesh.content.hud;
+package org.auioc.mcmod.clientesh.content.hud.info;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,7 +9,7 @@ import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.api.mixin.IMixinMinecraft;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
-import org.auioc.mcmod.clientesh.content.hud.CEHudConfig.*;
+import org.auioc.mcmod.clientesh.content.hud.info.CEHudConfig.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
@@ -53,59 +53,61 @@ public class CEHudInfo {
     public static final HudInfo GAME_TIME = HudInfo.create("GAME_TIME", GameTimeRC::build, CEHudInfo::gameTime, true);
     public static final HudInfo MOONPHASE = HudInfo.create("MOONPHASE", CEHudInfo::moonphase, true);
     public static final HudInfo TARGETED_BLOCK = HudInfo.create("TARGETED_BLOCK", TargetedBlockRC::build, CEHudInfo::targetedBlock, true);
-    public static final HudInfo PLAYER_AIR_SUPPLY = HudInfo.create("PLAYER_AIR_SUPPLY", PlayerAirSupplyRC::build, CEHudInfo::playerAirSupply);
 
     // ============================================================================================================== //
     //#region f1
-    public static void init() {}
 
-    private static final Minecraft MC = Minecraft.getInstance();
+    public static void register() {
+        CEHudPlayerInfo.init();
+    }
 
-    private static MutableComponent label(String key) {
+    protected static final Minecraft MC = Minecraft.getInstance();
+
+    protected static MutableComponent label(String key) {
         return TextUtils.translatable(ClientEsh.i18n("hud.") + key + ".label");
     }
 
-    private static String i10n(String key, Object... args) {
+    protected static String i10n(String key, Object... args) {
         return TextUtils.translatable(key, args).getString();
     }
 
-    private static String i10n(String key) {
+    protected static String i10n(String key) {
         return i10n(key, TextUtils.NO_ARGS);
     }
 
-    private static MutableComponent value(String key, String subkey, Object... args) {
+    protected static MutableComponent value(String key, String subkey, Object... args) {
         return TextUtils.translatable(ClientEsh.i18n("hud.") + key + ".value." + subkey, args);
     }
 
-    private static MutableComponent value(String key, String subkey) {
+    protected static MutableComponent value(String key, String subkey) {
         return value(key, subkey, TextUtils.NO_ARGS);
     }
 
-    private static String valueString(String key, String subkey, Object... args) {
+    protected static String valueString(String key, String subkey, Object... args) {
         return value(key, subkey, args).getString();
     }
 
-    private static String valueString(String key, String subkey) {
+    protected static String valueString(String key, String subkey) {
         return value(key, subkey).getString();
     }
 
-    private static MutableComponent format(String format, Object... args) {
+    protected static MutableComponent format(String format, Object... args) {
         return TextUtils.literal(String.format(format, args));
     }
 
-    public static Component[] lines(Component... lines) {
+    protected static Component[] lines(Component... lines) {
         return lines;
     }
 
-    private static Entity e() {
+    protected static Entity e() {
         return MC.cameraEntity;
     }
 
-    private static Level level() {
+    protected static Level level() {
         return MC.level;
     }
 
-    private static BlockPos blockpos() {
+    protected static BlockPos blockpos() {
         return MC.cameraEntity.blockPosition();
     }
 
@@ -238,12 +240,6 @@ public class CEHudInfo {
             );
         }
         return lines();
-    }
-
-    private static Component[] playerAirSupply() {
-        int current = e().getAirSupply();
-        int max = e().getMaxAirSupply();
-        return (PlayerAirSupplyRC.hideIfFull.get() && current == max) ? lines() : lines(label("player_air_supply").append(format(PlayerAirSupplyRC.format.get(), current, max)));
     }
 
 }
