@@ -1,4 +1,6 @@
 {
+    "clientesh.hud.air_supply.label": "氧气供应值：",
+    "clientesh.hud.attack_cooldown.label": "攻击冷却: ",
     "clientesh.hud.biome.label": "生物群系: ",
     "clientesh.hud.block_postion.label": "方块：",
     "clientesh.hud.chunk_postion.label": "区块：",
@@ -22,7 +24,6 @@
     "clientesh.hud.moonphase.value.5": "娥眉月",
     "clientesh.hud.moonphase.value.6": "上弦月",
     "clientesh.hud.moonphase.value.7": "盈凸月",
-    "clientesh.hud.player_air_supply.label": "氧气供应值：",
     "clientesh.hud.seed.label": "种子：",
     "clientesh.hud.speed.label": "速率：",
     "clientesh.hud.system_time.label": "系统时间：",
