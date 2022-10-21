@@ -5,6 +5,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.EnumValue;
 
 @OnlyIn(Dist.CLIENT)
@@ -141,6 +142,16 @@ public class CEHudConfig {
             format = b
                 .comment("1: day", "2: hour", "3: minute")
                 .define("format", "%1$s %2$02d:%3$02d");
+        }
+
+    }
+
+    protected static class TargetedBlockRC {
+
+        public static DoubleValue length;
+
+        public static void build(final Builder b) {
+            length = b.defineInRange("ray_length", 20.0D, 0.0D, Double.MAX_VALUE);
         }
 
     }

@@ -10,6 +10,7 @@ import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.api.mixin.IMixinMinecraft;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import org.auioc.mcmod.clientesh.content.hud.CEHudConfig.*;
+import net.minecraft.ChatFormatting;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -25,6 +26,8 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -49,6 +52,7 @@ public class CEHudInfo {
     public static final HudInfo SYSTEM_TIME = HudInfo.create("SYSTEM_TIME", SystemTimeRC::build, CEHudInfo::systemTime);
     public static final HudInfo GAME_TIME = HudInfo.create("GAME_TIME", GameTimeRC::build, CEHudInfo::gameTime, true);
     public static final HudInfo MOONPHASE = HudInfo.create("MOONPHASE", CEHudInfo::moonphase, true);
+    public static final HudInfo TARGETED_BLOCK = HudInfo.create("TARGETED_BLOCK", TargetedBlockRC::build, CEHudInfo::targetedBlock, true);
 
     // ============================================================================================================== //
 
@@ -68,12 +72,20 @@ public class CEHudInfo {
         return i10n(key, TextUtils.NO_ARGS);
     }
 
-    private static String value(String key, String subkey, Object... args) {
-        return i10n(ClientEsh.i18n("hud.") + key + ".value." + subkey, args);
+    private static MutableComponent value(String key, String subkey, Object... args) {
+        return TextUtils.translatable(ClientEsh.i18n("hud.") + key + ".value." + subkey, args);
     }
 
-    private static String value(String key, String subkey) {
+    private static MutableComponent value(String key, String subkey) {
         return value(key, subkey, TextUtils.NO_ARGS);
+    }
+
+    private static String valueString(String key, String subkey, Object... args) {
+        return value(key, subkey, args).getString();
+    }
+
+    private static String valueString(String key, String subkey) {
+        return value(key, subkey).getString();
     }
 
     private static MutableComponent format(String format, Object... args) {
@@ -190,17 +202,35 @@ public class CEHudInfo {
 
     private static Component gameTime() {
         var t = MCTimeUtils.formatDayTime(level().getDayTime());
-        return label("game_time").append(format(GameTimeRC.format.get(), value("game_time", "day", t[0]), t[1], t[2], t[3]));
+        return label("game_time").append(format(GameTimeRC.format.get(), valueString("game_time", "day", t[0]), t[1], t[2], t[3]));
     }
 
     private static Component moonphase() {
-        return label("moonphase").append(value("moonphase", String.valueOf(level().getMoonPhase())));
+        return label("moonphase").append(valueString("moonphase", String.valueOf(level().getMoonPhase())));
     }
 
     private static Component facing() {
         var d = e().getDirection();
         String axis = ((d.getAxisDirection() == Direction.AxisDirection.POSITIVE) ? "+" : "-") + (d.getAxis().getName().toUpperCase());
-        return label("facing").append(format(FacingRC.format.get(), value("facing", d.toString()), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
+        return label("facing").append(format(FacingRC.format.get(), valueString("facing", d.toString()), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
+    }
+
+    private static Component[] targetedBlock() {
+        var hit = e().pick(TargetedBlockRC.length.get(), 0.0F, false);
+        if (hit.getType() == HitResult.Type.BLOCK) {
+            var pos = ((BlockHitResult) hit).getBlockPos();
+            double distance = Vec3.atCenterOf(e().eyeBlockPosition()).distanceTo(Vec3.atCenterOf(pos));
+            var state = level().getBlockState(pos);
+            var block = state.getBlock();
+            return lines(
+                null,
+                label("targeted_block").withStyle(ChatFormatting.BOLD),
+                value("targeted_block", "xyz").append(format("%d, %d, %d", pos.getX(), pos.getY(), pos.getZ())),
+                value("targeted_block", "distance").append(format("%.2f", distance)),
+                value("targeted_block", "name").append(block.getName().append(format(" (%s)", state.getBlock().getRegistryName().toString())))
+            );
+        }
+        return lines();
     }
 
 }
