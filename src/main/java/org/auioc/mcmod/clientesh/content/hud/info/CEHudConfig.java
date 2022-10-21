@@ -45,30 +45,6 @@ public class CEHudConfig {
 
     }
 
-    protected static class SystemTimeRC {
-
-        public static ConfigValue<String> format;
-
-        public static void build(final Builder b) {
-            format = b
-                .comment("https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/text/SimpleDateFormat.html")
-                .define("format", "yyyy-MM-dd'T'HH:mm:ssX");
-        }
-
-    }
-
-    protected static class GameTimeRC {
-
-        public static ConfigValue<String> format;
-
-        public static void build(final Builder b) {
-            format = b
-                .comment("1: day", "2: hour", "3: minute")
-                .define("format", "%1$s %2$02d:%3$02d");
-        }
-
-    }
-
     protected static class TargetedBlockRC {
 
         public static DoubleValue length;

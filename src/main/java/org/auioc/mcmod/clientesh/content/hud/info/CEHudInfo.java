@@ -1,14 +1,14 @@
 package org.auioc.mcmod.clientesh.content.hud.info;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
-import org.auioc.mcmod.arnicalib.game.world.MCTimeUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.api.mixin.IMixinMinecraft;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
-import org.auioc.mcmod.clientesh.content.hud.info.CEHudConfig.*;
+import org.auioc.mcmod.clientesh.content.hud.info.CEHudConfig.BiomeRC;
+import org.auioc.mcmod.clientesh.content.hud.info.CEHudConfig.DimensionRC;
+import org.auioc.mcmod.clientesh.content.hud.info.CEHudConfig.LightRC;
+import org.auioc.mcmod.clientesh.content.hud.info.CEHudConfig.TargetedBlockRC;
 import net.minecraft.ChatFormatting;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
@@ -37,9 +37,6 @@ public class CEHudInfo {
     public static final HudInfo DIMENSION = HudInfo.create("DIMENSION", DimensionRC::build, CEHudInfo::dimension, true);
     public static final HudInfo BIOME = HudInfo.create("BIOME", BiomeRC::build, CEHudInfo::biome, true);
     public static final HudInfo LIGHT = HudInfo.create("LIGHT", LightRC::build, CEHudInfo::light, true);
-    public static final HudInfo SYSTEM_TIME = HudInfo.create("SYSTEM_TIME", SystemTimeRC::build, CEHudInfo::systemTime);
-    public static final HudInfo GAME_TIME = HudInfo.create("GAME_TIME", GameTimeRC::build, CEHudInfo::gameTime, true);
-    public static final HudInfo MOONPHASE = HudInfo.create("MOONPHASE", CEHudInfo::moonphase, true);
     public static final HudInfo TARGETED_BLOCK = HudInfo.create("TARGETED_BLOCK", TargetedBlockRC::build, CEHudInfo::targetedBlock, true);
 
     // ============================================================================================================== //
@@ -47,6 +44,7 @@ public class CEHudInfo {
 
     public static void register() {
         CEHudPositionInfo.init();
+        CEHudTimeInfo.init();
         CEHudPlayerInfo.init();
     }
 
@@ -143,19 +141,6 @@ public class CEHudInfo {
 
     private static Component light() {
         return label("light").append(format(LightRC.format.get(), level().getBrightness(LightLayer.SKY, blockpos()), level().getBrightness(LightLayer.BLOCK, blockpos())));
-    }
-
-    private static Component systemTime() {
-        return label("system_time").append(new SimpleDateFormat(SystemTimeRC.format.get()).format(new Date(System.currentTimeMillis())));
-    }
-
-    private static Component gameTime() {
-        var t = MCTimeUtils.formatDayTime(level().getDayTime());
-        return label("game_time").append(format(GameTimeRC.format.get(), valueString("game_time", "day", t[0]), t[1], t[2], t[3]));
-    }
-
-    private static Component moonphase() {
-        return label("moonphase").append(valueString("moonphase", String.valueOf(level().getMoonPhase())));
     }
 
     private static Component[] targetedBlock() {
