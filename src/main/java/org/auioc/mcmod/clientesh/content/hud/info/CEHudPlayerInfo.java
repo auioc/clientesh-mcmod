@@ -16,6 +16,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
     // ============================================================================================================== //
 
     public static final HudInfo AIR_SUPPLY = HudInfo.create("AIR_SUPPLY", AirSupplyC::build, CEHudPlayerInfo::airSupply);
+    public static final HudInfo FROZEN_TICKS = HudInfo.create("FROZEN_TICKS", FrozenTicksC::build, CEHudPlayerInfo::frozenTicks);
     public static final HudInfo ATTACK_COOLDOWN = HudInfo.create("ATTACK_COOLDOWN", AttackCooldownC::build, CEHudPlayerInfo::attackCooldown);
 
     // ============================================================================================================== //
@@ -25,6 +26,12 @@ public class CEHudPlayerInfo extends CEHudInfo {
         int current = e().getAirSupply();
         int max = e().getMaxAirSupply();
         return (AirSupplyC.hideIfFull.get() && current == max) ? lines() : lines(label("air_supply").append(format(AirSupplyC.format.get(), current, max)));
+    }
+
+    private static Component[] frozenTicks() {
+        int current = e().getTicksFrozen();
+        int required = e().getTicksRequiredToFreeze();
+        return (FrozenTicksC.hideIfZero.get() && current == 0) ? lines() : lines(label("frozen_ticks").append(format(FrozenTicksC.format.get(), current, required)));
     }
 
     private static Component[] attackCooldown() {
@@ -44,6 +51,16 @@ public class CEHudPlayerInfo extends CEHudInfo {
         public static void build(final Builder b) {
             hideIfFull = b.define("hide_if_full", false);
             format = b.comment("1: current", "2: max").define("format", "%1$d / %2$d");
+        }
+    }
+
+    private static class FrozenTicksC {
+        public static BooleanValue hideIfZero;
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            hideIfZero = b.define("hide_if_zero", false);
+            format = b.comment("1: current", "2: required").define("format", "%1$d / %2$d");
         }
     }
 

@@ -12,6 +12,7 @@
     "clientesh.hud.facing.value.south": "South",
     "clientesh.hud.facing.value.west": "West",
     "clientesh.hud.fps.label": "FPS: ",
+    "clientesh.hud.frozen_ticks.label": "Frozen ticks: ",
     "clientesh.hud.game_time.label": "Game time: ",
     "clientesh.hud.game_time.value.day": "Day %s,",
     "clientesh.hud.light.label": "Light: ",

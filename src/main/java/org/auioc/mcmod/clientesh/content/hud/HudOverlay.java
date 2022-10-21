@@ -21,6 +21,10 @@ import net.minecraftforge.client.gui.IIngameOverlay;
 @OnlyIn(Dist.CLIENT)
 public class HudOverlay extends GuiComponent implements IIngameOverlay {
 
+    public static final HudOverlay INSTANCE = new HudOverlay();
+
+    private HudOverlay() {}
+
     private static final Minecraft MC = Minecraft.getInstance();
     public static final String NAME = ClientEsh.MOD_NAME + HudOverlay.class.getSimpleName();
 
