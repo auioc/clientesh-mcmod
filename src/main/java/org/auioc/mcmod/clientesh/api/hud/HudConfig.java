@@ -88,6 +88,7 @@ public class HudConfig {
         return false;
     }
 
+    // TODO
     private static boolean checkStringList(Object o, List<String> t) {
         if (o instanceof ArrayList<?> v) {
             int r = 0;

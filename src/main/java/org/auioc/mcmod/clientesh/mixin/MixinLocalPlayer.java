@@ -14,6 +14,7 @@ public class MixinLocalPlayer {
     @Shadow
     private int permissionLevel;
 
+    // TODO
     @Inject(
         method = "Lnet/minecraft/client/player/LocalPlayer;setPermissionLevel(I)V",
         at = @At(value = "HEAD"),

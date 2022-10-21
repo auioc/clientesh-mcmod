@@ -12,6 +12,7 @@ public class ClientPlayerPermissionLevelChangedEvent extends Event {
     private final int newLevel;
     private final LocalPlayer player;
 
+    // TODO
     public ClientPlayerPermissionLevelChangedEvent(LocalPlayer player, int oldLevel, int newLevel) {
         this.player = player;
         this.oldLevel = oldLevel;

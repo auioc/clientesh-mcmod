@@ -11,6 +11,7 @@ public class MixinMinecraft implements IMixinMinecraft {
     @Shadow
     private static int fps;
 
+    // TODO
     @Override
     public int getFps() {
         return fps;

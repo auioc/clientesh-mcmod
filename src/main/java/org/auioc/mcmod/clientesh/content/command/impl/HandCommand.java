@@ -46,6 +46,7 @@ public class HandCommand {
         return Command.SINGLE_SUCCESS;
     }
 
+    // TODO
     private static Style copyable(Style s, String c) {
         return s.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, c)).withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextUtils.translatable("chat.copy.click")));
     }
