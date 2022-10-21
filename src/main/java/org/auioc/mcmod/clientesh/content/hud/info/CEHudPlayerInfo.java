@@ -2,6 +2,8 @@ package org.auioc.mcmod.clientesh.content.hud.info;
 
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
@@ -19,6 +21,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
     public static final HudInfo FROZEN_TICKS = HudInfo.create("FROZEN_TICKS", FrozenTicksC::build, CEHudPlayerInfo::frozenTicks);
     public static final HudInfo ATTACK_COOLDOWN = HudInfo.create("ATTACK_COOLDOWN", AttackCooldownC::build, CEHudPlayerInfo::attackCooldown);
     public static final HudInfo HEALTH = HudInfo.create("HEALTH", HealthC::build, CEHudPlayerInfo::health);
+    public static final HudInfo ARMOR = HudInfo.create("ARMOR", ArmorC::build, CEHudPlayerInfo::armor);
 
     // ============================================================================================================== //
     //#region supplier
@@ -42,6 +45,11 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
     private static Component health() {
         return label("health").append(format(HealthC.format.get(), p().getHealth(), p().getMaxHealth()));
+    }
+
+    private static Component[] armor() {
+        int current = p().getArmorValue();
+        return (ArmorC.hideIfZero.get() && current == 0) ? lines() : lines(label("armor").append(format(ArmorC.format.get(), current, ((RangedAttribute) Attributes.ARMOR).getMaxValue())));
     }
 
     //#endregion supplier
@@ -84,6 +92,16 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             format = b.comment("1: current", "2: max").define("format", "%1$.1f / %2$.1f");
+        }
+    }
+
+    private static class ArmorC {
+        public static BooleanValue hideIfZero;
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            hideIfZero = b.define("hide_if_zero", false);
+            format = b.comment("1: current", "2: max").define("format", "%1$d / %2$.1f");
         }
     }
 

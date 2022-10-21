@@ -1,5 +1,6 @@
 {
     "clientesh.hud.air_supply.label": "Air supply: ",
+    "clientesh.hud.armor.label": "Armor: ",
     "clientesh.hud.attack_cooldown.label": "Attack cooldown: ",
     "clientesh.hud.biome.label": "Biome: ",
     "clientesh.hud.block_postion.label": "Block: ",
