@@ -53,9 +53,10 @@ public class CEHudInfo {
     public static final HudInfo GAME_TIME = HudInfo.create("GAME_TIME", GameTimeRC::build, CEHudInfo::gameTime, true);
     public static final HudInfo MOONPHASE = HudInfo.create("MOONPHASE", CEHudInfo::moonphase, true);
     public static final HudInfo TARGETED_BLOCK = HudInfo.create("TARGETED_BLOCK", TargetedBlockRC::build, CEHudInfo::targetedBlock, true);
+    public static final HudInfo PLAYER_AIR_SUPPLY = HudInfo.create("PLAYER_AIR_SUPPLY", PlayerAirSupplyRC::build, CEHudInfo::playerAirSupply);
 
     // ============================================================================================================== //
-
+    //#region f1
     public static void init() {}
 
     private static final Minecraft MC = Minecraft.getInstance();
@@ -108,7 +109,10 @@ public class CEHudInfo {
         return MC.cameraEntity.blockPosition();
     }
 
+    //#endregion f1
+
     // ============================================================================================================== //
+    //#region f2
 
     // TODO
     private static Vec3 _getVelocity(SpeedUnit unit) {
@@ -118,6 +122,8 @@ public class CEHudInfo {
         double vZ = unit.convertFrom(e.getZ() - e.zOld);
         return new Vec3(vX, vY, vZ);
     }
+
+    //#endregion f2
 
     // ============================================================================================================== //
 
@@ -232,6 +238,12 @@ public class CEHudInfo {
             );
         }
         return lines();
+    }
+
+    private static Component[] playerAirSupply() {
+        int current = e().getAirSupply();
+        int max = e().getMaxAirSupply();
+        return (PlayerAirSupplyRC.hideIfFull.get() && current == max) ? lines() : lines(label("player_air_supply").append(format(PlayerAirSupplyRC.format.get(), current, max)));
     }
 
 }
