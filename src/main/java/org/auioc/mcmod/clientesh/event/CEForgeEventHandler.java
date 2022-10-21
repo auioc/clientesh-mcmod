@@ -1,6 +1,7 @@
 package org.auioc.mcmod.clientesh.event;
 
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
+import org.auioc.mcmod.clientesh.content.command.CECommands;
 import org.auioc.mcmod.clientesh.content.tweak.CETweakersConfig;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaker;
 import org.auioc.mcmod.clientesh.event.impl.ClientPlayerPermissionLevelChangedEvent;
@@ -9,11 +10,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 @OnlyIn(Dist.CLIENT)
 public class CEForgeEventHandler {
+
+    @SubscribeEvent
+    public static void onRegisterCommand(final RegisterClientCommandsEvent event) {
+        CECommands.register(event.getDispatcher());
+    }
 
     @SubscribeEvent
     public static void onPostScreenInit(final ScreenEvent.InitScreenEvent.Post event) {
