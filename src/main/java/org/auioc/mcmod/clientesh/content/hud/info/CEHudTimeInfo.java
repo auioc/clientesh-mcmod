@@ -56,7 +56,7 @@ public class CEHudTimeInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: day", "2: hour", "3: minute").define("format", "%1$s %2$02d:%3$02d");
+            format = b.comment("1s: day", "2d: hour", "3d: minute").define("format", "%1$s %2$02d:%3$02d");
         }
     }
 

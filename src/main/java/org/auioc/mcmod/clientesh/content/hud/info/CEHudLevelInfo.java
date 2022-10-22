@@ -79,7 +79,7 @@ public class CEHudLevelInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: name", "2: id").define("format", "%1$s (%2$s)");
+            format = b.comment("1s: name", "2s: id").define("format", "%1$s (%2$s)");
         }
     }
 
@@ -87,7 +87,7 @@ public class CEHudLevelInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: name", "2: id").define("format", "%1$s (%2$s)");
+            format = b.comment("1s: name", "2s: id").define("format", "%1$s (%2$s)");
         }
     }
 
@@ -95,7 +95,7 @@ public class CEHudLevelInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: sky", "2: block").define("format", "sky %1$d, block %2$d");
+            format = b.comment("1d: sky", "2d: block").define("format", "sky %1$d, block %2$d");
         }
     }
 

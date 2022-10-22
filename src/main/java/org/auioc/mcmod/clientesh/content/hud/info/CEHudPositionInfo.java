@@ -94,7 +94,7 @@ public class CEHudPositionInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: x", "2: y", "3: z").define("format", "%1$.3f / %2$.3f / %3$.3f");
+            format = b.comment("1f: x", "2f: y", "3f: z").define("format", "%1$.3f / %2$.3f / %3$.3f");
         }
     }
 
@@ -102,7 +102,7 @@ public class CEHudPositionInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: direction", "2: axis", "3: yaw", "4: pitch").define("format", "%1$s (%2$s) (%3$.1f / %4$.1f)");
+            format = b.comment("1s: direction", "2s: axis", "3f: yaw", "4f: pitch").define("format", "%1$s (%2$s) (%3$.1f / %4$.1f)");
         }
     }
 
@@ -110,7 +110,7 @@ public class CEHudPositionInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: x", "2: y", "3: z", "4: in chunk x", "5: in chunk y", "6: in chunk z").define("format", "%1$d %2$d %3$d [%4$d %5$d %6$d]");
+            format = b.comment("1d: x", "2d: y", "3d: z", "4d: in chunk x", "5d: in chunk y", "6d: in chunk z").define("format", "%1$d %2$d %3$d [%4$d %5$d %6$d]");
         }
     }
 
@@ -118,7 +118,7 @@ public class CEHudPositionInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: x", "2: y", "3: z", "4: slimechunk", "5: region local x", "6: region local z", "7: region file").define("format", "%1$d %2$d %3$d [%5$d %6$d in %7$s] %4$s");
+            format = b.comment("1d: x", "2d: y", "3d: z", "4s: slimechunk", "5d: region local x", "6d: region local z", "7s: region file").define("format", "%1$d %2$d %3$d [%5$d %6$d in %7$s] %4$s");
         }
     }
 
@@ -128,7 +128,7 @@ public class CEHudPositionInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             unit = b.defineEnum("unit", SpeedUnit.METRES_PER_SECOND);
-            format = b.comment("1: speed", "2: unit").define("format", "%1$.3f (%2$s)");
+            format = b.comment("1f: speed", "2s: unit").define("format", "%1$.3f (%2$s)");
         }
     }
 
@@ -138,7 +138,7 @@ public class CEHudPositionInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             unit = b.defineEnum("unit", SpeedUnit.METRES_PER_SECOND);
-            format = b.comment("1: x", "2: y", "3: z", "4: unit").define("format", "%1$.3f / %2$.3f / %3$.3f (%4$s)");
+            format = b.comment("1f: x", "2f: y", "3f: z", "4s: unit").define("format", "%1$.3f / %2$.3f / %3$.3f (%4$s)");
         }
     }
 

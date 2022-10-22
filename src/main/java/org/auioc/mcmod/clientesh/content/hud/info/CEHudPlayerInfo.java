@@ -83,7 +83,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             hideIfFull = b.define("hide_if_full", false);
-            format = b.comment("1: current", "2: max").define("format", "%1$d / %2$d");
+            format = b.comment("1d: current", "2d: max").define("format", "%1$d / %2$d");
         }
     }
 
@@ -93,7 +93,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             hideIfZero = b.define("hide_if_zero", false);
-            format = b.comment("1: current", "2: required").define("format", "%1$d / %2$d");
+            format = b.comment("1d: current", "2d: required").define("format", "%1$d / %2$d");
         }
     }
 
@@ -103,7 +103,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             hideIfFull = b.define("hide_if_full", false);
-            format = b.define("format", "%.1f%%");
+            format = b.comment("1f: percent").define("format", "%.1f%%");
         }
     }
 
@@ -111,7 +111,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: current", "2: max").define("format", "%1$.1f / %2$.1f");
+            format = b.comment("1f: current", "2f: max").define("format", "%1$.1f / %2$.1f");
         }
     }
 
@@ -119,7 +119,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: food level", "2: food saturation level (requires hulsealib)", "3: food exhaustion level (requires hulsealib)").define("format", "%1$d, %2$.1f, %3$.3f");
+            format = b.comment("1d: food level", "2f: food saturation level (requires hulsealib)", "3f: food exhaustion level (requires hulsealib)").define("format", "%1$d, %2$.1f, %3$.3f");
         }
     }
 
@@ -129,7 +129,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             hideIfZero = b.define("hide_if_zero", false);
-            format = b.comment("1: current", "2: max").define("format", "%1$.1f / %2$.1f");
+            format = b.comment("1f: current", "2f: max").define("format", "%1$.1f / %2$.1f");
         }
     }
 
@@ -139,7 +139,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             hideIfZero = b.define("hide_if_zero", false);
-            format = b.comment("1: current", "2: max").define("format", "%1$.1f / %2$.1f");
+            format = b.comment("1f: current", "2f: max").define("format", "%1$.1f / %2$.1f");
         }
     }
 
@@ -147,7 +147,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: levels", "2: points", "3: points needed for next level").define("format", "%1$d, %2$d / %3$d");
+            format = b.comment("1d: levels", "2d: points", "3d: points needed for next level").define("format", "%1$d, %2$d / %3$d");
         }
     }
 
