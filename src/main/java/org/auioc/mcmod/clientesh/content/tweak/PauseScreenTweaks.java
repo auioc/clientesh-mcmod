@@ -12,7 +12,7 @@ import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
 import net.minecraftforge.client.gui.ModListScreen;
 
 @OnlyIn(Dist.CLIENT)
-public class PauseScreenTweaker {
+public class PauseScreenTweaks {
 
     public static void handle(final InitScreenEvent event, final PauseScreen screen) {
         var bFeedbackDim = WidgetDimension.zero();

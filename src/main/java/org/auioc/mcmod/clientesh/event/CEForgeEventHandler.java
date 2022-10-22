@@ -2,8 +2,8 @@ package org.auioc.mcmod.clientesh.event;
 
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import org.auioc.mcmod.clientesh.content.command.CECommands;
-import org.auioc.mcmod.clientesh.content.tweak.CETweakersConfig;
-import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaker;
+import org.auioc.mcmod.clientesh.content.tweak.CETweaksConfig;
+import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
 import org.auioc.mcmod.clientesh.event.impl.ClientPlayerPermissionLevelChangedEvent;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -29,7 +29,7 @@ public class CEForgeEventHandler {
         var screen = event.getScreen();
 
         if (screen instanceof PauseScreen pauseScreen) {
-            if (CETweakersConfig.enablePauseScreenTweaker.get()) PauseScreenTweaker.handle(event, pauseScreen);
+            if (CETweaksConfig.enablePauseScreenTweaks.get()) PauseScreenTweaks.handle(event, pauseScreen);
         }
     }
 
