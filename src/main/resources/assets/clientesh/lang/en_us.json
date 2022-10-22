@@ -38,6 +38,7 @@
     "clientesh.hud.moonphase.value.5": "Waxing crescent",
     "clientesh.hud.moonphase.value.6": "First quarter",
     "clientesh.hud.moonphase.value.7": "Waxing gibbous",
+    "clientesh.hud.remaining_fire_ticks.label": "Remaining fire ticks: ",
     "clientesh.hud.seed.label": "Seed: ",
     "clientesh.hud.speed.label": "Speed: ",
     "clientesh.hud.system_time.label": "System time: ",

@@ -20,6 +20,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
     public static final HudInfo AIR_SUPPLY = HudInfo.create("AIR_SUPPLY", AirSupplyC::build, CEHudPlayerInfo::airSupply);
     public static final HudInfo FROZEN_TICKS = HudInfo.create("FROZEN_TICKS", FrozenTicksC::build, CEHudPlayerInfo::frozenTicks);
     public static final HudInfo ATTACK_COOLDOWN = HudInfo.create("ATTACK_COOLDOWN", AttackCooldownC::build, CEHudPlayerInfo::attackCooldown);
+    public static final HudInfo REMAINING_FIRE_TICKS = HudInfo.create("REMAINING_FIRE_TICKS", RemainingFireTicksC::build, CEHudPlayerInfo::remainingFireTicks);
     public static final HudInfo HEALTH = HudInfo.create("HEALTH", HealthC::build, CEHudPlayerInfo::health);
     public static final HudInfo HUNGER = HudInfo.create("HUNGER", HungerC::build, CEHudPlayerInfo::hunger);
     public static final HudInfo ARMOR = HudInfo.create("ARMOR", ArmorC::build, CEHudPlayerInfo::armor);
@@ -44,6 +45,11 @@ public class CEHudPlayerInfo extends CEHudInfo {
     private static Component[] attackCooldown() {
         float s = p().getAttackStrengthScale(0.0F);
         return (AttackCooldownC.hideIfFull.get() && s == 1.0F) ? lines() : lines(label("attack_cooldown").append(format(AttackCooldownC.format, s * 100.0F)));
+    }
+
+    private static Component[] remainingFireTicks() {
+        int t = p().getRemainingFireTicks();
+        return (RemainingFireTicksC.hideIfZero.get() && t <= 0) ? lines() : lines(label("remaining_fire_ticks").append(format(RemainingFireTicksC.format, t)));
     }
 
     private static Component health() {
@@ -104,6 +110,16 @@ public class CEHudPlayerInfo extends CEHudInfo {
         public static void build(final Builder b) {
             hideIfFull = b.define("hide_if_full", false);
             format = b.comment("1f: percent").define("format", "%.1f%%");
+        }
+    }
+
+    private static class RemainingFireTicksC {
+        public static BooleanValue hideIfZero;
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            hideIfZero = b.define("hide_if_zero", false);
+            format = b.comment("1d: ticks (requires hulsealib)").define("format", "%d");
         }
     }
 
