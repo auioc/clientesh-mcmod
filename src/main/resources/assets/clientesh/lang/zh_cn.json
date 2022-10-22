@@ -1,5 +1,8 @@
 {
+    "clientesh.additional_tooltip.food_effect": "食物效果：",
     "clientesh.additional_tooltip.nbt": "NBT：",
+    "clientesh.additional_tooltip.nutrition": "饥饿值回复：%s",
+    "clientesh.additional_tooltip.saturation": "饱和度增加：%s",
     "clientesh.additional_tooltip.tag": "标签：",
     "clientesh.hud._illegal_format": "非法的格式字符串：%s",
     "clientesh.hud._waiting_for_chunk": "等待区块……",

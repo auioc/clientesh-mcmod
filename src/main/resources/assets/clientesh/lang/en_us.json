@@ -1,5 +1,8 @@
 {
+    "clientesh.additional_tooltip.food_effect": "Food effects: ",
     "clientesh.additional_tooltip.nbt": "NBT: ",
+    "clientesh.additional_tooltip.nutrition": "Nutrition: %s",
+    "clientesh.additional_tooltip.saturation": "Saturation: %s",
     "clientesh.additional_tooltip.tag": "Tags: ",
     "clientesh.hud._illegal_format": "Illegal format string: %s",
     "clientesh.hud._waiting_for_chunk": "Waiting for chunk...",
