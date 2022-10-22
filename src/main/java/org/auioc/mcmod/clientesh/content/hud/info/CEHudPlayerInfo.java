@@ -23,6 +23,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
     public static final HudInfo HEALTH = HudInfo.create("HEALTH", HealthC::build, CEHudPlayerInfo::health);
     public static final HudInfo HUNGER = HudInfo.create("HUNGER", HungerC::build, CEHudPlayerInfo::hunger);
     public static final HudInfo ARMOR = HudInfo.create("ARMOR", ArmorC::build, CEHudPlayerInfo::armor);
+    public static final HudInfo ARMOR_TOUGHNESS = HudInfo.create("ARMOR_TOUGHNESS", ArmorToughnessC::build, CEHudPlayerInfo::armorToughness);
     public static final HudInfo EXPERIENCE = HudInfo.create("EXPERIENCE", ExperienceC::build, CEHudPlayerInfo::experience);
 
     // ============================================================================================================== //
@@ -55,8 +56,15 @@ public class CEHudPlayerInfo extends CEHudInfo {
     }
 
     private static Component[] armor() {
-        int current = p().getArmorValue();
-        return (ArmorC.hideIfZero.get() && current == 0) ? lines() : lines(label("armor").append(format(ArmorC.format.get(), current, ((RangedAttribute) Attributes.ARMOR).getMaxValue())));
+        double current = p().getAttributeValue(Attributes.ARMOR);
+        double max = ((RangedAttribute) Attributes.ARMOR).getMaxValue();
+        return (ArmorC.hideIfZero.get() && current == 0.0D) ? lines() : lines(label("armor").append(format(ArmorC.format.get(), current, max)));
+    }
+
+    private static Component[] armorToughness() {
+        double current = p().getAttributeValue(Attributes.ARMOR_TOUGHNESS);
+        double max = ((RangedAttribute) Attributes.ARMOR_TOUGHNESS).getMaxValue();
+        return (ArmorToughnessC.hideIfZero.get() && current == 0.0D) ? lines() : lines(label("armor_toughness").append(format(ArmorToughnessC.format.get(), current, max)));
     }
 
     private static Component experience() {
@@ -121,7 +129,17 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             hideIfZero = b.define("hide_if_zero", false);
-            format = b.comment("1: current", "2: max").define("format", "%1$d / %2$.1f");
+            format = b.comment("1: current", "2: max").define("format", "%1$.1f / %2$.1f");
+        }
+    }
+
+    private static class ArmorToughnessC {
+        public static BooleanValue hideIfZero;
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            hideIfZero = b.define("hide_if_zero", false);
+            format = b.comment("1: current", "2: max").define("format", "%1$.1f / %2$.1f");
         }
     }
 
