@@ -7,6 +7,7 @@
     "clientesh.hud.chunk_postion.label": "区块：",
     "clientesh.hud.coordinates.label": "坐标：",
     "clientesh.hud.dimension.label": "维度：",
+    "clientesh.hud.experience.label": "经验：",
     "clientesh.hud.facing.label": "朝向：",
     "clientesh.hud.facing.value.east": "东",
     "clientesh.hud.facing.value.north": "北",

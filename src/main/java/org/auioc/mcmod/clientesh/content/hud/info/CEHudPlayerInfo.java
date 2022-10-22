@@ -23,6 +23,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
     public static final HudInfo HEALTH = HudInfo.create("HEALTH", HealthC::build, CEHudPlayerInfo::health);
     public static final HudInfo HUNGER = HudInfo.create("HUNGER", HungerC::build, CEHudPlayerInfo::hunger);
     public static final HudInfo ARMOR = HudInfo.create("ARMOR", ArmorC::build, CEHudPlayerInfo::armor);
+    public static final HudInfo EXPERIENCE = HudInfo.create("EXPERIENCE", ExperienceC::build, CEHudPlayerInfo::experience);
 
     // ============================================================================================================== //
     //#region supplier
@@ -56,6 +57,11 @@ public class CEHudPlayerInfo extends CEHudInfo {
     private static Component[] armor() {
         int current = p().getArmorValue();
         return (ArmorC.hideIfZero.get() && current == 0) ? lines() : lines(label("armor").append(format(ArmorC.format.get(), current, ((RangedAttribute) Attributes.ARMOR).getMaxValue())));
+    }
+
+    private static Component experience() {
+        int needed = p().getXpNeededForNextLevel();
+        return label("experience").append(format(ExperienceC.format.get(), p().experienceLevel, Math.round(needed * p().experienceProgress), needed));
     }
 
     //#endregion supplier
@@ -116,6 +122,14 @@ public class CEHudPlayerInfo extends CEHudInfo {
         public static void build(final Builder b) {
             hideIfZero = b.define("hide_if_zero", false);
             format = b.comment("1: current", "2: max").define("format", "%1$d / %2$.1f");
+        }
+    }
+
+    private static class ExperienceC {
+        public static ConfigValue<String> format;
+
+        public static void build(final Builder b) {
+            format = b.comment("1: levels", "2: points", "3: points needed for next level").define("format", "%1$d, %2$d / %3$d");
         }
     }
 

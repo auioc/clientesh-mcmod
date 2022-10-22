@@ -7,6 +7,7 @@
     "clientesh.hud.chunk_postion.label": "Chunk: ",
     "clientesh.hud.coordinates.label": "XYZ: ",
     "clientesh.hud.dimension.label": "Dimension: ",
+    "clientesh.hud.experience.label": "Experience: ",
     "clientesh.hud.facing.label": "Facing: ",
     "clientesh.hud.facing.value.east": "East",
     "clientesh.hud.facing.value.north": "North",
