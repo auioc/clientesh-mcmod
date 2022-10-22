@@ -16,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
 @OnlyIn(Dist.CLIENT)
 public class CEHudInfo {
@@ -67,6 +68,10 @@ public class CEHudInfo {
 
     protected static MutableComponent format(String format, Object... args) {
         return TextUtils.literal(String.format(format, args));
+    }
+
+    protected static MutableComponent format(ConfigValue<String> format, Object... args) {
+        return TextUtils.literal(String.format(format.get(), args));
     }
 
     protected static Component[] lines(Component... lines) {

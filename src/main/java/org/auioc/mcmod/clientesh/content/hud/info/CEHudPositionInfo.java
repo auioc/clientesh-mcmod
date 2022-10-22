@@ -34,12 +34,12 @@ public class CEHudPositionInfo extends CEHudInfo {
     //#region supplier
 
     private static Component coordinates() {
-        return label("coordinates").append(format(CoordinatesC.format.get(), e().getX(), e().getY(), e().getZ()));
+        return label("coordinates").append(format(CoordinatesC.format, e().getX(), e().getY(), e().getZ()));
     }
 
     private static Component blockPostion() {
         var pos = blockpos();
-        return label("block_postion").append(format(BlockPositionC.format.get(), pos.getX(), pos.getY(), pos.getZ(), pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15));
+        return label("block_postion").append(format(BlockPositionC.format, pos.getX(), pos.getY(), pos.getZ(), pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15));
     }
 
     private static Component chunkPostion() {
@@ -49,7 +49,7 @@ public class CEHudPositionInfo extends CEHudInfo {
         if (SeedGetter.hasSeed()) isSlimeChunk = WorldgenRandom.seedSlimeChunk(cPos.x, cPos.z, SeedGetter.get(), 987234911L).nextInt(10) == 0;
         return label("chunk_postion").append(
             format(
-                ChunkPositionC.format.get(),
+                ChunkPositionC.format,
                 cPos.x, SectionPos.blockToSectionCoord(bPos.getY()), cPos.z,
                 (isSlimeChunk) ? "(slimechunk)" : "",
                 cPos.getRegionLocalX(), cPos.getRegionLocalZ(), String.format("r.%d.%d.mca", cPos.getRegionX(), cPos.getRegionZ())
@@ -60,7 +60,7 @@ public class CEHudPositionInfo extends CEHudInfo {
     private static Component facing() {
         var d = e().getDirection();
         String axis = ((d.getAxisDirection() == Direction.AxisDirection.POSITIVE) ? "+" : "-") + (d.getAxis().getName().toUpperCase());
-        return label("facing").append(format(FacingC.format.get(), valueString("facing", d.toString()), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
+        return label("facing").append(format(FacingC.format, valueString("facing", d.toString()), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
     }
 
     // TODO
@@ -74,13 +74,13 @@ public class CEHudPositionInfo extends CEHudInfo {
 
     private static Component speed() {
         var unit = SpeedC.unit.get();
-        return label("speed").append(format(SpeedC.format.get(), _getVelocity(unit).length(), unit.getSymbol()));
+        return label("speed").append(format(SpeedC.format, _getVelocity(unit).length(), unit.getSymbol()));
     }
 
     private static Component velocity() {
         var unit = VelocityC.unit.get();
         var v = _getVelocity(unit);
-        return label("velocity").append(format(VelocityC.format.get(), v.x, v.y, v.z, unit.getSymbol()));
+        return label("velocity").append(format(VelocityC.format, v.x, v.y, v.z, unit.getSymbol()));
     }
 
     //#endregion supplier

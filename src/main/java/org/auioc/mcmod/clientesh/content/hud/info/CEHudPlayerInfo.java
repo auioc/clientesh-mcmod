@@ -32,44 +32,44 @@ public class CEHudPlayerInfo extends CEHudInfo {
     private static Component[] airSupply() {
         int current = e().getAirSupply();
         int max = e().getMaxAirSupply();
-        return (AirSupplyC.hideIfFull.get() && current == max) ? lines() : lines(label("air_supply").append(format(AirSupplyC.format.get(), current, max)));
+        return (AirSupplyC.hideIfFull.get() && current == max) ? lines() : lines(label("air_supply").append(format(AirSupplyC.format, current, max)));
     }
 
     private static Component[] frozenTicks() {
         int current = e().getTicksFrozen();
         int required = e().getTicksRequiredToFreeze();
-        return (FrozenTicksC.hideIfZero.get() && current == 0) ? lines() : lines(label("frozen_ticks").append(format(FrozenTicksC.format.get(), current, required)));
+        return (FrozenTicksC.hideIfZero.get() && current == 0) ? lines() : lines(label("frozen_ticks").append(format(FrozenTicksC.format, current, required)));
     }
 
     private static Component[] attackCooldown() {
         float s = p().getAttackStrengthScale(0.0F);
-        return (AttackCooldownC.hideIfFull.get() && s == 1.0F) ? lines() : lines(label("attack_cooldown").append(format(AttackCooldownC.format.get(), s * 100.0F)));
+        return (AttackCooldownC.hideIfFull.get() && s == 1.0F) ? lines() : lines(label("attack_cooldown").append(format(AttackCooldownC.format, s * 100.0F)));
     }
 
     private static Component health() {
-        return label("health").append(format(HealthC.format.get(), p().getHealth(), p().getMaxHealth()));
+        return label("health").append(format(HealthC.format, p().getHealth(), p().getMaxHealth()));
     }
 
     private static Component hunger() {
         var food = p().getFoodData();
-        return label("hunger").append(format(HungerC.format.get(), food.getFoodLevel(), food.getSaturationLevel(), food.getExhaustionLevel()));
+        return label("hunger").append(format(HungerC.format, food.getFoodLevel(), food.getSaturationLevel(), food.getExhaustionLevel()));
     }
 
     private static Component[] armor() {
         double current = p().getAttributeValue(Attributes.ARMOR);
         double max = ((RangedAttribute) Attributes.ARMOR).getMaxValue();
-        return (ArmorC.hideIfZero.get() && current == 0.0D) ? lines() : lines(label("armor").append(format(ArmorC.format.get(), current, max)));
+        return (ArmorC.hideIfZero.get() && current == 0.0D) ? lines() : lines(label("armor").append(format(ArmorC.format, current, max)));
     }
 
     private static Component[] armorToughness() {
         double current = p().getAttributeValue(Attributes.ARMOR_TOUGHNESS);
         double max = ((RangedAttribute) Attributes.ARMOR_TOUGHNESS).getMaxValue();
-        return (ArmorToughnessC.hideIfZero.get() && current == 0.0D) ? lines() : lines(label("armor_toughness").append(format(ArmorToughnessC.format.get(), current, max)));
+        return (ArmorToughnessC.hideIfZero.get() && current == 0.0D) ? lines() : lines(label("armor_toughness").append(format(ArmorToughnessC.format, current, max)));
     }
 
     private static Component experience() {
         int needed = p().getXpNeededForNextLevel();
-        return label("experience").append(format(ExperienceC.format.get(), p().experienceLevel, Math.round(needed * p().experienceProgress), needed));
+        return label("experience").append(format(ExperienceC.format, p().experienceLevel, Math.round(needed * p().experienceProgress), needed));
     }
 
     //#endregion supplier

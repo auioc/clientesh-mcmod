@@ -30,7 +30,7 @@ public class CEHudTimeInfo extends CEHudInfo {
 
     private static Component gameTime() {
         var t = MCTimeUtils.formatDayTime(level().getDayTime());
-        return label("game_time").append(format(GameTimeRC.format.get(), valueString("game_time", "day", t[0]), t[1], t[2], t[3]));
+        return label("game_time").append(format(GameTimeRC.format, valueString("game_time", "day", t[0]), t[1], t[2], t[3]));
     }
 
     private static Component moonphase() {

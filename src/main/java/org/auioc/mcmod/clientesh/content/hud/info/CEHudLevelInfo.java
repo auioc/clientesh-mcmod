@@ -36,20 +36,20 @@ public class CEHudLevelInfo extends CEHudInfo {
 
     private static Component dimension() {
         var id = level().dimension().location();
-        return label("dimension").append(format(DimensionRC.format.get(), i10n(String.format("dimension.%s.%s", id.getNamespace(), id.getPath())), id.toString()));
+        return label("dimension").append(format(DimensionRC.format, i10n(String.format("dimension.%s.%s", id.getNamespace(), id.getPath())), id.toString()));
     }
 
     private static Component[] biome() {
         var b = level().getBiome(blockpos()).unwrapKey();
         if (b.isPresent()) {
             var id = b.get().location();
-            return lines(label("biome").append(format(BiomeRC.format.get(), i10n(String.format("biome.%s.%s", id.getNamespace(), id.getPath())), id.toString())));
+            return lines(label("biome").append(format(BiomeRC.format, i10n(String.format("biome.%s.%s", id.getNamespace(), id.getPath())), id.toString())));
         }
         return lines();
     }
 
     private static Component light() {
-        return label("light").append(format(LightRC.format.get(), level().getBrightness(LightLayer.SKY, blockpos()), level().getBrightness(LightLayer.BLOCK, blockpos())));
+        return label("light").append(format(LightRC.format, level().getBrightness(LightLayer.SKY, blockpos()), level().getBrightness(LightLayer.BLOCK, blockpos())));
     }
 
     private static Component[] targetedBlock() {
