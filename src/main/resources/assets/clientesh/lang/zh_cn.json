@@ -1,4 +1,6 @@
 {
+    "clientesh.additional_tooltip.nbt": "NBT：",
+    "clientesh.additional_tooltip.tag": "标签：",
     "clientesh.hud._illegal_format": "非法的格式字符串：%s",
     "clientesh.hud._waiting_for_chunk": "等待区块……",
     "clientesh.hud.air_supply.label": "氧气：",

@@ -3,6 +3,7 @@ package org.auioc.mcmod.clientesh.config;
 import org.auioc.mcmod.arnicalib.game.config.ConfigUtils;
 import org.auioc.mcmod.clientesh.api.hud.HudConfig;
 import org.auioc.mcmod.clientesh.content.tweak.CETweakersConfig;
+import org.auioc.mcmod.clientesh.content.widget.CEWidgetsConfig;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -17,6 +18,7 @@ public class CEConfig {
         final ForgeConfigSpec.Builder b = new ForgeConfigSpec.Builder();
 
         ConfigUtils.push(b, "tweaks", CETweakersConfig::build);
+        ConfigUtils.push(b, "widgets", CEWidgetsConfig::build);
         ConfigUtils.push(b, "hud", HudConfig::build);
 
         SPEC = b.build();

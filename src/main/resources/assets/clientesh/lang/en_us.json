@@ -1,4 +1,6 @@
 {
+    "clientesh.additional_tooltip.nbt": "NBT: ",
+    "clientesh.additional_tooltip.tag": "Tags: ",
     "clientesh.hud._illegal_format": "Illegal format string: %s",
     "clientesh.hud._waiting_for_chunk": "Waiting for chunk...",
     "clientesh.hud.air_supply.label": "Air supply: ",
