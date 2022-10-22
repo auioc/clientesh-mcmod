@@ -1,4 +1,6 @@
 {
+    "clientesh.hud._illegal_format": "非法的格式字符串：%s",
+    "clientesh.hud._waiting_for_chunk": "等待区块……",
     "clientesh.hud.air_supply.label": "氧气：",
     "clientesh.hud.armor.label": "护甲：",
     "clientesh.hud.armor_toughness.label": "盔甲韧性：",

@@ -2,6 +2,7 @@ package org.auioc.mcmod.clientesh.content.hud;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.IllegalFormatException;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudConfig;
@@ -77,12 +78,19 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
         boolean waiting = false;
         for (var info : infoList) {
             if (!info.requiresChunk() || (info.requiresChunk() && this.chunkLoaded)) {
-                var text = info.getText();
-                if (text != null) Collections.addAll(lines, text);
-                else lines.add(null);
+                try {
+                    var text = info.getText();
+                    if (text != null) Collections.addAll(lines, text);
+                    else lines.add(null);
+                } catch (IllegalFormatException e) {
+                    lines.add(TextUtils.translatable(ClientEsh.i18n("hud._illegal_format"), e.getClass().getSimpleName()).withStyle(ChatFormatting.RED));
+                }
             } else waiting = true;
         }
-        if (waiting) lines.add(TextUtils.literal("Waiting for chunk...").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+        if (waiting) {
+            lines.add(null);
+            lines.add(TextUtils.translatable(ClientEsh.i18n("hud._waiting_for_chunk")).withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+        }
         return lines;
     }
 

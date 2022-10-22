@@ -1,4 +1,6 @@
 {
+    "clientesh.hud._illegal_format": "Illegal format string: %s",
+    "clientesh.hud._waiting_for_chunk": "Waiting for chunk...",
     "clientesh.hud.air_supply.label": "Air supply: ",
     "clientesh.hud.armor.label": "Armor: ",
     "clientesh.hud.armor_toughness.label": "Armor toughness: ",
