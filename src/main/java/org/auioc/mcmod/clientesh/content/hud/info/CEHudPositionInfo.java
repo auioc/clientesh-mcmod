@@ -58,9 +58,11 @@ public class CEHudPositionInfo extends CEHudInfo {
     }
 
     private static Component facing() {
-        var d = e().getDirection();
-        String axis = ((d.getAxisDirection() == Direction.AxisDirection.POSITIVE) ? "+" : "-") + (d.getAxis().getName().toUpperCase());
-        return label("facing").append(format(FacingC.format, valueString("facing", d.toString()), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
+        float yaw = Mth.wrapDegrees(e().getYRot());
+        int direction8 = (int) Math.floor((yaw - 180.0F) / 45.0F + 0.5F) & 7;
+        var direction4 = e().getDirection();
+        String axis = ((direction4.getAxisDirection() == Direction.AxisDirection.POSITIVE) ? "+" : "-") + (direction4.getAxis().getName().toUpperCase());
+        return label("facing").append(format(FacingC.format, valueString("facing", String.valueOf(direction8)), axis, yaw, Mth.wrapDegrees(e().getXRot())));
     }
 
     // TODO
