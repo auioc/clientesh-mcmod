@@ -50,7 +50,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
     private static Component hunger() {
         var food = p().getFoodData();
-        return label("hunger").append(format(HungerC.format.get(), food.getFoodLevel(), food.getSaturationLevel()));
+        return label("hunger").append(format(HungerC.format.get(), food.getFoodLevel(), food.getSaturationLevel(), food.getExhaustionLevel()));
     }
 
     private static Component[] armor() {
@@ -105,7 +105,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
         public static ConfigValue<String> format;
 
         public static void build(final Builder b) {
-            format = b.comment("1: food level", "2: food saturation level", "3: food exhaustion level (nyi)").define("format", "%1$d, %2$.1f");
+            format = b.comment("1: food level", "2: food saturation level (requires hulsealib)", "3: food exhaustion level (requires hulsealib)").define("format", "%1$d, %2$.1f, %3$.3f");
         }
     }
 
