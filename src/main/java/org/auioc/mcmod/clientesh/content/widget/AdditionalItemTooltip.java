@@ -36,7 +36,7 @@ public class AdditionalItemTooltip {
         ItemStack itemStack = event.getItemStack();
         if (itemStack.isEmpty()) return;
 
-        if (itemStack.isEdible()) {
+        if (Config.showFoodProperties.get() && itemStack.isEdible()) {
             var food = itemStack.getFoodProperties(MC.player);
             int nutrition = food.getNutrition();
             String saturation = String.format("%.1f", ((float) nutrition) * food.getSaturationModifier() * 2.0F);
@@ -68,7 +68,7 @@ public class AdditionalItemTooltip {
             }
         }
 
-        if (itemStack.hasTag()) {
+        if (Config.showNbt.get() && itemStack.hasTag()) {
             addLine(
                 event,
                 TextUtils.translatable(ClientEsh.i18n("additional_tooltip.nbt"))
@@ -81,11 +81,13 @@ public class AdditionalItemTooltip {
             );
         }
 
-        var tags = itemStack.getTags().toList();
-        if (tags.size() > 0) {
-            addLine(event, TextUtils.translatable(ClientEsh.i18n("additional_tooltip.tag")).setStyle(GARY));
-            for (var tag : tags) {
-                addLine(event, TextUtils.literal("  " + tag.location()).setStyle(GARY));
+        if (Config.showTags.get()) {
+            var tags = itemStack.getTags().toList();
+            if (tags.size() > 0) {
+                addLine(event, TextUtils.translatable(ClientEsh.i18n("additional_tooltip.tag")).setStyle(GARY));
+                for (var tag : tags) {
+                    addLine(event, TextUtils.literal("  " + tag.location()).setStyle(GARY));
+                }
             }
         }
     }
@@ -116,11 +118,17 @@ public class AdditionalItemTooltip {
         public static BooleanValue enabled;
         public static BooleanValue onlyOnDebug;
         public static BooleanValue onlyOnShift;
+        public static BooleanValue showNbt;
+        public static BooleanValue showTags;
+        public static BooleanValue showFoodProperties;
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
             onlyOnDebug = b.define("only_on_debug", true);
             onlyOnShift = b.define("only_on_shift", false);
+            showNbt = b.define("show_nbt", true);
+            showTags = b.define("show_tags", true);
+            showFoodProperties = b.define("show_food_properties", true);
         }
 
     }
