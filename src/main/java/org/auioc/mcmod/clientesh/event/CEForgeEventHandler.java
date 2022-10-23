@@ -5,14 +5,13 @@ import org.auioc.mcmod.clientesh.content.command.CECommands;
 import org.auioc.mcmod.clientesh.content.tweak.CETweaksConfig;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
+import org.auioc.mcmod.clientesh.content.widget.CEWidgetsConfig;
+import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
 import org.auioc.mcmod.clientesh.event.impl.ClientPlayerPermissionLevelChangedEvent;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.RegisterClientCommandsEvent;
-import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -51,6 +50,11 @@ public class CEForgeEventHandler {
     @SubscribeEvent
     public static void onItemTooltipEvent(final ItemTooltipEvent event) {
         AdditionalItemTooltip.handle(event);
+    }
+
+    @SubscribeEvent
+    public static void onRenderNameplate(final RenderNameplateEvent event) {
+        if (CEWidgetsConfig.enableExplosionCountdown.get()) ExplosionCountdown.handle(event);
     }
 
 }
