@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.content.widget;
 
+import java.util.List;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
@@ -11,9 +12,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -36,24 +40,34 @@ public class AdditionalItemTooltip {
         ItemStack itemStack = event.getItemStack();
         if (itemStack.isEmpty()) return;
 
+        final List<Component> tooltip = event.getToolTip();
+
+        var nbt = itemStack.getTag();
+
+        if (Config.showAxolotlVariant.get() && nbt != null && itemStack.is(Items.AXOLOTL_BUCKET)) {
+            // TODO
+            if (nbt.contains("Variant", 99)) {
+                tooltip.add(1, translatable("axolotl.variant").append(translatable("axolotl.variant." + Axolotl.Variant.BY_ID[nbt.getInt("Variant")].getName())).withStyle(GARY));
+            }
+        }
+
         if (Config.showFoodProperties.get() && itemStack.isEdible()) {
             var food = itemStack.getFoodProperties(MC.player);
             int nutrition = food.getNutrition();
             String saturation = String.format("%.1f", ((float) nutrition) * food.getSaturationModifier() * 2.0F);
-            addLine(event, TextUtils.translatable(ClientEsh.i18n("additional_tooltip.nutrition"), nutrition).setStyle(GARY));
-            addLine(event, TextUtils.translatable(ClientEsh.i18n("additional_tooltip.saturation"), saturation).setStyle(GARY));
+            tooltip.add(translatable("nutrition").append(String.valueOf(nutrition)).setStyle(GARY));
+            tooltip.add(translatable("saturation").append(saturation).setStyle(GARY));
             var effects = food.getEffects();
             if (!effects.isEmpty()) {
-                addLine(event, TextUtils.translatable(ClientEsh.i18n("additional_tooltip.food_effect")).setStyle(GARY));
+                tooltip.add(translatable("food_effect").setStyle(GARY));
                 for (Pair<MobEffectInstance, Float> pair : effects) {
-                    addLine(event, foodEffect(pair.getSecond(), pair.getFirst().getEffect(), pair.getFirst().getDuration(), pair.getFirst().getAmplifier()));
+                    tooltip.add(foodEffect(pair.getSecond(), pair.getFirst().getEffect(), pair.getFirst().getDuration(), pair.getFirst().getAmplifier()));
                 }
             } else if (itemStack.getItem() instanceof SuspiciousStewItem) {
-                var nbt = itemStack.getTag();
                 if (nbt != null && nbt.contains("Effects", 9)) {
                     var effectsTag = nbt.getList("Effects", 10);
                     if (!effectsTag.isEmpty()) {
-                        addLine(event, TextUtils.translatable(ClientEsh.i18n("additional_tooltip.food_effect")).setStyle(GARY));
+                        tooltip.add(translatable("food_effect").setStyle(GARY));
                         for (int i = 0, l = effectsTag.size(); i < l; ++i) {
                             // TODO
                             var effectNbt = effectsTag.getCompound(i);
@@ -61,22 +75,20 @@ public class AdditionalItemTooltip {
                             if (effectNbt.contains("EffectDuration", 3)) duration = effectNbt.getInt("EffectDuration");
                             var effect = MobEffect.byId(effectNbt.getByte("EffectId"));
                             effect = net.minecraftforge.common.ForgeHooks.loadMobEffect(effectNbt, "forge:effect_id", effect);
-                            addLine(event, foodEffect(1.0F, effect, duration, 0));
+                            tooltip.add(foodEffect(1.0F, effect, duration, 0));
                         }
                     }
                 }
             }
         }
 
-        if (Config.showNbt.get() && itemStack.hasTag()) {
-            addLine(
-                event,
-                TextUtils.translatable(ClientEsh.i18n("additional_tooltip.nbt"))
-                    .setStyle(GARY)
+        if (Config.showNbt.get() && nbt != null) {
+            tooltip.add(
+                translatable("nbt").setStyle(GARY)
                     .append(
                         TextUtils.empty()
                             .setStyle(Style.EMPTY.withColor(ChatFormatting.WHITE))
-                            .append(NbtUtils.toPrettyComponent(itemStack.getTag()))
+                            .append(NbtUtils.toPrettyComponent(nbt))
                     )
             );
         }
@@ -84,13 +96,23 @@ public class AdditionalItemTooltip {
         if (Config.showTags.get()) {
             var tags = itemStack.getTags().toList();
             if (tags.size() > 0) {
-                addLine(event, TextUtils.translatable(ClientEsh.i18n("additional_tooltip.tag")).setStyle(GARY));
+                tooltip.add(translatable("tag").setStyle(GARY));
                 for (var tag : tags) {
-                    addLine(event, TextUtils.literal("  " + tag.location()).setStyle(GARY));
+                    tooltip.add(TextUtils.literal("  " + tag.location()).setStyle(GARY));
                 }
             }
         }
     }
+
+    private static boolean isShiftKeyDown() {
+        return InputConstants.isKeyDown(MC.getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ||
+            InputConstants.isKeyDown(MC.getWindow().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
+    }
+
+    private static TranslatableComponent translatable(String key) {
+        return TextUtils.translatable(ClientEsh.i18n("additional_tooltip." + key));
+    }
+
 
     // TODO
     private static Component foodEffect(float chance, MobEffect effect, int duration, int amplifier) {
@@ -103,15 +125,6 @@ public class AdditionalItemTooltip {
             .setStyle(GARY);
     }
 
-    private static void addLine(ItemTooltipEvent event, Component tooltip) {
-        event.getToolTip().add(tooltip);
-    }
-
-    private static boolean isShiftKeyDown() {
-        return InputConstants.isKeyDown(MC.getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ||
-            InputConstants.isKeyDown(MC.getWindow().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
-    }
-
 
     public static class Config {
 
@@ -121,6 +134,7 @@ public class AdditionalItemTooltip {
         public static BooleanValue showNbt;
         public static BooleanValue showTags;
         public static BooleanValue showFoodProperties;
+        public static BooleanValue showAxolotlVariant;
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
@@ -129,6 +143,7 @@ public class AdditionalItemTooltip {
             showNbt = b.define("show_nbt", true);
             showTags = b.define("show_tags", true);
             showFoodProperties = b.define("show_food_properties", true);
+            showAxolotlVariant = b.define("show_axolotl_variant", true);
         }
 
     }
