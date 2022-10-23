@@ -3,7 +3,7 @@
     "package": "org.auioc.mcmod.clientesh.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [],
-    "client": ["MixinMinecraft", "MixinLocalPlayer"],
+    "client": ["MixinMinecraft", "MixinLocalPlayer", "MixinAccessorCreeper"],
     "server": [],
     "injectors": {
         "defaultRequire": 1
