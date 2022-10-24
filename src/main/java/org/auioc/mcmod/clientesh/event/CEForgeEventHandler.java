@@ -5,7 +5,6 @@ import org.auioc.mcmod.clientesh.content.command.CECommands;
 import org.auioc.mcmod.clientesh.content.tweak.CETweaksConfig;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
-import org.auioc.mcmod.clientesh.content.widget.CEWidgetsConfig;
 import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
 import org.auioc.mcmod.clientesh.event.impl.ClientPlayerPermissionLevelChangedEvent;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -54,7 +53,7 @@ public class CEForgeEventHandler {
 
     @SubscribeEvent
     public static void onRenderNameplate(final RenderNameplateEvent event) {
-        if (CEWidgetsConfig.enableExplosionCountdown.get()) ExplosionCountdown.handle(event);
+        if (ExplosionCountdown.Config.enabled.get()) ExplosionCountdown.handle(event);
     }
 
 }
