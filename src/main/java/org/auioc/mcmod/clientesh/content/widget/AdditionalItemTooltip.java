@@ -23,6 +23,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.EnumValue;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 @OnlyIn(Dist.CLIENT)
@@ -35,7 +36,6 @@ public class AdditionalItemTooltip {
     public static void handle(final ItemTooltipEvent event) {
         if (!Config.enabled.get()) return;
         if (Config.onlyOnDebug.get() && !MC.options.advancedItemTooltips) return;
-        if (Config.onlyOnShift.get() && !isShiftKeyDown()) return;
 
         ItemStack itemStack = event.getItemStack();
         if (itemStack.isEmpty()) return;
@@ -44,14 +44,14 @@ public class AdditionalItemTooltip {
 
         var nbt = itemStack.getTag();
 
-        if (Config.showAxolotlVariant.get() && nbt != null && itemStack.is(Items.AXOLOTL_BUCKET)) {
+        if (Config.axolotlVariant.get().test() && nbt != null && itemStack.is(Items.AXOLOTL_BUCKET)) {
             // TODO
             if (nbt.contains("Variant", 99)) {
                 tooltip.add(1, translatable("axolotl.variant").append(translatable("axolotl.variant." + Axolotl.Variant.BY_ID[nbt.getInt("Variant")].getName())).withStyle(GARY));
             }
         }
 
-        if (Config.showFoodProperties.get() && itemStack.isEdible()) {
+        if (Config.foodProperties.get().test() && itemStack.isEdible()) {
             var food = itemStack.getFoodProperties(MC.player);
             int nutrition = food.getNutrition();
             String saturation = String.format("%.1f", ((float) nutrition) * food.getSaturationModifier() * 2.0F);
@@ -82,7 +82,7 @@ public class AdditionalItemTooltip {
             }
         }
 
-        if (Config.showNbt.get() && nbt != null) {
+        if (Config.nbt.get().test() && nbt != null) {
             tooltip.add(
                 translatable("nbt").setStyle(GARY)
                     .append(
@@ -93,7 +93,7 @@ public class AdditionalItemTooltip {
             );
         }
 
-        if (Config.showTags.get()) {
+        if (Config.tags.get().test()) {
             var tags = itemStack.getTags().toList();
             if (tags.size() > 0) {
                 tooltip.add(translatable("tag").setStyle(GARY));
@@ -102,11 +102,6 @@ public class AdditionalItemTooltip {
                 }
             }
         }
-    }
-
-    private static boolean isShiftKeyDown() {
-        return InputConstants.isKeyDown(MC.getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT) ||
-            InputConstants.isKeyDown(MC.getWindow().getWindow(), GLFW.GLFW_KEY_RIGHT_SHIFT);
     }
 
     private static TranslatableComponent translatable(String key) {
@@ -126,24 +121,65 @@ public class AdditionalItemTooltip {
     }
 
 
+    // TODO
+    private static boolean isKeyDown(int key) {
+        return InputConstants.isKeyDown(MC.getWindow().getWindow(), key);
+    }
+
+    private static enum Rule {
+
+        ALWAYS_DISPLAY {
+            @Override
+            public boolean test() {
+                return true;
+            }
+        },
+        ON_SHIFT_KEY_DOWN {
+            @Override
+            public boolean test() {
+                return isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
+            }
+        },
+        ON_CTRL_KEY_DOWN {
+            @Override
+            public boolean test() {
+                return isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) || isKeyDown(GLFW.GLFW_KEY_RIGHT_CONTROL);
+            }
+        },
+        ON_ALT_KEY_DOWN {
+            @Override
+            public boolean test() {
+                return isKeyDown(GLFW.GLFW_KEY_LEFT_ALT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_ALT);
+            }
+        },
+        DISABLED;
+
+        public boolean test() {
+            return false;
+        }
+
+    }
+
     public static class Config {
 
         public static BooleanValue enabled;
         public static BooleanValue onlyOnDebug;
-        public static BooleanValue onlyOnShift;
-        public static BooleanValue showNbt;
-        public static BooleanValue showTags;
-        public static BooleanValue showFoodProperties;
-        public static BooleanValue showAxolotlVariant;
+        public static EnumValue<Rule> nbt;
+        public static EnumValue<Rule> tags;
+        public static EnumValue<Rule> foodProperties;
+        public static EnumValue<Rule> axolotlVariant;
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
             onlyOnDebug = b.define("only_on_debug", true);
-            onlyOnShift = b.define("only_on_shift", false);
-            showNbt = b.define("show_nbt", true);
-            showTags = b.define("show_tags", true);
-            showFoodProperties = b.define("show_food_properties", true);
-            showAxolotlVariant = b.define("show_axolotl_variant", true);
+            b.push("category");
+            {
+                nbt = b.defineEnum("nbt", Rule.ALWAYS_DISPLAY);
+                tags = b.defineEnum("tags", Rule.ALWAYS_DISPLAY);
+                foodProperties = b.defineEnum("food_properties", Rule.ALWAYS_DISPLAY);
+                axolotlVariant = b.defineEnum("axolotl_variant", Rule.ALWAYS_DISPLAY);
+            }
+            b.pop();
         }
 
     }
