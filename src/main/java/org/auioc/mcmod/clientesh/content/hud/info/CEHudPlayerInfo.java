@@ -1,7 +1,12 @@
 package org.auioc.mcmod.clientesh.content.hud.info;
 
+import java.util.Collection;
+import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,19 +31,20 @@ public class CEHudPlayerInfo extends CEHudInfo {
     public static final HudInfo ARMOR = HudInfo.create("ARMOR", ArmorC::build, CEHudPlayerInfo::armor);
     public static final HudInfo ARMOR_TOUGHNESS = HudInfo.create("ARMOR_TOUGHNESS", ArmorToughnessC::build, CEHudPlayerInfo::armorToughness);
     public static final HudInfo EXPERIENCE = HudInfo.create("EXPERIENCE", ExperienceC::build, CEHudPlayerInfo::experience);
+    public static final HudInfo STATUS_EFFECTS = HudInfo.create("STATUS_EFFECTS", StatusEffectsC::build, CEHudPlayerInfo::statusEffects);
 
     // ============================================================================================================== //
     //#region supplier
 
     private static Component[] airSupply() {
-        int current = e().getAirSupply();
-        int max = e().getMaxAirSupply();
+        int current = p().getAirSupply();
+        int max = p().getMaxAirSupply();
         return (AirSupplyC.hideIfFull.get() && current == max) ? lines() : lines(label("air_supply").append(format(AirSupplyC.format, current, max)));
     }
 
     private static Component[] frozenTicks() {
-        int current = e().getTicksFrozen();
-        int required = e().getTicksRequiredToFreeze();
+        int current = p().getTicksFrozen();
+        int required = p().getTicksRequiredToFreeze();
         return (FrozenTicksC.hideIfZero.get() && current == 0) ? lines() : lines(label("frozen_ticks").append(format(FrozenTicksC.format, current, required)));
     }
 
@@ -76,6 +82,37 @@ public class CEHudPlayerInfo extends CEHudInfo {
     private static Component experience() {
         int needed = p().getXpNeededForNextLevel();
         return label("experience").append(format(ExperienceC.format, p().experienceLevel, Math.round(needed * p().experienceProgress), needed));
+    }
+
+    private static Component[] statusEffects() {
+        var _e = p().getActiveEffects();
+        if (_e.isEmpty()) return lines();
+
+        Collection<MobEffectInstance> effects = StatusEffectsC.hideInvisibleEffects.get() ? _e.stream().filter(MobEffectInstance::isVisible).toList() : _e;
+        if (effects.isEmpty()) return lines();
+
+        final int h = StatusEffectsC.emptyFirstLine.get() ? 2 : 1;
+        var lines = new Component[effects.size() + h];
+        lines[h - 1] = label("status_effects").withStyle(ChatFormatting.UNDERLINE);
+        int i = h;
+        var it = effects.iterator();
+        while (it.hasNext()) {
+            var ei = it.next();
+            var text = TextUtils.empty()
+                .append(ei.getEffect().getDisplayName()).append(" ")
+                .append(TextUtils.translatable("enchantment.level." + (ei.getAmplifier() + 1)));
+            text.append(StatusEffectsC.ticksDuration.get() ? String.format(" %dt", ei.getDuration()) : DurationFormatUtils.formatDuration(ei.getDuration() / 20 * 1000, " mm:ss", true));
+            if (!ei.isVisible()) text.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.ITALIC);
+            if (ei.isAmbient()) text.withStyle(ChatFormatting.ITALIC);
+            if (StatusEffectsC.colorByCategory.get()) switch (ei.getEffect().getCategory()) {
+                case BENEFICIAL -> text.withStyle(ChatFormatting.GREEN);
+                case HARMFUL -> text.withStyle(ChatFormatting.RED);
+                case NEUTRAL -> text.withStyle(ChatFormatting.AQUA);
+            }
+            lines[i] = text;
+            i++;
+        }
+        return lines;
     }
 
     //#endregion supplier
@@ -164,6 +201,20 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
         public static void build(final Builder b) {
             format = b.comment("1d: levels", "2d: points", "3d: points needed for next level").define("format", "%1$d, %2$d / %3$d");
+        }
+    }
+
+    private static class StatusEffectsC {
+        public static BooleanValue emptyFirstLine;
+        public static BooleanValue ticksDuration;
+        public static BooleanValue colorByCategory;
+        public static BooleanValue hideInvisibleEffects;
+
+        public static void build(final Builder b) {
+            emptyFirstLine = b.define("empty_first_line", true);
+            ticksDuration = b.define("ticks_duration", false);
+            colorByCategory = b.define("color_by_category", true);
+            hideInvisibleEffects = b.define("hide_invisible_effects", true);
         }
     }
 

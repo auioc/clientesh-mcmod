@@ -38,6 +38,7 @@
     "clientesh.hud.health.label": "Health: ",
     "clientesh.hud.hunger.label": "Hunger: ",
     "clientesh.hud.light.label": "Light: ",
+    "clientesh.hud.status_effects.label": "Status effects",
     "clientesh.hud.moonphase.label": "Moonphase: ",
     "clientesh.hud.moonphase.value.0": "Full moon",
     "clientesh.hud.moonphase.value.1": "Waning gibbous",
