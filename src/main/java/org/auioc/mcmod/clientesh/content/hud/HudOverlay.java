@@ -27,7 +27,7 @@ public class HudOverlay extends GuiComponent implements IIngameOverlay {
     private HudOverlay() {}
 
     private static final Minecraft MC = Minecraft.getInstance();
-    public static final String NAME = ClientEsh.MOD_NAME + HudOverlay.class.getSimpleName();
+    public static final String NAME = "ClientEsh Hud Overlay";
 
     private int leftColXOffset;
     private int leftColYOffset;
