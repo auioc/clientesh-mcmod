@@ -3,7 +3,7 @@ package org.auioc.mcmod.clientesh.content.hud.info;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
-import org.auioc.mcmod.clientesh.api.mixin.IMixinMinecraft;
+import org.auioc.mcmod.clientesh.mixin.MixinAccessorMinecraft;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -110,7 +110,7 @@ public class CEHudInfo {
         return label("fps").append(
             format(
                 "%d%s%s",
-                ((IMixinMinecraft) MC).getFps(),
+                ((MixinAccessorMinecraft) MC).getFps(),
                 (double) MC.options.framerateLimit == Option.FRAMERATE_LIMIT.getMaxValue() ? "" : " / " + MC.options.framerateLimit,
                 MC.options.enableVsync ? " (vsync)" : ""
             )
