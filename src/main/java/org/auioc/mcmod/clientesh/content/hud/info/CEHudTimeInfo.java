@@ -1,6 +1,7 @@
 package org.auioc.mcmod.clientesh.content.hud.info;
 
 import java.util.Date;
+import org.auioc.mcmod.arnicalib.game.world.LevelUtils;
 import org.auioc.mcmod.arnicalib.game.world.MCTimeUtils;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -34,7 +35,7 @@ public class CEHudTimeInfo extends CEHudInfo {
     }
 
     private static Component moonphase() {
-        return label("moonphase").append(valueString("moonphase", String.valueOf(level().getMoonPhase())));
+        return label("moonphase").append(LevelUtils.getMoonphaseName(level()));
     }
 
     //#endregion supplier

@@ -2,9 +2,9 @@ package org.auioc.mcmod.clientesh.content.command.impl;
 
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
-import org.auioc.mcmod.arnicalib.base.word.WordUtils;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
-import org.auioc.mcmod.clientesh.content.command.OverlayArgument;
+import org.auioc.mcmod.arnicalib.game.command.argument.OverlayArgument;
+import org.auioc.mcmod.arnicalib.game.gui.OverlayUtils;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -34,16 +34,11 @@ public class OverlayCommand {
         for (var entry : list) {
             ctx.getSource().sendSuccess(
                 TextUtils.literal(
-                    String.format("%s (%s): %b", entry.getDisplayName(), formatName(entry.getDisplayName()), entry.isEnabled())
+                    String.format("%s (%s): %b", entry.getDisplayName(), OverlayUtils.getName(entry), entry.isEnabled())
                 ), false
             );
         }
         return list.size();
-    }
-
-    // TODO
-    private static String formatName(String name) {
-        return WordUtils.toCamelCase(name.toLowerCase().replace(" ", "_"));
     }
 
     private static int toggle(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {

@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.content.hud.info;
 
+import org.auioc.mcmod.arnicalib.game.entity.EntityUtils;
 import org.auioc.mcmod.arnicalib.game.world.position.SpeedUnit;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
@@ -9,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
@@ -58,31 +58,20 @@ public class CEHudPositionInfo extends CEHudInfo {
     }
 
     private static Component facing() {
-        float yaw = Mth.wrapDegrees(e().getYRot());
-        int direction8 = (int) Math.floor((yaw - 180.0F) / 45.0F + 0.5F) & 7;
         var direction4 = e().getDirection();
         String axis = ((direction4.getAxisDirection() == Direction.AxisDirection.POSITIVE) ? "+" : "-") + (direction4.getAxis().getName().toUpperCase());
-        return label("facing").append(format(FacingC.format, valueString("facing", String.valueOf(direction8)), axis, yaw, Mth.wrapDegrees(e().getXRot())));
-    }
-
-    // TODO
-    private static Vec3 _getVelocity(SpeedUnit unit) {
-        var e = e();
-        double vX = unit.convertFrom(e.getX() - e.xOld);
-        double vY = unit.convertFrom(e.getY() - e.yOld);
-        double vZ = unit.convertFrom(e.getZ() - e.zOld);
-        return new Vec3(vX, vY, vZ);
+        return label("facing").append(format(FacingC.format, EntityUtils.getFacing8WindDirection(e()).getString(), axis, Mth.wrapDegrees(e().getYRot()), Mth.wrapDegrees(e().getXRot())));
     }
 
     private static Component speed() {
         var unit = SpeedC.unit.get();
-        return label("speed").append(format(SpeedC.format, _getVelocity(unit).length(), unit.getSymbol()));
+        return label("speed").append(format(SpeedC.format, unit.convertFrom(EntityUtils.calcSpeed(e())), unit.getSymbol()));
     }
 
     private static Component velocity() {
         var unit = VelocityC.unit.get();
-        var v = _getVelocity(unit);
-        return label("velocity").append(format(VelocityC.format, v.x, v.y, v.z, unit.getSymbol()));
+        var v = EntityUtils.calcVelocity(e());
+        return label("velocity").append(format(VelocityC.format, unit.convertFrom(v.x), unit.convertFrom(v.y), unit.convertFrom(v.z), unit.getSymbol()));
     }
 
     //#endregion supplier

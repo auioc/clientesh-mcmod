@@ -1,12 +1,13 @@
 package org.auioc.mcmod.clientesh.event;
 
+import org.auioc.mcmod.arnicalib.game.event.client.ClientPermissionsChangedEvent;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import org.auioc.mcmod.clientesh.content.command.CECommands;
 import org.auioc.mcmod.clientesh.content.tweak.CETweaksConfig;
+import org.auioc.mcmod.clientesh.content.tweak.OverlayTweaks;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
 import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
-import org.auioc.mcmod.clientesh.event.impl.ClientPlayerPermissionLevelChangedEvent;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,6 +33,11 @@ public class CEForgeEventHandler {
     }
 
     @SubscribeEvent
+    public static void onLoggedIn(final ClientPlayerNetworkEvent.LoggedInEvent event) {
+        OverlayTweaks.toggleOverlays();
+    }
+
+    @SubscribeEvent
     public static void onLoggedOut(final ClientPlayerNetworkEvent.LoggedOutEvent event) {
         SeedGetter.clear();
     }
@@ -42,8 +48,8 @@ public class CEForgeEventHandler {
     }
 
     @SubscribeEvent
-    public static void onPermissionLevelChanged(final ClientPlayerPermissionLevelChangedEvent event) {
-        if (event.getOldLevel() < 2 && event.getNewLevel() >= 2) SeedGetter.sendQueryCommand(event.getPlayer());
+    public static void onPermissionLevelChanged(final ClientPermissionsChangedEvent event) {
+        if (event.getOldLevel() < 2 && event.getNewLevel() >= 2) SeedGetter.sendQueryCommand(event.getClientPlayer());
     }
 
     @SubscribeEvent

@@ -1,6 +1,7 @@
 package org.auioc.mcmod.clientesh.content.widget;
 
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
+import org.auioc.mcmod.arnicalib.game.world.MCTimeUnit;
 import org.auioc.mcmod.clientesh.mixin.MixinAccessorCreeper;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
@@ -25,7 +26,7 @@ public class ExplosionCountdown {
     }
 
     private static void addCountdownText(final RenderNameplateEvent event, int countdown) {
-        var countdownStr = (Config.unit.get() == TimeUnit.TICK) ? String.valueOf(countdown) : String.format("%.1fs", countdown / 20.0D);
+        var countdownStr = (Config.unit.get() == MCTimeUnit.TICK) ? String.valueOf(countdown) : String.format("%.1fs", countdown / 20.0D);
         var text = TextUtils.empty();
         if (event.getEntity().hasCustomName()) {
             text.append(event.getContent()).append(String.format(" (%s)", countdownStr));
@@ -36,19 +37,14 @@ public class ExplosionCountdown {
         event.setResult(Result.ALLOW);
     }
 
-    // TODO
-    private static enum TimeUnit {
-        TICK, SECOND
-    }
-
     public static class Config {
 
         public static BooleanValue enabled;
-        public static EnumValue<TimeUnit> unit;
+        public static EnumValue<MCTimeUnit> unit;
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
-            unit = b.defineEnum("unit", TimeUnit.TICK);
+            unit = b.defineEnum("unit", MCTimeUnit.TICK);
         }
 
     }

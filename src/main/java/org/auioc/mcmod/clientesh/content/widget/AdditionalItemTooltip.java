@@ -1,11 +1,12 @@
 package org.auioc.mcmod.clientesh.content.widget;
 
 import java.util.List;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
+import org.auioc.mcmod.arnicalib.game.effect.MobEffectUtils;
+import org.auioc.mcmod.arnicalib.game.entity.EntityUtils;
+import org.auioc.mcmod.arnicalib.game.input.KeyDownRule;
+import org.auioc.mcmod.arnicalib.game.item.ItemNbtUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
-import org.lwjgl.glfw.GLFW;
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -15,10 +16,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.SuspiciousStewItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -44,11 +42,8 @@ public class AdditionalItemTooltip {
 
         var nbt = itemStack.getTag();
 
-        if (Config.axolotlVariant.get().test() && nbt != null && itemStack.is(Items.AXOLOTL_BUCKET)) {
-            // TODO
-            if (nbt.contains("Variant", 99)) {
-                tooltip.add(1, translatable("axolotl.variant").append(translatable("axolotl.variant." + Axolotl.Variant.BY_ID[nbt.getInt("Variant")].getName())).withStyle(GARY));
-            }
+        if (Config.axolotlVariant.get().test()) {
+            ItemNbtUtils.getAxolotlVariant(itemStack).ifPresent((variant) -> tooltip.add(1, translatable("axolotl.variant").append(EntityUtils.getAxolotlVariantName(variant)).withStyle(GARY)));
         }
 
         if (Config.foodProperties.get().test() && itemStack.isEdible()) {
@@ -61,24 +56,10 @@ public class AdditionalItemTooltip {
             if (!effects.isEmpty()) {
                 tooltip.add(translatable("food_effect").setStyle(GARY));
                 for (Pair<MobEffectInstance, Float> pair : effects) {
-                    tooltip.add(foodEffect(pair.getSecond(), pair.getFirst().getEffect(), pair.getFirst().getDuration(), pair.getFirst().getAmplifier()));
+                    tooltip.add(foodEffect(pair.getSecond(), pair.getFirst()));
                 }
-            } else if (itemStack.getItem() instanceof SuspiciousStewItem) {
-                if (nbt != null && nbt.contains("Effects", 9)) {
-                    var effectsTag = nbt.getList("Effects", 10);
-                    if (!effectsTag.isEmpty()) {
-                        tooltip.add(translatable("food_effect").setStyle(GARY));
-                        for (int i = 0, l = effectsTag.size(); i < l; ++i) {
-                            // TODO
-                            var effectNbt = effectsTag.getCompound(i);
-                            int duration = 160;
-                            if (effectNbt.contains("EffectDuration", 3)) duration = effectNbt.getInt("EffectDuration");
-                            var effect = MobEffect.byId(effectNbt.getByte("EffectId"));
-                            effect = net.minecraftforge.common.ForgeHooks.loadMobEffect(effectNbt, "forge:effect_id", effect);
-                            tooltip.add(foodEffect(1.0F, effect, duration, 0));
-                        }
-                    }
-                }
+            } else {
+                ItemNbtUtils.getSuspiciousStewEffects(itemStack).ifPresent((el) -> el.forEach((ep) -> tooltip.add(foodEffect(1.0F, ep.getLeft(), 0, ep.getRight()))));
             }
         }
 
@@ -109,75 +90,36 @@ public class AdditionalItemTooltip {
     }
 
 
-    // TODO
-    private static Component foodEffect(float chance, MobEffect effect, int duration, int amplifier) {
+    private static Component foodEffect(float chance, MobEffect effect, int amplifier, int duration) {
         return TextUtils.literal("  ")
             .append(String.format("%.0f%% ", chance * 100.0F))
-            .append(effect.getDisplayName())
-            .append(" ")
-            .append(TextUtils.translatable("enchantment.level." + (amplifier + 1)))
-            .append(DurationFormatUtils.formatDuration(duration / 20 * 1000, " mm:ss", true))
+            .append(MobEffectUtils.getDisplayString(effect, amplifier, duration))
             .setStyle(GARY);
     }
 
-
-    // TODO
-    private static boolean isKeyDown(int key) {
-        return InputConstants.isKeyDown(MC.getWindow().getWindow(), key);
+    private static Component foodEffect(float chance, MobEffectInstance effect) {
+        return foodEffect(chance, effect.getEffect(), effect.getAmplifier(), effect.getDuration());
     }
 
-    private static enum Rule {
-
-        ALWAYS_DISPLAY {
-            @Override
-            public boolean test() {
-                return true;
-            }
-        },
-        ON_SHIFT_KEY_DOWN {
-            @Override
-            public boolean test() {
-                return isKeyDown(GLFW.GLFW_KEY_LEFT_SHIFT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_SHIFT);
-            }
-        },
-        ON_CTRL_KEY_DOWN {
-            @Override
-            public boolean test() {
-                return isKeyDown(GLFW.GLFW_KEY_LEFT_CONTROL) || isKeyDown(GLFW.GLFW_KEY_RIGHT_CONTROL);
-            }
-        },
-        ON_ALT_KEY_DOWN {
-            @Override
-            public boolean test() {
-                return isKeyDown(GLFW.GLFW_KEY_LEFT_ALT) || isKeyDown(GLFW.GLFW_KEY_RIGHT_ALT);
-            }
-        },
-        DISABLED;
-
-        public boolean test() {
-            return false;
-        }
-
-    }
 
     public static class Config {
 
         public static BooleanValue enabled;
         public static BooleanValue onlyOnDebug;
-        public static EnumValue<Rule> nbt;
-        public static EnumValue<Rule> tags;
-        public static EnumValue<Rule> foodProperties;
-        public static EnumValue<Rule> axolotlVariant;
+        public static EnumValue<KeyDownRule> nbt;
+        public static EnumValue<KeyDownRule> tags;
+        public static EnumValue<KeyDownRule> foodProperties;
+        public static EnumValue<KeyDownRule> axolotlVariant;
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
             onlyOnDebug = b.define("only_on_debug", true);
             b.push("category");
             {
-                nbt = b.defineEnum("nbt", Rule.ALWAYS_DISPLAY);
-                tags = b.defineEnum("tags", Rule.ALWAYS_DISPLAY);
-                foodProperties = b.defineEnum("food_properties", Rule.ALWAYS_DISPLAY);
-                axolotlVariant = b.defineEnum("axolotl_variant", Rule.ALWAYS_DISPLAY);
+                nbt = b.defineEnum("nbt", KeyDownRule.ALWAYS);
+                tags = b.defineEnum("tags", KeyDownRule.ALWAYS);
+                foodProperties = b.defineEnum("food_properties", KeyDownRule.ALWAYS);
+                axolotlVariant = b.defineEnum("axolotl_variant", KeyDownRule.ALWAYS);
             }
             b.pop();
         }

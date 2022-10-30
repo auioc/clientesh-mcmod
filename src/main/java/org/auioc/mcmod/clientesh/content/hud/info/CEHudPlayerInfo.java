@@ -1,8 +1,8 @@
 package org.auioc.mcmod.clientesh.content.hud.info;
 
 import java.util.Collection;
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
+import org.auioc.mcmod.arnicalib.game.effect.MobEffectUtils;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -98,10 +98,7 @@ public class CEHudPlayerInfo extends CEHudInfo {
         var it = effects.iterator();
         while (it.hasNext()) {
             var ei = it.next();
-            var text = TextUtils.empty()
-                .append(ei.getEffect().getDisplayName()).append(" ")
-                .append(TextUtils.translatable("enchantment.level." + (ei.getAmplifier() + 1)));
-            text.append(StatusEffectsC.ticksDuration.get() ? String.format(" %dt", ei.getDuration()) : DurationFormatUtils.formatDuration(ei.getDuration() / 20 * 1000, " mm:ss", true));
+            var text = TextUtils.empty().append(MobEffectUtils.getDisplayString(ei));
             if (!ei.isVisible()) text.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.ITALIC);
             if (ei.isAmbient()) text.withStyle(ChatFormatting.ITALIC);
             if (StatusEffectsC.colorByCategory.get()) switch (ei.getEffect().getCategory()) {
@@ -206,13 +203,11 @@ public class CEHudPlayerInfo extends CEHudInfo {
 
     private static class StatusEffectsC {
         public static BooleanValue emptyFirstLine;
-        public static BooleanValue ticksDuration;
         public static BooleanValue colorByCategory;
         public static BooleanValue hideInvisibleEffects;
 
         public static void build(final Builder b) {
             emptyFirstLine = b.define("empty_first_line", true);
-            ticksDuration = b.define("ticks_duration", false);
             colorByCategory = b.define("color_by_category", true);
             hideInvisibleEffects = b.define("hide_invisible_effects", true);
         }

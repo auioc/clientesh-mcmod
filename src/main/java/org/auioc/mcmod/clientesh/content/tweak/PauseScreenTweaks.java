@@ -1,8 +1,8 @@
 package org.auioc.mcmod.clientesh.content.tweak;
 
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
-import org.auioc.mcmod.clientesh.utils.GuiComponentUtils;
-import org.auioc.mcmod.clientesh.utils.WidgetDimension;
+import org.auioc.mcmod.arnicalib.game.gui.GuiComponentUtils;
+import org.auioc.mcmod.arnicalib.game.gui.WidgetPlot;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -15,10 +15,10 @@ import net.minecraftforge.client.gui.ModListScreen;
 public class PauseScreenTweaks {
 
     public static void handle(final InitScreenEvent event, final PauseScreen screen) {
-        var bFeedbackDim = WidgetDimension.zero();
+        var bFeedbackDim = WidgetPlot.zero();
         GuiComponentUtils.getButton(event, "menu.sendFeedback").ifPresent((b) -> backupAndRemove(event, bFeedbackDim, b));
 
-        var bReportDim = WidgetDimension.zero();
+        var bReportDim = WidgetPlot.zero();
         GuiComponentUtils.getButton(event, "menu.reportBugs").ifPresent((b) -> backupAndRemove(event, bReportDim, b));
 
         GuiComponentUtils.getButton(event, "menu.options").ifPresent((b) -> {
@@ -39,7 +39,7 @@ public class PauseScreenTweaks {
         });
     }
 
-    private static void backupAndRemove(InitScreenEvent event, WidgetDimension dim, AbstractWidget widget) {
+    private static void backupAndRemove(InitScreenEvent event, WidgetPlot dim, AbstractWidget widget) {
         dim.x = widget.x;
         dim.y = widget.y;
         dim.w = widget.getWidth();

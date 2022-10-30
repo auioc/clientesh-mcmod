@@ -1,11 +1,11 @@
 package org.auioc.mcmod.clientesh.api.hud;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.auioc.mcmod.arnicalib.base.word.WordUtils;
+import org.auioc.mcmod.arnicalib.game.config.ConfigUtils;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -52,11 +52,9 @@ public class HudConfig {
         b.push("info");
         var _allowedInfo = Arrays.asList(HudInfo.values()).stream().sorted(Comparator.comparing(Enum::name)).toList();
         {
-            var _allowedInfoNames = _allowedInfo.stream().map(Enum::name).toList();
-            left = b
-                .comment("Allowed values: " + _allowedInfoNames.stream().collect(Collectors.joining(", ")))
-                .define("left", new ArrayList<String>(), (o) -> checkStringList(o, _allowedInfoNames));
-            right = b.define("right", new ArrayList<String>(), (o) -> checkStringList(o, _allowedInfoNames));
+            var _allowedNames = _allowedInfo.stream().map(Enum::name).toList();
+            left = ConfigUtils.defineStringList(b.comment("Allowed values: " + _allowedNames.stream().collect(Collectors.joining(", "))), "left", _allowedNames);
+            left = ConfigUtils.defineStringList(b, "right", _allowedNames);
         }
         {
             for (var _row : _allowedInfo) {
@@ -84,22 +82,6 @@ public class HudConfig {
             var windows = Minecraft.getInstance().getWindow();
             int max = (height) ? windows.getGuiScaledHeight() : windows.getGuiScaledWidth();
             return i >= 0 && i <= max;
-        }
-        return false;
-    }
-
-    // TODO
-    private static boolean checkStringList(Object o, List<String> t) {
-        if (o instanceof ArrayList<?> v) {
-            int r = 0;
-            for (var i : v) {
-                if (i instanceof String str) {
-                    if (t.contains(str)) {
-                        r++;
-                    }
-                }
-            }
-            return r == v.size();
         }
         return false;
     }
