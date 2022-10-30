@@ -24,6 +24,7 @@
     "clientesh.hud.game_time.value.day": "第%s天",
     "clientesh.hud.health.label": "生命：",
     "clientesh.hud.hunger.label": "饥饿：",
+    "clientesh.hud.latency.label": "延迟：",
     "clientesh.hud.light.label": "亮度：",
     "clientesh.hud.moonphase.label": "月相：",
     "clientesh.hud.remaining_fire_ticks.label": "剩余着火时间：",

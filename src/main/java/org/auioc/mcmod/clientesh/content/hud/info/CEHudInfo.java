@@ -3,6 +3,7 @@ package org.auioc.mcmod.clientesh.content.hud.info;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
+import org.auioc.mcmod.clientesh.mixin.MixinAccessorAbstractClientPlayer;
 import org.auioc.mcmod.clientesh.mixin.MixinAccessorMinecraft;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
@@ -25,6 +26,7 @@ public class CEHudInfo {
 
     public static final HudInfo MINECRAFT_VERSION = HudInfo.create("MINECRAFT_VERSION", CEHudInfo::minecraftVersion);
     public static final HudInfo FPS = HudInfo.create("FPS", CEHudInfo::fps);
+    public static final HudInfo LATENCY = HudInfo.create("LATENCY", CEHudInfo::latency);
 
     // ============================================================================================================== //
     //#region f1
@@ -115,6 +117,13 @@ public class CEHudInfo {
                 MC.options.enableVsync ? " (vsync)" : ""
             )
         );
+    }
+
+    private static Component latency() {
+        int latency = -1;
+        var playerInfo = ((MixinAccessorAbstractClientPlayer) p()).getPlayerInfoDirectly();
+        if (playerInfo != null) latency = playerInfo.getLatency();
+        return label("latency").append(format("%d ms", latency));
     }
 
 }
