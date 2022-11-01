@@ -2,6 +2,7 @@ package org.auioc.mcmod.clientesh;
 
 
 import org.auioc.mcmod.arnicalib.game.mod.ExtensionPointUtils;
+import org.auioc.mcmod.clientesh.compat.HulsealibCompat;
 import org.auioc.mcmod.clientesh.config.CEConfig;
 import org.auioc.mcmod.clientesh.content.hud.info.CEHudInfo;
 import org.auioc.mcmod.clientesh.event.CEForgeEventHandler;
@@ -40,6 +41,7 @@ public final class Initialization {
 
     private static void forgeSetup() {
         FORGE_BUS.register(CEForgeEventHandler.class);
+        HulsealibCompat.init();
     }
 
 }

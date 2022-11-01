@@ -36,5 +36,6 @@
     "clientesh.hud.targeted_block.value.distance": "距离：",
     "clientesh.hud.targeted_block.value.name": "名称：",
     "clientesh.hud.targeted_block.value.xyz": "坐标：",
+    "clientesh.hud.tick_time.label": "游戏刻：",
     "clientesh.hud.velocity.label": "速度："
 }

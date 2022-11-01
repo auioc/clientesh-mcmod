@@ -6,7 +6,8 @@
     "client": [
         "MixinAccessorMinecraft",
         "MixinAccessorAbstractClientPlayer",
-        "MixinAccessorCreeper"
+        "MixinAccessorCreeper",
+        "compat.MixinHLAdditionalServerData"
     ],
     "server": [],
     "injectors": {

@@ -3,8 +3,10 @@ package org.auioc.mcmod.clientesh.content.hud.info;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.HudInfo;
+import org.auioc.mcmod.clientesh.compat.HulsealibCompat;
 import org.auioc.mcmod.clientesh.mixin.MixinAccessorAbstractClientPlayer;
 import org.auioc.mcmod.clientesh.mixin.MixinAccessorMinecraft;
+import org.auioc.mcmod.clientesh.mixin.compat.MixinHLAdditionalServerData;
 import net.minecraft.SharedConstants;
 import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
@@ -27,6 +29,7 @@ public class CEHudInfo {
     public static final HudInfo MINECRAFT_VERSION = HudInfo.create("MINECRAFT_VERSION", CEHudInfo::minecraftVersion);
     public static final HudInfo FPS = HudInfo.create("FPS", CEHudInfo::fps);
     public static final HudInfo LATENCY = HudInfo.create("LATENCY", CEHudInfo::latency);
+    public static final HudInfo TICK_TIME = HudInfo.create("TICK_TIME", CEHudInfo::tickTime);
 
     // ============================================================================================================== //
     //#region f1
@@ -124,6 +127,12 @@ public class CEHudInfo {
         var playerInfo = ((MixinAccessorAbstractClientPlayer) p()).getPlayerInfoDirectly();
         if (playerInfo != null) latency = playerInfo.getLatency();
         return label("latency").append(format("%d ms", latency));
+    }
+
+    private static Component[] tickTime() {
+        return (HulsealibCompat.FOUND_ADDITIONAL_SERVER_DATA)
+            ? lines(label("tick_time").append(format("tps %.1f, mspt %.3f", MixinHLAdditionalServerData.getTps(), MixinHLAdditionalServerData.getMspt())))
+            : lines();
     }
 
 }

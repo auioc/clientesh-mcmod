@@ -36,5 +36,6 @@
     "clientesh.hud.targeted_block.value.distance": "Distance: ",
     "clientesh.hud.targeted_block.value.name": "Name: ",
     "clientesh.hud.targeted_block.value.xyz": "XYZ: ",
+    "clientesh.hud.tick_time.label": "Tick time: ",
     "clientesh.hud.velocity.label": "Velocity: "
 }
