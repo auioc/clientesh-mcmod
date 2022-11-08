@@ -27,6 +27,7 @@ public class CEConfig {
     public static void onLoad(CommentedConfig config) {
         HudConfig.onLoad(config);
         CETweaksConfig.onLoad(config);
+        CEWidgetsConfig.onLoad(config);
     }
 
 }
