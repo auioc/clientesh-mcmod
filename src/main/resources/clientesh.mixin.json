@@ -7,6 +7,8 @@
         "MixinAccessorMinecraft",
         "MixinAccessorAbstractClientPlayer",
         "MixinAccessorCreeper",
+        "MixinKeyboardHandler",
+        "MixinGameRenderer",
         "compat.MixinHLAdditionalServerData"
     ],
     "server": [],
