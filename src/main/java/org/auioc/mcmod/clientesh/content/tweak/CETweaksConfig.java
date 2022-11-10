@@ -14,7 +14,8 @@ public class CETweaksConfig {
 
     public static void build(final ForgeConfigSpec.Builder b) {
         enablePauseScreenTweaks = b.define("enablePauseScreenTweaks", true);
-        ConfigUtils.push(b, "overlay_tweaks", OverlayTweaks.Config::build);
+        ConfigUtils.push(b, "overlay", OverlayTweaks.Config::build);
+        ConfigUtils.push(b, "screen_effect", ScreenEffectTweaks.Config::build);
     }
 
     public static void onLoad(CommentedConfig config) {

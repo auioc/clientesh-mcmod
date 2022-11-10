@@ -6,6 +6,7 @@ import org.auioc.mcmod.clientesh.content.command.CECommands;
 import org.auioc.mcmod.clientesh.content.tweak.CETweaksConfig;
 import org.auioc.mcmod.clientesh.content.tweak.OverlayTweaks;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
+import org.auioc.mcmod.clientesh.content.tweak.ScreenEffectTweaks;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
 import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -60,6 +61,17 @@ public class CEForgeEventHandler {
     @SubscribeEvent
     public static void onRenderNameplate(final RenderNameplateEvent event) {
         if (ExplosionCountdown.Config.enabled.get()) ExplosionCountdown.handle(event);
+    }
+
+    @SubscribeEvent
+    public static void onRenderBlockOverlay(final RenderBlockOverlayEvent event) {
+        switch (event.getOverlayType()) {
+            case FIRE -> ScreenEffectTweaks.handleFireOverlay(event);
+            case WATER -> ScreenEffectTweaks.handleWaterOverlay(event);
+            case BLOCK -> ScreenEffectTweaks.handleBlockOverlay(event);
+            default -> {
+            }
+        }
     }
 
 }

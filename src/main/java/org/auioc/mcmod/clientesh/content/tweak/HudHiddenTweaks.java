@@ -2,7 +2,10 @@ package org.auioc.mcmod.clientesh.content.tweak;
 
 import org.auioc.mcmod.arnicalib.game.input.KeyboardUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class HudHiddenTweaks {
 
     private static final Minecraft MC = Minecraft.getInstance();
