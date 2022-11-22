@@ -1,6 +1,7 @@
 package org.auioc.mcmod.clientesh.config;
 
 import org.auioc.mcmod.arnicalib.game.config.ConfigUtils;
+import org.auioc.mcmod.clientesh.content.hud.config.CEHudConfig;
 import org.auioc.mcmod.clientesh.content.tweak.CETweaksConfig;
 import org.auioc.mcmod.clientesh.content.widget.CEWidgetsConfig;
 import com.electronwill.nightconfig.core.CommentedConfig;
@@ -18,13 +19,12 @@ public class CEConfig {
 
         ConfigUtils.push(b, "tweaks", CETweaksConfig::build);
         ConfigUtils.push(b, "widgets", CEWidgetsConfig::build);
-        // ConfigUtils.push(b, "hud", HudConfig::build);
+        ConfigUtils.push(b, "hud", CEHudConfig::build);
 
         SPEC = b.build();
     }
 
     public static void onLoad(CommentedConfig config) {
-        // HudConfig.onLoad(config);
         CETweaksConfig.onLoad(config);
         CEWidgetsConfig.onLoad(config);
     }
