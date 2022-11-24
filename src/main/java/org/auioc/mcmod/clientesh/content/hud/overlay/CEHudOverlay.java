@@ -79,7 +79,7 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
                 try {
                     text = element.getText();
                 } catch (Exception e) {
-                    text = TextUtils.literal("§c§l(" + e.getClass().getSimpleName() + ": " + e.getMessage() + ")");
+                    text = errorMessage(e);
                 }
                 line.append(text);
             }
@@ -108,21 +108,31 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
         for (int i = 0, l = lines.size(); i < l; ++i) {
             var line = lines.get(i);
             if (line != null) {
-                int w = this.font.width(line);
-                if (w > 0) {
-                    if (this.background && !this.fullBackground) {
-                        int x1 = (right) ? (int) ((x0 + 1) / this.scale) : (x0 - 1);
-                        int y1 = y - 1;
-                        int x2 = (right) ? (int) ((x0 - (w * this.scale) - 1) / this.scale) : (x0 + w + 1);
-                        int y2 = y + font.lineHeight + ((i + 1 == l) ? 0 : -1);
-                        fill(poseStack, x1, y1, x2, y2, this.backgroundColor);
+                try {
+                    int w = this.font.width(line);
+                    if (w > 0) {
+                        if (this.background && !this.fullBackground) {
+                            int x1 = (right) ? (int) ((x0 + 1) / this.scale) : (x0 - 1);
+                            int y1 = y - 1;
+                            int x2 = (right) ? (int) ((x0 - (w * this.scale) - 1) / this.scale) : (x0 + w + 1);
+                            int y2 = y + font.lineHeight + ((i + 1 == l) ? 0 : -1);
+                            fill(poseStack, x1, y1, x2, y2, this.backgroundColor);
+                        }
+                        int x = (right) ? (int) ((x0 - (w * this.scale)) / this.scale) : x0;
+                        this.font.drawShadow(poseStack, line, x, y, this.fontColor);
                     }
-                    int x = (right) ? (int) ((x0 - (w * this.scale)) / this.scale) : x0;
-                    this.font.drawShadow(poseStack, line, x, y, this.fontColor);
+                } catch (Exception e) {
+                    lines.set(i, errorMessage(e));
+                    --i;
+                    continue;
                 }
             }
             y += this.font.lineHeight;
         }
+    }
+
+    private static Component errorMessage(Exception e) {
+        return TextUtils.literal("(" + e.getClass().getSimpleName() + ": " + e.getMessage() + ")").withStyle(ChatFormatting.RED, ChatFormatting.BOLD);
     }
 
 }
