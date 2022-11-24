@@ -9,6 +9,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -25,7 +26,7 @@ public class ConditionalElement implements IHudElement {
     public ConditionalElement(Condition condition, IOperableValue value, IOperableValue[] cases, IHudElement[] results) {
         this.condition = condition;
         this.value = value;
-        this.cases = cases;
+        this.cases = (condition == Condition.BOOL) ? new IOperableValue[] {new BooleanValue(true)} : cases;
         this.results = results;
         this.caseCount = cases.length;
         if (results.length < caseCount) throw new IllegalArgumentException("The number of results must be greater than or equal to the number of cases");
@@ -43,18 +44,14 @@ public class ConditionalElement implements IHudElement {
 
     @Override
     public Component getText() {
-        if (condition == Condition.BOOL && value.booleanValue()) {
-            return results[0].getText();
-        } else {
-            for (int i = 0; i < caseCount; ++i) if (condition.test(value, cases[i])) return results[i].getText();
-        }
-        if (defaultResultIndex > 0) return results[defaultResultIndex].getText();
-        return null;
+        for (int i = 0; i < caseCount; ++i) if (condition.test(value, cases[i])) return results[i].getText();
+        return (defaultResultIndex >= 0) ? results[defaultResultIndex].getText() : new TextComponent("§7null");
     }
 
     private static IOperableValue loadValue(JsonElement json) {
         if (GsonHelper.isNumberValue(json)) return new NumberValue(json.getAsDouble());
         if (GsonHelper.isBooleanValue(json)) return new BooleanValue(json.getAsBoolean());
+        if (GsonHelper.isStringValue(json)) return new StringValue(json.getAsString());
         if (json.isJsonObject()) {
             var element = CEHudLayoutParser.parseElement(json);
             if (element instanceof IOperableValue) return (IOperableValue) element;
@@ -72,7 +69,8 @@ public class ConditionalElement implements IHudElement {
         LT((l, r) -> l.doubleValue() < r.doubleValue()),
         GE((l, r) -> l.doubleValue() >= r.doubleValue()),
         LE((l, r) -> l.doubleValue() <= r.doubleValue()),
-        BOOL((l, r) -> true);
+        BOOL((l, r) -> l.booleanValue()),
+        EQUAL((l, r) -> l.equals(r));
 
         private final BiPredicate<IOperableValue, IOperableValue> predicate;
 
@@ -97,6 +95,12 @@ public class ConditionalElement implements IHudElement {
     private static record BooleanValue(boolean value) implements IOperableValue.BooleanValue {
         @Override
         public boolean booleanValue() { return value; }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    private static record StringValue(String value) implements IOperableValue.StringValue {
+        @Override
+        public String stringValue() { return value; }
     }
 
 }
