@@ -3,7 +3,6 @@ package org.auioc.mcmod.clientesh.event;
 import org.auioc.mcmod.arnicalib.game.event.client.ClientPermissionsChangedEvent;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import org.auioc.mcmod.clientesh.content.command.CECommands;
-import org.auioc.mcmod.clientesh.content.hud.config.CEHudLayoutConfig;
 import org.auioc.mcmod.clientesh.content.tweak.CETweaksConfig;
 import org.auioc.mcmod.clientesh.content.tweak.OverlayTweaks;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
@@ -37,7 +36,6 @@ public class CEForgeEventHandler {
     @SubscribeEvent
     public static void onLoggedIn(final ClientPlayerNetworkEvent.LoggedInEvent event) {
         OverlayTweaks.toggleOverlays();
-        CEHudLayoutConfig.load();
     }
 
     @SubscribeEvent

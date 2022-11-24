@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.content.hud.config;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,7 +10,8 @@ import org.auioc.mcmod.arnicalib.base.file.FileUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.layout.HudLayout;
-import org.auioc.mcmod.clientesh.content.hud.element.basic.text.LiteralHudElement;
+import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralHudElement;
+import com.electronwill.nightconfig.core.file.FileWatcher;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
@@ -37,9 +39,13 @@ public class CEHudLayoutConfig {
         );
     }
 
+    private static File getFile() {
+        return FMLPaths.CONFIGDIR.get().resolve(FILE_NAME).toFile();
+    }
+
     //TODO log exception
     private synchronized static JsonObject loadFile() {
-        var file = FMLPaths.CONFIGDIR.get().resolve(FILE_NAME).toFile();
+        var file = getFile();
         try {
             var jsonString = FileUtils.readFileToString(file);
             return GsonHelper.parse(jsonString);
@@ -54,6 +60,14 @@ public class CEHudLayoutConfig {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void watchFile() {
+        try {
+            FileWatcher.defaultInstance().addWatch(getFile(), () -> CEHudLayoutConfig.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static Pair<List<List<IHudElement>>, List<List<IHudElement>>> loadPair(JsonObject json) {

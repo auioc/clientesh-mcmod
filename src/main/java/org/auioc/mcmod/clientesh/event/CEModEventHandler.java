@@ -2,6 +2,7 @@ package org.auioc.mcmod.clientesh.event;
 
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.config.CEConfig;
+import org.auioc.mcmod.clientesh.content.hud.config.CEHudLayoutConfig;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,7 +23,9 @@ public class CEModEventHandler {
 
     @SubscribeEvent
     public static void onClientSetup(final FMLClientSetupEvent event) {
-        // OverlayRegistry.registerOverlayTop(HudOverlay.NAME, HudOverlay.INSTANCE);
+        // OverlayRegistry.registerOverlayTop(CEHudOverlay.NAME, CEHudOverlay.INSTANCE);
+        CEHudLayoutConfig.load();
+        CEHudLayoutConfig.watchFile();
     }
 
 }
