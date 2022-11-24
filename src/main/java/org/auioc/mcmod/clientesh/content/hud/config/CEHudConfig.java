@@ -12,6 +12,7 @@ import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 public class CEHudConfig {
 
     public static BooleanValue enabled;
+    public static BooleanValue autoReloadLayout;
     public static ConfigValue<Integer> leftColXOffset;
     public static ConfigValue<Integer> leftColYOffset;
     public static ConfigValue<Integer> rightColXOffset;
@@ -24,6 +25,12 @@ public class CEHudConfig {
 
     public static void build(final ForgeConfigSpec.Builder b) {
         enabled = b.define("enabled", true);
+
+        b.push("layout");
+        {
+            autoReloadLayout = b.define("autoReload", true);
+        }
+        b.pop();
 
         b.push("render");
         {

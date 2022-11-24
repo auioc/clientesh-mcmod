@@ -26,8 +26,7 @@ public class CEModEventHandler {
     @SubscribeEvent
     public static void onClientSetup(final FMLClientSetupEvent event) {
         OverlayRegistry.registerOverlayTop(CEHudOverlay.NAME, CEHudOverlay.INSTANCE);
-        CEHudLayoutConfig.load();
-        CEHudLayoutConfig.watchFile();
+        CEHudLayoutConfig.init();
     }
 
 }

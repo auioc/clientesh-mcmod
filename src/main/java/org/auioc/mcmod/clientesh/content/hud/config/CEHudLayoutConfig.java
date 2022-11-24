@@ -24,6 +24,11 @@ public class CEHudLayoutConfig {
     private static final String FILE_NAME = "clientesh-hud.json";
     private static final String DEFAULT = "{ \"left\": [], \"right\": [] }";
 
+    public static void init() {
+        load();
+        if (CEHudConfig.autoReloadLayout.get()) watchFile();
+    }
+
     public static void load() {
         try {
             HudLayout.load(loadPair(loadFile()));
