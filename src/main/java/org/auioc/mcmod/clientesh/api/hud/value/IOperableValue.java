@@ -16,9 +16,7 @@ public interface IOperableValue {
     public static interface Double extends IOperableValue {
 
         @Override
-        default boolean booleanValue() {
-            return doubleValue() == 0.0D;
-        }
+        default boolean booleanValue() { return doubleValue() == 0.0D; }
 
     }
 
@@ -28,14 +26,10 @@ public interface IOperableValue {
         int intValue();
 
         @Override
-        default double doubleValue() {
-            return intValue();
-        }
+        default double doubleValue() { return intValue(); }
 
         @Override
-        default boolean booleanValue() {
-            return intValue() == 0;
-        }
+        default boolean booleanValue() { return intValue() == 0; }
 
     }
 
@@ -43,9 +37,7 @@ public interface IOperableValue {
     public static interface Boolean extends IOperableValue {
 
         @Override
-        default double doubleValue() {
-            return booleanValue() ? 1.0D : 0.0D;
-        }
+        default double doubleValue() { return booleanValue() ? 1.0D : 0.0D; }
 
     }
 

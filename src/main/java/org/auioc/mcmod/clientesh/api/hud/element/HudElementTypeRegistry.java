@@ -33,9 +33,7 @@ public class HudElementTypeRegistry {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    public static record HudElementEntry(ResourceLocation id, IHudElementDeserializer deserializer) {
-
-    }
+    public static record HudElementEntry(ResourceLocation id, IHudElementDeserializer deserializer) {}
 
     // ============================================================================================================== //
 

@@ -9,8 +9,4 @@ public interface IHudElement {
 
     Component getText();
 
-    default boolean requiresChunk() {
-        return false;
-    }
-
 }

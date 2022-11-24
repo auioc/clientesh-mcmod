@@ -66,13 +66,13 @@ public class ConditionalHudElement implements IHudElement {
 
     @OnlyIn(Dist.CLIENT)
     private static enum Condition {
-        EQ((l, r) -> l.doubleValue() == r.doubleValue()), //
-        NE((l, r) -> l.doubleValue() != r.doubleValue()), //
-        GT((l, r) -> l.doubleValue() > r.doubleValue()), //
-        LT((l, r) -> l.doubleValue() < r.doubleValue()), //
-        GE((l, r) -> l.doubleValue() >= r.doubleValue()), //
-        LE((l, r) -> l.doubleValue() <= r.doubleValue()), //
-        BOOL((l, r) -> true); //
+        EQ((l, r) -> l.doubleValue() == r.doubleValue()),
+        NE((l, r) -> l.doubleValue() != r.doubleValue()),
+        GT((l, r) -> l.doubleValue() > r.doubleValue()),
+        LT((l, r) -> l.doubleValue() < r.doubleValue()),
+        GE((l, r) -> l.doubleValue() >= r.doubleValue()),
+        LE((l, r) -> l.doubleValue() <= r.doubleValue()),
+        BOOL((l, r) -> true);
 
         private final BiPredicate<IOperableValue, IOperableValue> predicate;
 
@@ -90,17 +90,13 @@ public class ConditionalHudElement implements IHudElement {
     @OnlyIn(Dist.CLIENT)
     private static record NumberValue(double value) implements IOperableValue.Double {
         @Override
-        public double doubleValue() {
-            return value;
-        }
+        public double doubleValue() { return value; }
     }
 
     @OnlyIn(Dist.CLIENT)
     private static record BooleanValue(boolean value) implements IOperableValue.Boolean {
         @Override
-        public boolean booleanValue() {
-            return value;
-        }
+        public boolean booleanValue() { return value; }
     }
 
 }

@@ -33,15 +33,10 @@ public class FormatterHudElement implements IHudElement {
         var args = new Object[elements.length];
         for (int i = 0; i < elements.length; ++i) {
             var element = elements[i];
-            if (element instanceof IOperableValue.Integer v) {
-                args[i] = v.intValue();
-            } else if (element instanceof IOperableValue.Double v) {
-                args[i] = v.doubleValue();
-            } else if (element instanceof IOperableValue.Boolean v) {
-                args[i] = v.booleanValue();
-            } else {
-                args[i] = element.getText().getString();
-            }
+            if (element instanceof IOperableValue.Integer v) args[i] = v.intValue();
+            else if (element instanceof IOperableValue.Double v) args[i] = v.doubleValue();
+            else if (element instanceof IOperableValue.Boolean v) args[i] = v.booleanValue();
+            else args[i] = element.getText().getString();
         }
         return new TextComponent(String.format(format, args));
     }

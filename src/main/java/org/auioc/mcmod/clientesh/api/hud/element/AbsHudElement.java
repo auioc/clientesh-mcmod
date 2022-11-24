@@ -34,14 +34,10 @@ public abstract class AbsHudElement implements IHudElement {
 
     protected abstract MutableComponent getRawText();
 
-    public void setStyle(Style style) {
-        this.style = style;
-    }
+    public void setStyle(Style style) { this.style = style; }
 
     @Nullable
-    public Style getStyle() {
-        return this.style;
-    }
+    public Style getStyle() { return this.style; }
 
     protected static MutableComponent format(String format, Object... args) {
         return new TextComponent(String.format(format, args));
@@ -54,9 +50,7 @@ public abstract class AbsHudElement implements IHudElement {
 
         public Boolean() {}
 
-        public Boolean(JsonObject json) {
-            super(json);
-        }
+        public Boolean(JsonObject json) { super(json); }
 
         @Override
         public abstract boolean booleanValue();
@@ -73,9 +67,7 @@ public abstract class AbsHudElement implements IHudElement {
 
         public Integer() {}
 
-        public Integer(JsonObject json) {
-            super(json);
-        }
+        public Integer(JsonObject json) { super(json); }
 
         public abstract int intValue();
 
@@ -91,9 +83,7 @@ public abstract class AbsHudElement implements IHudElement {
 
         public Double() {}
 
-        public Double(JsonObject json) {
-            super(json);
-        }
+        public Double(JsonObject json) { super(json); }
 
         @Override
         public abstract double doubleValue();
@@ -110,9 +100,7 @@ public abstract class AbsHudElement implements IHudElement {
 
         public Literal() {}
 
-        public Literal(JsonObject json) {
-            super(json);
-        }
+        public Literal(JsonObject json) { super(json); }
 
         public abstract String getString();
 
