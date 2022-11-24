@@ -22,6 +22,9 @@ public class OverlayTweaks {
         }
     }
 
+    // ============================================================================================================== //
+
+    @OnlyIn(Dist.CLIENT)
     public static class Config {
 
         public static ConfigValue<List<? extends String>> disabledOverlays;

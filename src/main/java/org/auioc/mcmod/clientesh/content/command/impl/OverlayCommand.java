@@ -53,5 +53,4 @@ public class OverlayCommand {
         return Command.SINGLE_SUCCESS;
     }
 
-
 }

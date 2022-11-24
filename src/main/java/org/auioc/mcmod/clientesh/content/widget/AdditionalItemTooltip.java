@@ -139,7 +139,9 @@ public class AdditionalItemTooltip {
         return foodEffect(chance, effect.getEffect(), effect.getAmplifier(), effect.getDuration());
     }
 
+    // ============================================================================================================== //
 
+    @OnlyIn(Dist.CLIENT)
     public static class Config {
 
         public static BooleanValue enabled;

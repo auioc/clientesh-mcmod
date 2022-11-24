@@ -37,6 +37,9 @@ public class ExplosionCountdown {
         event.setResult(Result.ALLOW);
     }
 
+    // ============================================================================================================== //
+
+    @OnlyIn(Dist.CLIENT)
     public static class Config {
 
         public static BooleanValue enabled;

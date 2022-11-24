@@ -36,6 +36,9 @@ public class ScreenEffectTweaks {
         return Config.fireOverlayOpacity.get().floatValue();
     }
 
+    // ============================================================================================================== //
+
+    @OnlyIn(Dist.CLIENT)
     public static class Config {
 
         public static BooleanValue renderBlockOverlay;

@@ -30,12 +30,16 @@ public class HudElementTypeRegistry {
         throw new RegistryEntryException.Unknown("hud element", id.toString());
     }
 
+    // ============================================================================================================== //
 
+    @OnlyIn(Dist.CLIENT)
     public static record HudElementEntry(ResourceLocation id, IHudElementDeserializer deserializer) {
 
     }
 
+    // ============================================================================================================== //
 
+    @OnlyIn(Dist.CLIENT)
     public static final HudElementEntry EMPTY = register(
         new ResourceLocation("clientesh:empty"),
         (j) -> new IHudElement() {

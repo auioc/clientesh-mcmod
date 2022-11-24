@@ -10,6 +10,9 @@ public interface IOperableValue {
 
     boolean booleanValue();
 
+    // ============================================================================================================== //
+
+    @OnlyIn(Dist.CLIENT)
     public static interface Number extends IOperableValue {
 
         @Override
@@ -19,6 +22,7 @@ public interface IOperableValue {
 
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static interface Boolean extends IOperableValue {
 
         @Override

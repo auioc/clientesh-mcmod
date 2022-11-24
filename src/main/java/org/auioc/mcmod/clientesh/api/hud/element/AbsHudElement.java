@@ -49,7 +49,7 @@ public abstract class AbsHudElement implements IHudElement {
 
     // ============================================================================================================== //
 
-
+    @OnlyIn(Dist.CLIENT)
     public static abstract class Boolean extends AbsHudElement implements IOperableValue.Boolean {
 
         public Boolean(JsonObject json) {
@@ -66,6 +66,7 @@ public abstract class AbsHudElement implements IHudElement {
 
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static abstract class Integer extends AbsHudElement implements IOperableValue.Number {
 
         public Integer(JsonObject json) {
@@ -82,6 +83,7 @@ public abstract class AbsHudElement implements IHudElement {
 
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static abstract class Double extends AbsHudElement implements IOperableValue.Number {
 
         public Double(JsonObject json) {
@@ -98,6 +100,7 @@ public abstract class AbsHudElement implements IHudElement {
 
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static abstract class Literal extends AbsHudElement {
 
         public Literal(JsonObject json) {
