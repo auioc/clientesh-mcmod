@@ -6,6 +6,7 @@ import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry.HudEleme
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElementDeserializer;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralHudElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableHudElement;
+import org.auioc.mcmod.clientesh.content.hud.element.complex.ConditionalHudElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.FormatterHudElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.MultielementHudElement;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,7 +24,7 @@ public final class CEHudElements {
 
     public static final HudElementEntry MULTIELEMENT = register("multielement", MultielementHudElement::new);
     public static final HudElementEntry FORMATTER = register("formatter", FormatterHudElement::new);
-
+    public static final HudElementEntry CONDITIONAL = register("conditional", ConditionalHudElement::new);
 
     // ============================================================================================================== //
 
