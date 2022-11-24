@@ -8,7 +8,7 @@ import org.auioc.mcmod.arnicalib.base.file.FileUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.layout.HudLayout;
 import org.auioc.mcmod.clientesh.content.hud.CEHud;
-import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralHudElement;
+import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralElement;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
 import com.electronwill.nightconfig.core.file.FileWatcher;
 import com.google.gson.JsonObject;
@@ -39,8 +39,8 @@ public class CEHudLayoutConfig {
 
     private static List<List<IHudElement>> createErrorMessage(Exception e) {
         return List.of(
-            List.of(new LiteralHudElement("§c§lError: " + e.getClass().getName())),
-            List.of(new LiteralHudElement("  §c§l" + e.getMessage()))
+            List.of(new LiteralElement("§c§lError: " + e.getClass().getName())),
+            List.of(new LiteralElement("  §c§l" + e.getMessage()))
         );
     }
 

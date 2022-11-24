@@ -33,7 +33,8 @@ public class FormatterElement implements IHudElement {
         var args = new Object[elements.length];
         for (int i = 0; i < elements.length; ++i) {
             var element = elements[i];
-            if (element instanceof IOperableValue.Integer v) args[i] = v.intValue();
+            if (element instanceof IOperableValue.String v) args[i] = v.stringValue();
+            else if (element instanceof IOperableValue.Integer v) args[i] = v.intValue();
             else if (element instanceof IOperableValue.Double v) args[i] = v.doubleValue();
             else if (element instanceof IOperableValue.Boolean v) args[i] = v.booleanValue();
             else args[i] = element.getText().getString();

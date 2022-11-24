@@ -14,17 +14,19 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public abstract class AbsHudElement implements IHudElement {
 
-    private static final Style.Serializer STYLE_SERIALIZER = new Style.Serializer();
-
     protected static final Minecraft MC = Minecraft.getInstance();
 
+    // ====================================================================== //
+
+    private static final Style.Serializer STYLE = new Style.Serializer();
+
     @Nullable
-    protected Style style;
+    private Style style;
 
     public AbsHudElement() {}
 
     public AbsHudElement(JsonObject json) {
-        this.style = (json.has("style")) ? STYLE_SERIALIZER.deserialize(json.get("style"), null, null) : null;
+        this.style = (json.has("style")) ? STYLE.deserialize(json.get("style"), null, null) : null;
     }
 
     @Override
@@ -39,8 +41,8 @@ public abstract class AbsHudElement implements IHudElement {
     @Nullable
     public Style getStyle() { return this.style; }
 
-    protected static MutableComponent format(String format, Object... args) {
-        return new TextComponent(String.format(format, args));
+    protected static MutableComponent format(java.lang.String format, Object... args) {
+        return new TextComponent(java.lang.String.format(format, args));
     }
 
     // ============================================================================================================== //
@@ -57,7 +59,7 @@ public abstract class AbsHudElement implements IHudElement {
 
         @Override
         public MutableComponent getRawText() {
-            return new TextComponent(String.valueOf(booleanValue()));
+            return new TextComponent(java.lang.String.valueOf(booleanValue()));
         }
 
     }
@@ -73,7 +75,7 @@ public abstract class AbsHudElement implements IHudElement {
 
         @Override
         public MutableComponent getRawText() {
-            return new TextComponent(String.valueOf(intValue()));
+            return new TextComponent(java.lang.String.valueOf(intValue()));
         }
 
     }
@@ -90,23 +92,24 @@ public abstract class AbsHudElement implements IHudElement {
 
         @Override
         public MutableComponent getRawText() {
-            return new TextComponent(String.valueOf(doubleValue()));
+            return new TextComponent(java.lang.String.valueOf(doubleValue()));
         }
 
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class Literal extends AbsHudElement {
+    public static abstract class String extends AbsHudElement implements IOperableValue.String {
 
-        public Literal() {}
+        public String() {}
 
-        public Literal(JsonObject json) { super(json); }
+        public String(JsonObject json) { super(json); }
 
-        public abstract String getString();
+        @Override
+        public abstract java.lang.String stringValue();
 
         @Override
         public MutableComponent getRawText() {
-            return new TextComponent(getString());
+            return new TextComponent(stringValue());
         }
 
     }
