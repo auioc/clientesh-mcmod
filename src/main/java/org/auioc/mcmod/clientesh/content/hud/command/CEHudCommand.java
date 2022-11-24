@@ -18,7 +18,7 @@ public class CEHudCommand {
         .build();
 
     private static int reload(CommandContext<CommandSourceStack> ctx) throws CommandSyntaxException {
-        CEHudLayoutConfig.load();
+        CEHudLayoutConfig.loadFromFile();
         return Command.SINGLE_SUCCESS;
     }
 

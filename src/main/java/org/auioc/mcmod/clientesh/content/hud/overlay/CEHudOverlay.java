@@ -70,11 +70,11 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
         MC.getProfiler().pop();
     }
 
-    private ArrayList<Component> getLines(List<List<IHudElement>> side) {
+    private ArrayList<Component> getLines(List<List<IHudElement>> column) {
         var lines = new ArrayList<Component>();
-        for (var lineElements : side) {
+        for (var row : column) {
             var line = TextUtils.empty();
-            for (var element : lineElements) {
+            for (var element : row) {
                 Component text;
                 try {
                     text = element.getText();

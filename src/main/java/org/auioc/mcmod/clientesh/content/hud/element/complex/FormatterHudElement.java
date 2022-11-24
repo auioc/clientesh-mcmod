@@ -2,7 +2,7 @@ package org.auioc.mcmod.clientesh.content.hud.element.complex;
 
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
-import org.auioc.mcmod.clientesh.content.hud.config.CEHudLayoutConfig;
+import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
 import org.auioc.mcmod.clientesh.utils.GsonHelper;
 import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
@@ -24,10 +24,7 @@ public class FormatterHudElement implements IHudElement {
     public FormatterHudElement(JsonObject json) {
         this(
             GsonHelper.getAsString(json, "format"),
-            GsonHelper.getAsArray(
-                json, "elements", IHudElement[]::new,
-                (jE) -> CEHudLayoutConfig.loadElement(jE.getAsJsonObject())
-            )
+            GsonHelper.getAsArray(json, "elements", IHudElement[]::new, CEHudLayoutParser::parseElement)
         );
     }
 

@@ -35,8 +35,8 @@ public class HudLayout {
         right.ifPresent(R::addAll);
     }
 
-    public static void load(Pair<List<List<IHudElement>>, List<List<IHudElement>>> pair) {
-        load(Optional.ofNullable(pair.getLeft()), Optional.ofNullable(pair.getRight()));
+    public static void load(Pair<List<List<IHudElement>>, List<List<IHudElement>>> layout) {
+        load(Optional.ofNullable(layout.getLeft()), Optional.ofNullable(layout.getRight()));
     }
 
     public static void load(@Nullable List<List<IHudElement>> left, @Nullable List<List<IHudElement>> right) {
