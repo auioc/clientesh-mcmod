@@ -4,6 +4,7 @@ package org.auioc.mcmod.clientesh;
 import org.auioc.mcmod.arnicalib.game.mod.ExtensionPointUtils;
 import org.auioc.mcmod.clientesh.compat.HulsealibCompat;
 import org.auioc.mcmod.clientesh.config.CEConfig;
+import org.auioc.mcmod.clientesh.content.hud.element.CEHudElements;
 import org.auioc.mcmod.clientesh.event.CEForgeEventHandler;
 import org.auioc.mcmod.clientesh.event.CEModEventHandler;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,7 +35,7 @@ public final class Initialization {
     }
 
     private static void modSetup() {
-        // CEHudInfo.register();
+        CEHudElements.register();
         MOD_BUS.register(CEModEventHandler.class);
     }
 
