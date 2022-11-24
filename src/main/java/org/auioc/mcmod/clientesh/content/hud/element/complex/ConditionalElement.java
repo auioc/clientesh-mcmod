@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ConditionalHudElement implements IHudElement {
+public class ConditionalElement implements IHudElement {
 
     private final Condition condition;
     private final IOperableValue value;
@@ -22,7 +22,7 @@ public class ConditionalHudElement implements IHudElement {
     private final IHudElement[] results;
     private final int defaultResultIndex;
 
-    public ConditionalHudElement(Condition condition, IOperableValue value, IOperableValue[] cases, IHudElement[] results) {
+    public ConditionalElement(Condition condition, IOperableValue value, IOperableValue[] cases, IHudElement[] results) {
         this.condition = condition;
         this.value = value;
         this.cases = cases;
@@ -32,11 +32,11 @@ public class ConditionalHudElement implements IHudElement {
         this.defaultResultIndex = (results.length > caseCount) ? caseCount : -1;
     }
 
-    public ConditionalHudElement(JsonObject json) {
+    public ConditionalElement(JsonObject json) {
         this(
             Condition.valueOf(GsonHelper.getAsString(json, "condition").toUpperCase()),
             loadValue(json.get("value")),
-            GsonHelper.getAsArray(json, "cases", IOperableValue[]::new, ConditionalHudElement::loadValue, true),
+            GsonHelper.getAsArray(json, "cases", IOperableValue[]::new, ConditionalElement::loadValue, true),
             GsonHelper.getAsArray(json, "results", IHudElement[]::new, CEHudLayoutParser::parseElement, true)
         );
     }

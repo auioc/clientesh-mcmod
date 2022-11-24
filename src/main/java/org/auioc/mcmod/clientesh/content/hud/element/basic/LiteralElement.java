@@ -7,15 +7,15 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LiteralHudElement extends AbsHudElement.Literal {
+public class LiteralElement extends AbsHudElement.Literal {
 
     private final String text;
 
-    public LiteralHudElement(String text) {
+    public LiteralElement(String text) {
         this.text = text;
     }
 
-    public LiteralHudElement(JsonObject json) {
+    public LiteralElement(JsonObject json) {
         super(json);
         this.text = GsonHelper.getAsString(json, "text");
     }

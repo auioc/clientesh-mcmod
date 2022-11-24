@@ -10,21 +10,21 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class TranslatableHudElement extends AbsHudElement {
+public class TranslatableElement extends AbsHudElement {
 
     private final String key;
     private final Object[] args;
 
-    public TranslatableHudElement(String key, Object[] args) {
+    public TranslatableElement(String key, Object[] args) {
         this.key = key;
         this.args = args;
     }
 
-    public TranslatableHudElement(String key) {
+    public TranslatableElement(String key) {
         this(key, TextUtils.NO_ARGS);
     }
 
-    public TranslatableHudElement(JsonObject json) {
+    public TranslatableElement(JsonObject json) {
         super(json);
         this.key = GsonHelper.getAsString(json, "key");
         Object[] args = TextUtils.NO_ARGS;

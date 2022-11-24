@@ -11,17 +11,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MultielementHudElement implements IHudElement {
+public class MultielementElement implements IHudElement {
 
     private final boolean inheritStyle;
     private final IHudElement[] elements;
 
-    public MultielementHudElement(boolean inheritStyle, IHudElement... elements) {
+    public MultielementElement(boolean inheritStyle, IHudElement... elements) {
         this.inheritStyle = inheritStyle;
         this.elements = elements;
     }
 
-    public MultielementHudElement(JsonObject json) {
+    public MultielementElement(JsonObject json) {
         this(
             GsonHelper.getAsBoolean(json, "inheritStyle", false),
             GsonHelper.getAsArray(json, "elements", IHudElement[]::new, CEHudLayoutParser::parseElement)

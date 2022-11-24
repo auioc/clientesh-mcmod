@@ -4,11 +4,11 @@ import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry.HudElementEntry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElementDeserializer;
-import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralHudElement;
-import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableHudElement;
-import org.auioc.mcmod.clientesh.content.hud.element.complex.ConditionalHudElement;
-import org.auioc.mcmod.clientesh.content.hud.element.complex.FormatterHudElement;
-import org.auioc.mcmod.clientesh.content.hud.element.complex.MultielementHudElement;
+import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralElement;
+import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableElement;
+import org.auioc.mcmod.clientesh.content.hud.element.complex.ConditionalElement;
+import org.auioc.mcmod.clientesh.content.hud.element.complex.FormatterElement;
+import org.auioc.mcmod.clientesh.content.hud.element.complex.MultielementElement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -19,12 +19,12 @@ public final class CEHudElements {
 
     // ============================================================================================================== //
 
-    public static final HudElementEntry LITERAL = register("literal", LiteralHudElement::new);
-    public static final HudElementEntry TRANSLATABLE = register("translatable", TranslatableHudElement::new);
+    public static final HudElementEntry LITERAL = register("literal", LiteralElement::new);
+    public static final HudElementEntry TRANSLATABLE = register("translatable", TranslatableElement::new);
 
-    public static final HudElementEntry MULTIELEMENT = register("multielement", MultielementHudElement::new);
-    public static final HudElementEntry FORMATTER = register("formatter", FormatterHudElement::new);
-    public static final HudElementEntry CONDITIONAL = register("conditional", ConditionalHudElement::new);
+    public static final HudElementEntry MULTIELEMENT = register("multielement", MultielementElement::new);
+    public static final HudElementEntry FORMATTER = register("formatter", FormatterElement::new);
+    public static final HudElementEntry CONDITIONAL = register("conditional", ConditionalElement::new);
 
     // ============================================================================================================== //
 

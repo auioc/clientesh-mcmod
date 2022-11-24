@@ -11,17 +11,17 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class FormatterHudElement implements IHudElement {
+public class FormatterElement implements IHudElement {
 
     private final String format;
     private final IHudElement[] elements;
 
-    public FormatterHudElement(String format, IHudElement... element) {
+    public FormatterElement(String format, IHudElement... element) {
         this.format = format;
         this.elements = element;
     }
 
-    public FormatterHudElement(JsonObject json) {
+    public FormatterElement(JsonObject json) {
         this(
             GsonHelper.getAsString(json, "format"),
             GsonHelper.getAsArray(json, "elements", IHudElement[]::new, CEHudLayoutParser::parseElement)
