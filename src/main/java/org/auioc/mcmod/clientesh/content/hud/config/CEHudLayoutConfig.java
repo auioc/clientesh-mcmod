@@ -10,6 +10,7 @@ import org.auioc.mcmod.arnicalib.base.file.FileUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.layout.HudLayout;
+import org.auioc.mcmod.clientesh.content.hud.CEHud;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralHudElement;
 import com.electronwill.nightconfig.core.file.FileWatcher;
 import com.google.gson.JsonArray;
@@ -27,7 +28,7 @@ public class CEHudLayoutConfig {
         try {
             HudLayout.load(loadPair(loadFile()));
         } catch (Exception e) {
-            e.printStackTrace();
+            CEHud.error("Failed to load layout config", e);
             HudLayout.load(createErrorMessage(e), null);
         }
     }
@@ -54,19 +55,22 @@ public class CEHudLayoutConfig {
                 FileUtils.writeStringToFile(file, DEFAULT);
                 return loadFile();
             } catch (IOException e1) {
-                e1.printStackTrace();
+                CEHud.error("Failed to create layout config file", e);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            CEHud.error("Failed to read layout config file", e);
         }
         return null;
     }
 
     public static void watchFile() {
         try {
-            FileWatcher.defaultInstance().addWatch(getFile(), () -> CEHudLayoutConfig.load());
+            FileWatcher.defaultInstance().addWatch(getFile(), () -> {
+                CEHud.info("Layout config file changed, reloading");
+                CEHudLayoutConfig.load();
+            });
         } catch (IOException e) {
-            e.printStackTrace();
+            CEHud.error("Failed to watch config file", e);
         }
     }
 
