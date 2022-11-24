@@ -12,15 +12,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class TranslatableElement extends AbsHudElement {
 
-    private final java.lang.String key;
+    private final String key;
     private final Object[] args;
 
-    public TranslatableElement(java.lang.String key, Object[] args) {
+    public TranslatableElement(String key, Object[] args) {
         this.key = key;
         this.args = args;
     }
 
-    public TranslatableElement(java.lang.String key) {
+    public TranslatableElement(String key) {
         this(key, TextUtils.NO_ARGS);
     }
 
@@ -31,7 +31,7 @@ public class TranslatableElement extends AbsHudElement {
         if (GsonHelper.isArrayNode(json, "args")) {
             var jArgs = GsonHelper.getAsJsonArray(json, "args");
             if (!jArgs.isEmpty()) {
-                var argList = new ArrayList<java.lang.String>(jArgs.size());
+                var argList = new ArrayList<String>(jArgs.size());
                 jArgs.forEach((e) -> argList.add(e.getAsString()));
                 args = argList.toArray();
             }

@@ -7,11 +7,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LiteralElement extends AbsHudElement.String {
+public class LiteralElement extends AbsHudElement.StringElement {
 
-    private final java.lang.String text;
+    private final String text;
 
-    public LiteralElement(java.lang.String text) {
+    public LiteralElement(String text) {
         this.text = text;
     }
 
@@ -21,7 +21,7 @@ public class LiteralElement extends AbsHudElement.String {
     }
 
     @Override
-    public java.lang.String stringValue() {
+    public String stringValue() {
         return text;
     }
 

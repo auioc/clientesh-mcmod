@@ -41,71 +41,71 @@ public abstract class AbsHudElement implements IHudElement {
     @Nullable
     public Style getStyle() { return this.style; }
 
-    protected static MutableComponent format(java.lang.String format, Object... args) {
-        return new TextComponent(java.lang.String.format(format, args));
+    protected static MutableComponent format(String format, Object... args) {
+        return new TextComponent(String.format(format, args));
     }
 
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class Boolean extends AbsHudElement implements IOperableValue.Boolean {
+    public static abstract class BooleanElement extends AbsHudElement implements IOperableValue.BooleanValue {
 
-        public Boolean() {}
+        public BooleanElement() {}
 
-        public Boolean(JsonObject json) { super(json); }
+        public BooleanElement(JsonObject json) { super(json); }
 
         @Override
         public abstract boolean booleanValue();
 
         @Override
         public MutableComponent getRawText() {
-            return new TextComponent(java.lang.String.valueOf(booleanValue()));
+            return new TextComponent(String.valueOf(booleanValue()));
         }
 
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class Integer extends AbsHudElement implements IOperableValue.Integer {
+    public static abstract class IntegerElement extends AbsHudElement implements IOperableValue.IntegerValue {
 
-        public Integer() {}
+        public IntegerElement() {}
 
-        public Integer(JsonObject json) { super(json); }
+        public IntegerElement(JsonObject json) { super(json); }
 
         public abstract int intValue();
 
         @Override
         public MutableComponent getRawText() {
-            return new TextComponent(java.lang.String.valueOf(intValue()));
+            return new TextComponent(String.valueOf(intValue()));
         }
 
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class Double extends AbsHudElement implements IOperableValue.Double {
+    public static abstract class DoubleElement extends AbsHudElement implements IOperableValue.DoubleValue {
 
-        public Double() {}
+        public DoubleElement() {}
 
-        public Double(JsonObject json) { super(json); }
+        public DoubleElement(JsonObject json) { super(json); }
 
         @Override
         public abstract double doubleValue();
 
         @Override
         public MutableComponent getRawText() {
-            return new TextComponent(java.lang.String.valueOf(doubleValue()));
+            return new TextComponent(String.valueOf(doubleValue()));
         }
 
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class String extends AbsHudElement implements IOperableValue.String {
+    public static abstract class StringElement extends AbsHudElement implements IOperableValue.StringValue {
 
-        public String() {}
+        public StringElement() {}
 
-        public String(JsonObject json) { super(json); }
+        public StringElement(JsonObject json) { super(json); }
 
         @Override
-        public abstract java.lang.String stringValue();
+        public abstract String stringValue();
 
         @Override
         public MutableComponent getRawText() {

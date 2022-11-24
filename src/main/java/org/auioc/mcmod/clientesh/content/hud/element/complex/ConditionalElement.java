@@ -88,13 +88,13 @@ public class ConditionalElement implements IHudElement {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    private static record NumberValue(double value) implements IOperableValue.Double {
+    private static record NumberValue(double value) implements IOperableValue.DoubleValue {
         @Override
         public double doubleValue() { return value; }
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static record BooleanValue(boolean value) implements IOperableValue.Boolean {
+    private static record BooleanValue(boolean value) implements IOperableValue.BooleanValue {
         @Override
         public boolean booleanValue() { return value; }
     }

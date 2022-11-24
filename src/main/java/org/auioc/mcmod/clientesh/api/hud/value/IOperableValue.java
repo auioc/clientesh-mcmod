@@ -17,7 +17,7 @@ public interface IOperableValue {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    public static interface Double extends IOperableValue {
+    public static interface DoubleValue extends IOperableValue {
 
         @Override
         default boolean booleanValue() { return doubleValue() == 0.0D; }
@@ -25,7 +25,7 @@ public interface IOperableValue {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static interface Integer extends IOperableValue {
+    public static interface IntegerValue extends IOperableValue {
 
         int intValue();
 
@@ -38,7 +38,7 @@ public interface IOperableValue {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static interface Boolean extends IOperableValue {
+    public static interface BooleanValue extends IOperableValue {
 
         @Override
         default double doubleValue() { return booleanValue() ? 1.0D : 0.0D; }
@@ -46,16 +46,16 @@ public interface IOperableValue {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static interface String extends IOperableValue.Integer {
+    public static interface StringValue extends IOperableValue.IntegerValue {
 
-        java.lang.String stringValue();
+        String stringValue();
 
         @Override
         default int intValue() { return stringValue().length(); }
 
         @Override
         default boolean equals(IOperableValue other) {
-            return (other instanceof IOperableValue.String _o) ? this.stringValue().equals(_o.stringValue()) : false;
+            return (other instanceof IOperableValue.StringValue _o) ? this.stringValue().equals(_o.stringValue()) : false;
         }
 
     }
