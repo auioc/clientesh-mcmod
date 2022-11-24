@@ -13,11 +13,28 @@ public interface IOperableValue {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    public static interface Number extends IOperableValue {
+    public static interface Double extends IOperableValue {
 
         @Override
         default boolean booleanValue() {
             return doubleValue() == 0.0D;
+        }
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static interface Integer extends IOperableValue {
+
+        int intValue();
+
+        @Override
+        default double doubleValue() {
+            return intValue();
+        }
+
+        @Override
+        default boolean booleanValue() {
+            return intValue() == 0;
         }
 
     }

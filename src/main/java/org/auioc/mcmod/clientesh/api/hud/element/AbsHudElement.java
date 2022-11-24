@@ -69,7 +69,7 @@ public abstract class AbsHudElement implements IHudElement {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class Integer extends AbsHudElement implements IOperableValue.Number {
+    public static abstract class Integer extends AbsHudElement implements IOperableValue.Integer {
 
         public Integer() {}
 
@@ -77,18 +77,17 @@ public abstract class AbsHudElement implements IHudElement {
             super(json);
         }
 
-        @Override
-        public abstract double doubleValue();
+        public abstract int intValue();
 
         @Override
         public MutableComponent getRawText() {
-            return new TextComponent(String.valueOf((int) doubleValue()));
+            return new TextComponent(String.valueOf(intValue()));
         }
 
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class Double extends AbsHudElement implements IOperableValue.Number {
+    public static abstract class Double extends AbsHudElement implements IOperableValue.Double {
 
         public Double() {}
 
