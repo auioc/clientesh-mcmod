@@ -4,6 +4,8 @@ import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry.HudElementEntry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElementDeserializer;
+import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralHudElement;
+import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableHudElement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -14,6 +16,8 @@ public final class CEHudElements {
 
     // ============================================================================================================== //
 
+    public static final HudElementEntry LITERAL = register("literal", LiteralHudElement::new);
+    public static final HudElementEntry TRANSLATABLE = register("translatable", TranslatableHudElement::new);
 
     // ============================================================================================================== //
 
