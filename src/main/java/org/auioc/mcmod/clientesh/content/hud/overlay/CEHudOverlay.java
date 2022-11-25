@@ -1,9 +1,12 @@
 package org.auioc.mcmod.clientesh.content.hud.overlay;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
+import org.auioc.mcmod.clientesh.api.hud.element.IFunctionElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
+import org.auioc.mcmod.clientesh.api.hud.element.IMultilineElement;
 import org.auioc.mcmod.clientesh.api.hud.layout.HudLayout;
 import org.auioc.mcmod.clientesh.content.hud.config.CEHudConfig;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.AbsCEHudElement;
@@ -78,11 +81,12 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
     }
 
     private ArrayList<Component> getLines(List<List<IHudElement>> column) {
-        var lines = new ArrayList<Component>();
+        final var lines = new ArrayList<Component>();
         f1: for (var row : column) {
             var line = TextUtils.empty();
             for (int i = 0, l = row.size(); i < l; ++i) {
-                var element = row.get(i);
+                var element = IFunctionElement.reslove(row.get(i));
+                if (IMultilineElement.reslove(element, (me) -> Collections.addAll(lines, me.getLines()))) continue f1;
                 Component text;
                 try {
                     text = element.getText();
@@ -90,7 +94,10 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
                     text = errorMessage(e);
                 }
                 if (text == null) {
-                    if (i == 0) { lines.add(null); continue f1; }
+                    if (i == 0) {
+                        lines.add(null);
+                        continue f1;
+                    }
                 } else {
                     line.append(text);
                 }

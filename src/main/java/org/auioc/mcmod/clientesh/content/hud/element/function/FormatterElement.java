@@ -1,4 +1,4 @@
-package org.auioc.mcmod.clientesh.content.hud.element.complex;
+package org.auioc.mcmod.clientesh.content.hud.element.function;
 
 import javax.annotation.Nonnull;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;

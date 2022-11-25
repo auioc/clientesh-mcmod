@@ -14,4 +14,8 @@ public interface IFunctionElement extends IHudElement {
         throw new UnsupportedOperationException();
     }
 
+    public static IHudElement reslove(IHudElement element) {
+        return (element instanceof IFunctionElement f) ? f.getResult() : element;
+    }
+
 }

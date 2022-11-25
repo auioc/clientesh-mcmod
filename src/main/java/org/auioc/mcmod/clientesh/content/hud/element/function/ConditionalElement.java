@@ -1,7 +1,7 @@
-package org.auioc.mcmod.clientesh.content.hud.element.complex;
+package org.auioc.mcmod.clientesh.content.hud.element.function;
 
 import java.util.function.BiPredicate;
-import javax.annotation.Nullable;
+import org.auioc.mcmod.clientesh.api.hud.element.IFunctionElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
@@ -10,12 +10,11 @@ import org.auioc.mcmod.clientesh.utils.GsonHelper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class ConditionalElement implements IHudElement {
+public class ConditionalElement implements IFunctionElement {
 
     private final Condition condition;
     private final IOperableValue value;
@@ -43,15 +42,10 @@ public class ConditionalElement implements IHudElement {
         );
     }
 
-    private IHudElement getResult() {
+    @Override
+    public IHudElement getResult() {
         for (int i = 0; i < caseCount; ++i) if (condition.test(value, cases[i])) return results[i];
         return (defaultResultIndex >= 0) ? results[defaultResultIndex] : new NullHudElement();
-    }
-
-    @Override
-    @Nullable
-    public Component getText() {
-        return getResult().getText();
     }
 
     private static IOperableValue loadValue(JsonElement json) {
