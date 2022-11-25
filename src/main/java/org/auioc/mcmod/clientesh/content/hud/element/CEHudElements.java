@@ -10,6 +10,7 @@ import org.auioc.mcmod.clientesh.content.hud.element.complex.ConditionalElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.FormatterElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.MultielementElement;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.FpsElement;
+import org.auioc.mcmod.clientesh.content.hud.element.simple.LevelElement;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.VersionElement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -37,6 +38,12 @@ public final class CEHudElements {
     public static final HudElementEntry CLIENT_MOD_NAME = register("client_mod_name", VersionElement::clientModName);
     public static final HudElementEntry VERSION_TYPE = register("version_type", VersionElement::versionType);
 
+    public static final HudElementEntry SKY_LIGHT = register("sky_light", LevelElement::skyLight);
+    public static final HudElementEntry BLOCK_LIGHT = register("block_light", LevelElement::blockLight);
+    public static final HudElementEntry BIOME_ID = register("biome_id", LevelElement::biomeId);
+    public static final HudElementEntry BIOME_NAME = register("biome_name", LevelElement::biomeName);
+    public static final HudElementEntry DIMENSION_ID = register("dimension_id", LevelElement::dimensionId);
+    public static final HudElementEntry DIMENSION_NAME = register("dimension_name", LevelElement::dimensionName);
 
     // ============================================================================================================== //
 
