@@ -5,11 +5,11 @@ import org.auioc.mcmod.clientesh.api.hud.element.IFunctionElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
+import org.auioc.mcmod.clientesh.api.hud.value.OperableValue;
+import org.auioc.mcmod.clientesh.api.hud.value.OperableValue.BooleanValue;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
 import org.auioc.mcmod.clientesh.utils.GsonHelper;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -36,8 +36,8 @@ public class ConditionalElement implements IFunctionElement {
     public ConditionalElement(JsonObject json) {
         this(
             Condition.valueOf(GsonHelper.getAsString(json, "condition").toUpperCase()),
-            loadValue(json.get("value")),
-            GsonHelper.getAsArray(json, "cases", IOperableValue[]::new, ConditionalElement::loadValue, true),
+            OperableValue.parseValue(json.get("value")),
+            GsonHelper.getAsArray(json, "cases", IOperableValue[]::new, OperableValue::parseValue, true),
             GsonHelper.getAsArray(json, "results", IHudElement[]::new, CEHudLayoutParser::parseElement, true)
         );
     }
@@ -46,15 +46,6 @@ public class ConditionalElement implements IFunctionElement {
     public IHudElement getResult() {
         for (int i = 0; i < caseCount; ++i) if (condition.test(value, cases[i])) return results[i];
         return (defaultResultIndex >= 0) ? results[defaultResultIndex] : new NullHudElement();
-    }
-
-    private static IOperableValue loadValue(JsonElement json) {
-        if (GsonHelper.isNumberValue(json)) return new NumberValue(json.getAsDouble());
-        if (GsonHelper.isBooleanValue(json)) return new BooleanValue(json.getAsBoolean());
-        if (GsonHelper.isStringValue(json)) return new StringValue(json.getAsString());
-        var element = CEHudLayoutParser.parseElement(json);
-        if (element instanceof IOperableValue) return (IOperableValue) element;
-        throw new JsonParseException("Not a operable value");
     }
 
     // ============================================================================================================== //
@@ -79,26 +70,6 @@ public class ConditionalElement implements IFunctionElement {
         public boolean test(IOperableValue a, IOperableValue b) {
             return predicate.test(a, b);
         }
-    }
-
-    // ============================================================================================================== //
-
-    @OnlyIn(Dist.CLIENT)
-    private static record NumberValue(double value) implements IOperableValue.DoubleValue {
-        @Override
-        public double doubleValue() { return value; }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static record BooleanValue(boolean value) implements IOperableValue.BooleanValue {
-        @Override
-        public boolean booleanValue() { return value; }
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    private static record StringValue(String value) implements IOperableValue.StringValue {
-        @Override
-        public String stringValue() { return value; }
     }
 
 }
