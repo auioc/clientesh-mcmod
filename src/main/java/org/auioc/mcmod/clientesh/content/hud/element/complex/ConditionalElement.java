@@ -45,7 +45,7 @@ public class ConditionalElement implements IHudElement {
     @Override
     public Component getText() {
         for (int i = 0; i < caseCount; ++i) if (condition.test(value, cases[i])) return results[i].getText();
-        return (defaultResultIndex >= 0) ? results[defaultResultIndex].getText() : new TextComponent("§7null");
+        return (defaultResultIndex >= 0) ? results[defaultResultIndex].getText() : new TextComponent("");
     }
 
     private static IOperableValue loadValue(JsonElement json) {
