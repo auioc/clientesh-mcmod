@@ -6,6 +6,7 @@ import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.layout.HudLayout;
 import org.auioc.mcmod.clientesh.content.hud.config.CEHudConfig;
+import org.auioc.mcmod.clientesh.content.hud.element.basic.AbsCEHudElement;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -37,15 +38,22 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
     private boolean fullBackground;
     private int backgroundColor;
     private int fontColor;
-    // private boolean chunkLoaded;
 
     @Override
     public void render(ForgeIngameGui gui, PoseStack poseStack, float partialTick, int width, int height) {
         if (MC.options.renderDebug) return;
-        if (MC.cameraEntity == null) return;
         if (!CEHudConfig.enabled.get()) return;
 
         MC.getProfiler().push("clienteshHud");
+        {
+            if (MC.level == null) return;
+            AbsCEHudElement.setLevel(MC.level);
+            if (MC.player == null) return;
+            AbsCEHudElement.setPlayer(MC.player);
+            if (MC.cameraEntity == null) return;
+            AbsCEHudElement.setCameraEntity(MC.cameraEntity);
+            AbsCEHudElement.setWaiting(false);
+        }
         {
             this.leftColXOffset = CEHudConfig.leftColXOffset.get().intValue();
             this.leftColYOffset = CEHudConfig.leftColYOffset.get().intValue();
@@ -57,18 +65,16 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
             this.fullBackground = CEHudConfig.fullBackground.get().booleanValue();
             this.backgroundColor = CEHudConfig.backgroundColor.get().intValue();
             this.fontColor = CEHudConfig.fontColor.get().intValue();
-            // var pos = MC.cameraEntity.blockPosition();
-            // this.chunkLoaded = MC.level.getChunkSource().hasChunk(pos.getX() >> 4, pos.getZ() >> 4);
-
+        }
+        {
             poseStack.pushPose();
-            {
-                poseStack.scale(this.scale, this.scale, this.scale);
-                render(poseStack, getLines(HudLayout.getLeft()), this.leftColXOffset, this.leftColYOffset, false);
-                render(poseStack, getLines(HudLayout.getRight()), width - this.rightColXOffset, this.rightColYOffset, true);
-            }
+            poseStack.scale(this.scale, this.scale, this.scale);
+            render(poseStack, getLines(HudLayout.getLeft()), this.leftColXOffset, this.leftColYOffset, false);
+            render(poseStack, getLines(HudLayout.getRight()), width - this.rightColXOffset, this.rightColYOffset, true);
             poseStack.popPose();
         }
         MC.getProfiler().pop();
+
     }
 
     private ArrayList<Component> getLines(List<List<IHudElement>> column) {
@@ -85,6 +91,10 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
                 line.append(text);
             }
             lines.add(line);
+        }
+        if (AbsCEHudElement.isWaiting()) {
+            lines.add(null);
+            lines.add(TextUtils.literal("§7§oWaiting for chunk.."));
         }
         return lines;
     }
