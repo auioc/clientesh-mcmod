@@ -55,6 +55,18 @@ public final class CEHudElements {
     public static final HudElementEntry FROZEN_TICKS = register("frozen_ticks", PlayerElement::frozenTicks);
     public static final HudElementEntry TICKS_REQUIRED_TO_FREEZE = register("ticks_required_to_freeze", PlayerElement::ticksRequiredToFreeze);
     public static final HudElementEntry ATTACK_COOLDOWN = register("attack_cooldown", PlayerElement::attackCooldown);
+    public static final HudElementEntry HEALTH = register("health", PlayerElement::health);
+    public static final HudElementEntry MAX_HEALTH = register("max_health", PlayerElement::maxHealth);
+    public static final HudElementEntry FOOD_LEVEL = register("food_level", PlayerElement::foodLevel);
+    public static final HudElementEntry SATURATION_LEVEL = register("saturation_level", PlayerElement::saturationLevel);
+    public static final HudElementEntry EXHAUSTION_LEVEL = register("exhaustion_level", PlayerElement::exhaustionLevel);
+    public static final HudElementEntry ARMOR = register("armor", PlayerElement::armor);
+    public static final HudElementEntry MAX_ARMOR = register("max_armor", PlayerElement::maxArmor);
+    public static final HudElementEntry ARMOR_TOUGHNESS = register("armor_toughness", PlayerElement::armorToughness);
+    public static final HudElementEntry MAX_ARMOR_TOUGHNESS = register("max_armor_toughness", PlayerElement::maxArmorToughness);
+    public static final HudElementEntry EXPERIENCE_LEVEL = register("experience_level", PlayerElement::experienceLevel);
+    public static final HudElementEntry EXPERIENCE_POINT = register("experience_point", PlayerElement::experiencePoint);
+    public static final HudElementEntry EXPERIENCE_POINT_NEEDED = register("experience_point_needed", PlayerElement::experiencePointNeeded);
 
     // ============================================================================================================== //
 
