@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class DefaultHudElement implements IHudElement, IOperableValue {
+public class EmptyHudElement implements IHudElement, IOperableValue {
 
     @Override
     public double doubleValue() {
@@ -21,7 +21,7 @@ public class DefaultHudElement implements IHudElement, IOperableValue {
 
     @Override
     public boolean equals(IOperableValue other) {
-        return other instanceof DefaultHudElement;
+        return other instanceof EmptyHudElement;
     }
 
     @Override

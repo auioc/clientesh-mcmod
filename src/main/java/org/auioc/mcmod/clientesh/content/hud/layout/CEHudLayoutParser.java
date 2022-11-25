@@ -3,7 +3,7 @@ package org.auioc.mcmod.clientesh.content.hud.layout;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
-import org.auioc.mcmod.clientesh.api.hud.element.DefaultHudElement;
+import org.auioc.mcmod.clientesh.api.hud.element.EmptyHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import com.google.gson.JsonArray;
@@ -39,7 +39,7 @@ public class CEHudLayoutParser {
 
     public static IHudElement parseElement(JsonObject json) {
         return (json.keySet().isEmpty())
-            ? new DefaultHudElement()
+            ? new EmptyHudElement()
             : HudElementTypeRegistry
                 .getOrElseThrow(new ResourceLocation(GsonHelper.getAsString(json, "type")))
                 .deserialize(json);
@@ -47,7 +47,7 @@ public class CEHudLayoutParser {
 
     public static IHudElement parseElement(JsonElement json) {
         return (json == null || json.isJsonNull())
-            ? new DefaultHudElement()
+            ? new EmptyHudElement()
             : parseElement(json.getAsJsonObject());
     }
 
