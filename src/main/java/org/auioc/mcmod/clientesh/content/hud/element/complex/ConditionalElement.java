@@ -28,7 +28,7 @@ public class ConditionalElement implements IHudElement {
         this.value = value;
         this.cases = (condition == Condition.BOOL) ? new IOperableValue[] {new BooleanValue(true)} : cases;
         this.results = results;
-        this.caseCount = cases.length;
+        this.caseCount = this.cases.length;
         if (results.length < caseCount) throw new IllegalArgumentException("The number of results must be greater than or equal to the number of cases");
         this.defaultResultIndex = (results.length > caseCount) ? caseCount : -1;
     }
@@ -52,10 +52,8 @@ public class ConditionalElement implements IHudElement {
         if (GsonHelper.isNumberValue(json)) return new NumberValue(json.getAsDouble());
         if (GsonHelper.isBooleanValue(json)) return new BooleanValue(json.getAsBoolean());
         if (GsonHelper.isStringValue(json)) return new StringValue(json.getAsString());
-        if (json.isJsonObject()) {
-            var element = CEHudLayoutParser.parseElement(json);
-            if (element instanceof IOperableValue) return (IOperableValue) element;
-        }
+        var element = CEHudLayoutParser.parseElement(json);
+        if (element instanceof IOperableValue) return (IOperableValue) element;
         throw new JsonParseException("Not a operable value");
     }
 
