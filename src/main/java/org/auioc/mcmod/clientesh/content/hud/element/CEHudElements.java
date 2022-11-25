@@ -9,6 +9,7 @@ import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.StatusEffectsElement;
+import org.auioc.mcmod.clientesh.content.hud.element.function.BiFunctionElement;
 import org.auioc.mcmod.clientesh.content.hud.element.function.ConditionalElement;
 import org.auioc.mcmod.clientesh.content.hud.element.function.FormatterElement;
 import org.auioc.mcmod.clientesh.content.hud.element.function.MultielementElement;
@@ -37,6 +38,8 @@ public final class CEHudElements {
     public static final HudElementEntry MULTIELEMENT = register("multielement", MultielementElement::new);
     public static final HudElementEntry FORMATTER = register("formatter", FormatterElement::new);
     public static final HudElementEntry CONDITIONAL = register("conditional", ConditionalElement::new);
+    public static final HudElementEntry MAX = register("max", BiFunctionElement.Max::new);
+    public static final HudElementEntry MIN = register("min", BiFunctionElement.Min::new);
 
     public static final HudElementEntry FPS_CURRENT = register("fps", FpsElement::current);
     public static final HudElementEntry FPS_LIMIT = register("fps_limit", FpsElement::limit);
