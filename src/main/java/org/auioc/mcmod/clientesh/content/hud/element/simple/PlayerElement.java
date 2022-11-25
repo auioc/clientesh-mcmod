@@ -132,4 +132,11 @@ public class PlayerElement {
         };
     }
 
+    public static IHudElement statusEffectCount(JsonObject json) {
+        return new CEIntegerElement(json) {
+            @Override
+            public int intValue(int defaultValue) { return player.getActiveEffects().size(); }
+        };
+    }
+
 }

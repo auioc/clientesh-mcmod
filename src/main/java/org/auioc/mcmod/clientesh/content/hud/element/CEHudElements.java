@@ -8,9 +8,10 @@ import org.auioc.mcmod.clientesh.api.hud.element.IHudElementDeserializer;
 import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableElement;
-import org.auioc.mcmod.clientesh.content.hud.element.complex.ConditionalElement;
-import org.auioc.mcmod.clientesh.content.hud.element.complex.FormatterElement;
-import org.auioc.mcmod.clientesh.content.hud.element.complex.MultielementElement;
+import org.auioc.mcmod.clientesh.content.hud.element.complex.StatusEffectsElement;
+import org.auioc.mcmod.clientesh.content.hud.element.function.ConditionalElement;
+import org.auioc.mcmod.clientesh.content.hud.element.function.FormatterElement;
+import org.auioc.mcmod.clientesh.content.hud.element.function.MultielementElement;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.FpsElement;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.LevelElement;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.PlayerElement;
@@ -70,6 +71,9 @@ public final class CEHudElements {
     public static final HudElementEntry EXPERIENCE_LEVEL = register("experience_level", PlayerElement::experienceLevel);
     public static final HudElementEntry EXPERIENCE_POINT = register("experience_point", PlayerElement::experiencePoint);
     public static final HudElementEntry EXPERIENCE_POINT_NEEDED = register("experience_point_needed", PlayerElement::experiencePointNeeded);
+    public static final HudElementEntry STATUS_EFFECT_COUNT = register("status_effect_count", PlayerElement::statusEffectCount);
+
+    public static final HudElementEntry STATUS_EFFECTS = register("status_effects", StatusEffectsElement::new);
 
     // ============================================================================================================== //
 
