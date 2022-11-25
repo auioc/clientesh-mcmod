@@ -3,6 +3,7 @@ package org.auioc.mcmod.clientesh.content.hud.layout;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
+import org.auioc.mcmod.clientesh.api.hud.element.DefaultHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import com.google.gson.JsonArray;
@@ -17,9 +18,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class CEHudLayoutParser {
 
     public static Pair<List<List<IHudElement>>, List<List<IHudElement>>> parse(JsonObject json) {
+        var columns = GsonHelper.getAsJsonObject(json, "columns");
         return Pair.of(
-            parseColumn(GsonHelper.getAsJsonArray(json, "left")),
-            parseColumn(GsonHelper.getAsJsonArray(json, "right"))
+            parseColumn(GsonHelper.getAsJsonArray(columns, "left")),
+            parseColumn(GsonHelper.getAsJsonArray(columns, "right"))
         );
     }
 
@@ -31,18 +33,22 @@ public class CEHudLayoutParser {
 
     public static List<IHudElement> parseRow(JsonArray json) {
         var line = new ArrayList<IHudElement>();
-        for (var jE : json) line.add(parseElement(jE.getAsJsonObject()));
+        for (var jE : json) line.add(parseElement(jE));
         return line;
     }
 
     public static IHudElement parseElement(JsonObject json) {
-        var id = new ResourceLocation(GsonHelper.getAsString(json, "type"));
-        var type = HudElementTypeRegistry.getOrElseThrow(id);
-        return type.deserialize(json);
+        return (json.keySet().isEmpty())
+            ? new DefaultHudElement()
+            : HudElementTypeRegistry
+                .getOrElseThrow(new ResourceLocation(GsonHelper.getAsString(json, "type")))
+                .deserialize(json);
     }
 
     public static IHudElement parseElement(JsonElement json) {
-        return parseElement(json.getAsJsonObject());
+        return (json == null || json.isJsonNull())
+            ? new DefaultHudElement()
+            : parseElement(json.getAsJsonObject());
     }
 
 }

@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.auioc.mcmod.arnicalib.game.registry.RegistryEntryException;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -34,18 +32,5 @@ public class HudElementTypeRegistry {
 
     @OnlyIn(Dist.CLIENT)
     public static record HudElementEntry(ResourceLocation id, IHudElementDeserializer deserializer) {}
-
-    // ============================================================================================================== //
-
-    @OnlyIn(Dist.CLIENT)
-    public static final HudElementEntry EMPTY = register(
-        new ResourceLocation("clientesh:empty"),
-        (j) -> new IHudElement() {
-            @Override
-            public Component getText() {
-                return new TextComponent("");
-            }
-        }
-    );
 
 }
