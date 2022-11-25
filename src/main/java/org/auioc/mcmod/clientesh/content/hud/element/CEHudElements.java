@@ -12,6 +12,7 @@ import org.auioc.mcmod.clientesh.content.hud.element.complex.FormatterElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.MultielementElement;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.FpsElement;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.LevelElement;
+import org.auioc.mcmod.clientesh.content.hud.element.simple.PlayerElement;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.VersionElement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -48,6 +49,12 @@ public final class CEHudElements {
     public static final HudElementEntry BIOME_NAME = register("biome_name", LevelElement::biomeName);
     public static final HudElementEntry DIMENSION_ID = register("dimension_id", LevelElement::dimensionId);
     public static final HudElementEntry DIMENSION_NAME = register("dimension_name", LevelElement::dimensionName);
+
+    public static final HudElementEntry AIR_SUPPLY = register("air_supply", PlayerElement::airSupply);
+    public static final HudElementEntry MAX_AIR_SUPPLY = register("max_air_supply", PlayerElement::maxAirSupply);
+    public static final HudElementEntry FROZEN_TICKS = register("frozen_ticks", PlayerElement::frozenTicks);
+    public static final HudElementEntry TICKS_REQUIRED_TO_FREEZE = register("ticks_required_to_freeze", PlayerElement::ticksRequiredToFreeze);
+    public static final HudElementEntry ATTACK_COOLDOWN = register("attack_cooldown", PlayerElement::attackCooldown);
 
     // ============================================================================================================== //
 
