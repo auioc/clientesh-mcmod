@@ -6,6 +6,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.auioc.mcmod.clientesh.api.hud.element.EmptyHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
+import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -47,7 +48,7 @@ public class CEHudLayoutParser {
 
     public static IHudElement parseElement(JsonElement json) {
         return (json == null || json.isJsonNull())
-            ? new EmptyHudElement()
+            ? new NullHudElement()
             : parseElement(json.getAsJsonObject());
     }
 

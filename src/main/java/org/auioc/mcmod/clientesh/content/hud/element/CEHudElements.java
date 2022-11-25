@@ -5,6 +5,7 @@ import org.auioc.mcmod.clientesh.api.hud.element.EmptyHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry.HudElementEntry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElementDeserializer;
+import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.ConditionalElement;
@@ -26,6 +27,8 @@ public final class CEHudElements {
 
     @Deprecated
     public static final HudElementEntry EMPTY = register("empty", (j) -> new EmptyHudElement());
+    @Deprecated
+    public static final HudElementEntry NULL = register("null", (j) -> new NullHudElement());
 
     public static final HudElementEntry LITERAL = register("literal", LiteralElement::new);
     public static final HudElementEntry TRANSLATABLE = register("translatable", TranslatableElement::new);
