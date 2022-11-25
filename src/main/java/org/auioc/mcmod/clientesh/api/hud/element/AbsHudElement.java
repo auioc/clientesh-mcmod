@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.api.hud.element;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
 import com.google.gson.JsonObject;
@@ -30,10 +31,12 @@ public abstract class AbsHudElement implements IHudElement {
     }
 
     @Override
+    @Nonnull
     public Component getText() {
         return (this.style != null) ? getRawText().withStyle(style) : getRawText();
     }
 
+    @Nonnull
     protected abstract MutableComponent getRawText();
 
     public void setStyle(Style style) { this.style = style; }
@@ -58,9 +61,8 @@ public abstract class AbsHudElement implements IHudElement {
         public abstract boolean booleanValue();
 
         @Override
-        public MutableComponent getRawText() {
-            return new TextComponent(String.valueOf(booleanValue()));
-        }
+        @Nonnull
+        public MutableComponent getRawText() { return new TextComponent(String.valueOf(booleanValue())); }
 
     }
 
@@ -74,9 +76,8 @@ public abstract class AbsHudElement implements IHudElement {
         public abstract int intValue();
 
         @Override
-        public MutableComponent getRawText() {
-            return new TextComponent(String.valueOf(intValue()));
-        }
+        @Nonnull
+        public MutableComponent getRawText() { return new TextComponent(String.valueOf(intValue())); }
 
     }
 
@@ -91,9 +92,8 @@ public abstract class AbsHudElement implements IHudElement {
         public abstract double doubleValue();
 
         @Override
-        public MutableComponent getRawText() {
-            return new TextComponent(String.valueOf(doubleValue()));
-        }
+        @Nonnull
+        public MutableComponent getRawText() { return new TextComponent(String.valueOf(doubleValue())); }
 
     }
 
@@ -108,9 +108,8 @@ public abstract class AbsHudElement implements IHudElement {
         public abstract String stringValue();
 
         @Override
-        public MutableComponent getRawText() {
-            return new TextComponent(stringValue());
-        }
+        @Nonnull
+        public MutableComponent getRawText() { return new TextComponent(stringValue()); }
 
     }
 

@@ -79,21 +79,26 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
 
     private ArrayList<Component> getLines(List<List<IHudElement>> column) {
         var lines = new ArrayList<Component>();
-        for (var row : column) {
+        f1: for (var row : column) {
             var line = TextUtils.empty();
-            for (var element : row) {
+            for (int i = 0, l = row.size(); i < l; ++i) {
+                var element = row.get(i);
                 Component text;
                 try {
                     text = element.getText();
                 } catch (Exception e) {
                     text = errorMessage(e);
                 }
-                line.append(text);
+                if (text == null) {
+                    if (i == 0) { lines.add(null); continue f1; }
+                } else {
+                    line.append(text);
+                }
             }
             lines.add(line);
         }
         if (AbsCEHudElement.isWaiting()) {
-            lines.add(null);
+            lines.add(TextUtils.empty());
             lines.add(TextUtils.literal("§7§oWaiting for chunk.."));
         }
         return lines;
@@ -137,8 +142,8 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
                     --i;
                     continue;
                 }
+                y += this.font.lineHeight;
             }
-            y += this.font.lineHeight;
         }
     }
 

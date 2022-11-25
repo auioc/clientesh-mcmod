@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.api.hud.element;
 
+import javax.annotation.Nonnull;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -25,6 +26,7 @@ public class EmptyHudElement implements IHudElement, IOperableValue {
     }
 
     @Override
+    @Nonnull
     public Component getText() {
         return new TextComponent("");
     }

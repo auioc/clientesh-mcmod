@@ -1,6 +1,7 @@
 package org.auioc.mcmod.clientesh.content.hud.element.basic;
 
 import java.util.ArrayList;
+import javax.annotation.Nonnull;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement;
 import com.google.gson.JsonObject;
@@ -40,6 +41,7 @@ public class TranslatableElement extends AbsHudElement {
     }
 
     @Override
+    @Nonnull
     public MutableComponent getRawText() {
         return TextUtils.translatable(key, args);
     }

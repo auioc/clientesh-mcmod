@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.content.hud.element.complex;
 
+import javax.annotation.Nonnull;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
@@ -29,6 +30,7 @@ public class FormatterElement implements IHudElement {
     }
 
     @Override
+    @Nonnull
     public Component getText() {
         var args = new Object[elements.length];
         for (int i = 0; i < elements.length; ++i) {
@@ -37,7 +39,10 @@ public class FormatterElement implements IHudElement {
             else if (element instanceof IOperableValue.IntegerValue v) args[i] = v.intValue();
             else if (element instanceof IOperableValue.DoubleValue v) args[i] = v.doubleValue();
             else if (element instanceof IOperableValue.BooleanValue v) args[i] = v.booleanValue();
-            else args[i] = element.getText().getString();
+            else {
+                var text = element.getText();
+                args[i] = (text != null) ? text.getString() : "";
+            }
         }
         return new TextComponent(String.format(format, args));
     }

@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.content.hud.element.basic;
 
+import javax.annotation.Nonnull;
 import org.auioc.mcmod.arnicalib.game.entity.EntityUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
@@ -58,6 +59,7 @@ public abstract class AbsCEHudElement extends AbsHudElement {
     }
 
     @Override
+    @Nonnull
     public Component getText() {
         if (isAvailable()) return super.getText();
         AbsCEHudElement.waiting = true;
@@ -81,6 +83,7 @@ public abstract class AbsCEHudElement extends AbsHudElement {
         public boolean booleanValue() { return (isAvailable()) ? booleanValue(defaultValue) : defaultValue; }
 
         @Override
+        @Nonnull
         public MutableComponent getRawText() { return new TextComponent(String.valueOf(booleanValue())); }
 
     }
@@ -100,6 +103,7 @@ public abstract class AbsCEHudElement extends AbsHudElement {
         public int intValue() { return (isAvailable()) ? intValue(defaultValue) : defaultValue; }
 
         @Override
+        @Nonnull
         public MutableComponent getRawText() { return new TextComponent(String.valueOf(intValue())); }
 
     }
@@ -119,6 +123,7 @@ public abstract class AbsCEHudElement extends AbsHudElement {
         public double doubleValue() { return (isAvailable()) ? doubleValue(defaultValue) : defaultValue; }
 
         @Override
+        @Nonnull
         public MutableComponent getRawText() { return new TextComponent(String.valueOf(doubleValue())); }
 
     }
@@ -138,6 +143,7 @@ public abstract class AbsCEHudElement extends AbsHudElement {
         public String stringValue() { return (isAvailable()) ? stringValue(defaultValue) : defaultValue; }
 
         @Override
+        @Nonnull
         public MutableComponent getRawText() { return new TextComponent(stringValue()); }
 
     }

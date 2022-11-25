@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.content.hud.element.complex;
 
+import javax.annotation.Nonnull;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
@@ -29,6 +30,7 @@ public class MultielementElement implements IHudElement {
     }
 
     @Override
+    @Nonnull
     public Component getText() {
         var r = TextUtils.empty();
         if (inheritStyle) {
