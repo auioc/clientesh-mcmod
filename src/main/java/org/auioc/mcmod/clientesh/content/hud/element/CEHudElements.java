@@ -85,6 +85,8 @@ public interface CEHudElements {
     HudElementEntry GAME_TIME_DAY    = register("game_time_day",    TimeElement::gameTimeDay);
     HudElementEntry GAME_TIME_HOUR   = register("game_time_hour",   TimeElement::gameTimeHour);
     HudElementEntry GAME_TIME_MINUTE = register("game_time_minute", TimeElement::gameTimeMinute);
+    HudElementEntry MOONPHASE        = register("moonphase",        TimeElement::moonphase);
+    HudElementEntry MOONPHASE_NAME   = register("moonphase_name",   TimeElement::moonphaseName);
 
     // @formatter:on
     // ============================================================================================================== //

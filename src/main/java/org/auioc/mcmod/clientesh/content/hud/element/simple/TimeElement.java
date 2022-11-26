@@ -2,11 +2,14 @@ package org.auioc.mcmod.clientesh.content.hud.element.simple;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.auioc.mcmod.arnicalib.game.world.LevelUtils;
 import org.auioc.mcmod.arnicalib.game.world.MCTimeUtils;
+import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsIntegerElement;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsStringElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import com.google.gson.JsonObject;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.GsonHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -34,6 +37,20 @@ public class TimeElement {
         return new AbsIntegerElement(json) {
             @Override
             public int intValue(int i) { return (int) (level.getDayTime() % 1000) * 60 / 1000; }
+        };
+    }
+
+    public static IHudElement moonphase(JsonObject json) {
+        return new AbsIntegerElement(json) {
+            @Override
+            public int intValue(int i) { return level.getMoonPhase(); }
+        };
+    }
+
+    public static IHudElement moonphaseName(JsonObject json) {
+        return new AbsHudElement(json) {
+            @Override
+            protected MutableComponent getRawText() { return (MutableComponent) LevelUtils.getMoonphaseName(level); }
         };
     }
 
