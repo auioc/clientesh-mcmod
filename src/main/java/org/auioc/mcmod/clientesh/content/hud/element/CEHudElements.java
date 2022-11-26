@@ -88,6 +88,11 @@ public interface CEHudElements {
     HudElementEntry MOONPHASE        = register("moonphase",        TimeElement::moonphase);
     HudElementEntry MOONPHASE_NAME   = register("moonphase_name",   TimeElement::moonphaseName);
 
+    HudElementEntry SPEED      = register("speed",      SpeedElement::speed);
+    HudElementEntry VELOCITY_X = register("velocity_x", SpeedElement::velocityX);
+    HudElementEntry VELOCITY_Y = register("velocity_y", SpeedElement::velocityY);
+    HudElementEntry VELOCITY_Z = register("velocity_z", SpeedElement::velocityZ);
+
     // @formatter:on
     // ============================================================================================================== //
 
