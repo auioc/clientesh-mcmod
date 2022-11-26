@@ -185,7 +185,7 @@ public class AdditionalItemTooltip {
                 .map((c) -> MC.getLanguageManager().getLanguage(c))
                 .filter((o) -> o != null)
                 .distinct()
-                .map(LanguageUtils::getLanguage)
+                .map(LanguageUtils::get)
                 .forEach(MLN_LANGUAGES::add);
         }
 

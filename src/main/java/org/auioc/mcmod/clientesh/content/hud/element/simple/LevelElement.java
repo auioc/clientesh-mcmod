@@ -1,13 +1,11 @@
 package org.auioc.mcmod.clientesh.content.hud.element.simple;
 
-import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.arnicalib.game.world.LevelUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsIntegerElement;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsStringElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import com.google.gson.JsonObject;
-import net.minecraft.Util;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.LightLayer;
 import net.minecraftforge.api.distmarker.Dist;
@@ -33,10 +31,7 @@ public class LevelElement {
     public static IHudElement biomeId(JsonObject json) {
         return new AbsStringElement(json) {
             @Override
-            public String value() {
-                var b = level.getBiome(blockPosition).unwrapKey();
-                return (b.isPresent()) ? b.get().location().toString() : "";
-            };
+            public String value() { return LevelUtils.getBiomeId(level, blockPosition).toString(); };
         };
     }
 
@@ -54,11 +49,10 @@ public class LevelElement {
         };
     }
 
-    // TODO arnicalib
     public static IHudElement dimensionName(JsonObject json) {
         return new AbsHudElement(json, true) {
             @Override
-            protected MutableComponent getRawText() { return TextUtils.translatable(Util.makeDescriptionId("dimension", level.dimension().location())); };
+            protected MutableComponent getRawText() { return (MutableComponent) LevelUtils.getDimensionName(level); };
         };
     }
 

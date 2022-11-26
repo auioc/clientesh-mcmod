@@ -49,7 +49,6 @@ public class SpeedElement {
 
         public AbsSpeedElement(JsonObject json) {
             super(json);
-            // TODO arnicalib
             this.unit = SpeedUnit.valueOf(GsonHelper.getAsString(json, "unit", "METRES_PER_SECOND").toUpperCase());
         }
 

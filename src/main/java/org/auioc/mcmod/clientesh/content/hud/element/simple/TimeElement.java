@@ -24,19 +24,17 @@ public class TimeElement {
         };
     }
 
-    // TODO arnicalib
     public static IHudElement gameTimeHour(JsonObject json) {
         return new AbsIntegerElement(json) {
             @Override
-            public int value() { return (int) (level.getDayTime() / 1000 + 6) % 24; }
+            public int value() { return MCTimeUtils.getHour(level.getDayTime()); }
         };
     }
 
-    // TODO arnicalib
     public static IHudElement gameTimeMinute(JsonObject json) {
         return new AbsIntegerElement(json) {
             @Override
-            public int value() { return (int) (level.getDayTime() % 1000) * 60 / 1000; }
+            public int value() { return MCTimeUtils.getMinute(level.getDayTime()); }
         };
     }
 

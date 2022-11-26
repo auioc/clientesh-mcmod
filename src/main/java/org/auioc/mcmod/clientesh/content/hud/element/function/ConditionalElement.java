@@ -1,6 +1,7 @@
 package org.auioc.mcmod.clientesh.content.hud.element.function;
 
 import java.util.function.BiPredicate;
+import org.auioc.mcmod.arnicalib.game.data.GsonHelper;
 import org.auioc.mcmod.clientesh.api.hud.element.IFunctionElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
@@ -8,7 +9,6 @@ import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
 import org.auioc.mcmod.clientesh.api.hud.value.OperableValue;
 import org.auioc.mcmod.clientesh.api.hud.value.OperableValue.BooleanValue;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
-import org.auioc.mcmod.clientesh.utils.GsonHelper;
 import com.google.gson.JsonObject;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

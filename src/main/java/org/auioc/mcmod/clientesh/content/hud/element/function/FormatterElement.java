@@ -1,13 +1,13 @@
 package org.auioc.mcmod.clientesh.content.hud.element.function;
 
 import javax.annotation.Nonnull;
+import org.auioc.mcmod.arnicalib.game.data.GsonHelper;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IBooleanValue;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IDoubleValue;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IIntegerValue;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IStringValue;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
-import org.auioc.mcmod.clientesh.utils.GsonHelper;
 import com.google.gson.JsonObject;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
