@@ -21,7 +21,7 @@ public class LiteralElement extends AbsHudElement.AbsStringElement {
     }
 
     @Override
-    public String stringValue(String defaultValue) {
+    public String value() {
         return text;
     }
 

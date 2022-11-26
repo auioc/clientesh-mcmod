@@ -20,7 +20,7 @@ public class TimeElement {
     public static IHudElement gameTimeDay(JsonObject json) {
         return new AbsIntegerElement(json) {
             @Override
-            public int intValue(int i) { return MCTimeUtils.getDay(level.getDayTime()); }
+            public int value() { return MCTimeUtils.getDay(level.getDayTime()); }
         };
     }
 
@@ -28,7 +28,7 @@ public class TimeElement {
     public static IHudElement gameTimeHour(JsonObject json) {
         return new AbsIntegerElement(json) {
             @Override
-            public int intValue(int i) { return (int) (level.getDayTime() / 1000 + 6) % 24; }
+            public int value() { return (int) (level.getDayTime() / 1000 + 6) % 24; }
         };
     }
 
@@ -36,14 +36,14 @@ public class TimeElement {
     public static IHudElement gameTimeMinute(JsonObject json) {
         return new AbsIntegerElement(json) {
             @Override
-            public int intValue(int i) { return (int) (level.getDayTime() % 1000) * 60 / 1000; }
+            public int value() { return (int) (level.getDayTime() % 1000) * 60 / 1000; }
         };
     }
 
     public static IHudElement moonphase(JsonObject json) {
         return new AbsIntegerElement(json) {
             @Override
-            public int intValue(int i) { return level.getMoonPhase(); }
+            public int value() { return level.getMoonPhase(); }
         };
     }
 
@@ -66,7 +66,7 @@ public class TimeElement {
         }
 
         @Override
-        public String stringValue(String defaultValue) {
+        public String value() {
             return formatter.format(new Date(System.currentTimeMillis()));
         }
 
@@ -83,7 +83,7 @@ public class TimeElement {
         }
 
         @Override
-        public String stringValue(String defaultValue) {
+        public String value() {
             var time = MCTimeUtils.formatDayTime(level.getDayTime());
             return String.format(format, translatable("clientesh.hud.game_time.value.day", time[0]), time[1], time[2], time[3]);
         }

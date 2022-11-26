@@ -116,7 +116,7 @@ public abstract class AbsHudElement implements IHudElement {
     @OnlyIn(Dist.CLIENT)
     public static abstract class AbsBooleanElement extends AbsHudElement implements IBooleanValue {
 
-        private final boolean defaultValue;
+        protected final boolean defaultValue;
 
         public AbsBooleanElement() { this(null); }
 
@@ -124,10 +124,10 @@ public abstract class AbsHudElement implements IHudElement {
 
         public AbsBooleanElement(JsonObject json, boolean requiresChunk, boolean defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
 
-        protected abstract boolean booleanValue(boolean defaultValue);
+        protected abstract boolean value();
 
         @Override
-        public boolean booleanValue() { return (isAvailable()) ? booleanValue(defaultValue) : defaultValue; }
+        public boolean booleanValue() { return (isAvailable()) ? value() : defaultValue; }
 
         @Override
         @Nonnull
@@ -138,7 +138,7 @@ public abstract class AbsHudElement implements IHudElement {
     @OnlyIn(Dist.CLIENT)
     public static abstract class AbsIntegerElement extends AbsHudElement implements IIntegerValue {
 
-        private final int defaultValue;
+        protected final int defaultValue;
 
         public AbsIntegerElement() { this(null); }
 
@@ -146,10 +146,10 @@ public abstract class AbsHudElement implements IHudElement {
 
         public AbsIntegerElement(JsonObject json, boolean requiresChunk, int defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
 
-        public abstract int intValue(int defaultValue);
+        protected abstract int value();
 
         @Override
-        public int intValue() { return (isAvailable()) ? intValue(defaultValue) : defaultValue; }
+        public int intValue() { return (isAvailable()) ? value() : defaultValue; }
 
         @Override
         @Nonnull
@@ -160,7 +160,7 @@ public abstract class AbsHudElement implements IHudElement {
     @OnlyIn(Dist.CLIENT)
     public static abstract class AbsDoubleElement extends AbsHudElement implements IDoubleValue {
 
-        private final double defaultValue;
+        protected final double defaultValue;
 
         public AbsDoubleElement() { this(null); }
 
@@ -168,10 +168,10 @@ public abstract class AbsHudElement implements IHudElement {
 
         public AbsDoubleElement(JsonObject json, boolean requiresChunk, double defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
 
-        public abstract double doubleValue(double defaultValue);
+        protected abstract double value();
 
         @Override
-        public double doubleValue() { return (isAvailable()) ? doubleValue(defaultValue) : defaultValue; }
+        public double doubleValue() { return (isAvailable()) ? value() : defaultValue; }
 
         @Override
         @Nonnull
@@ -182,7 +182,7 @@ public abstract class AbsHudElement implements IHudElement {
     @OnlyIn(Dist.CLIENT)
     public static abstract class AbsStringElement extends AbsHudElement implements IStringValue {
 
-        private final String defaultValue;
+        protected final String defaultValue;
 
         public AbsStringElement() { this(null); }
 
@@ -190,10 +190,10 @@ public abstract class AbsHudElement implements IHudElement {
 
         public AbsStringElement(JsonObject json, boolean requiresChunk, String defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
 
-        public abstract String stringValue(String defaultValue);
+        protected abstract String value();
 
         @Override
-        public String stringValue() { return (isAvailable()) ? stringValue(defaultValue) : defaultValue; }
+        public String stringValue() { return (isAvailable()) ? value() : defaultValue; }
 
         @Override
         @Nonnull

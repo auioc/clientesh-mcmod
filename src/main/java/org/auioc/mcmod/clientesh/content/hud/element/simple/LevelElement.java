@@ -19,21 +19,21 @@ public class LevelElement {
     public static IHudElement skyLight(JsonObject json) {
         return new AbsIntegerElement(json, true, -1) {
             @Override
-            public int intValue(int i) { return level.getBrightness(LightLayer.SKY, blockPosition); }
+            public int value() { return level.getBrightness(LightLayer.SKY, blockPosition); }
         };
     }
 
     public static IHudElement blockLight(JsonObject json) {
         return new AbsIntegerElement(json, true, -1) {
             @Override
-            public int intValue(int i) { return level.getBrightness(LightLayer.BLOCK, blockPosition); }
+            public int value() { return level.getBrightness(LightLayer.BLOCK, blockPosition); }
         };
     }
 
     public static IHudElement biomeId(JsonObject json) {
         return new AbsStringElement(json) {
             @Override
-            public String stringValue(String s) {
+            public String value() {
                 var b = level.getBiome(blockPosition).unwrapKey();
                 return (b.isPresent()) ? b.get().location().toString() : "";
             };
@@ -50,7 +50,7 @@ public class LevelElement {
     public static IHudElement dimensionId(JsonObject json) {
         return new AbsStringElement(json) {
             @Override
-            public String stringValue(String s) { return level.dimension().location().toString(); };
+            public String value() { return level.dimension().location().toString(); };
         };
     }
 
