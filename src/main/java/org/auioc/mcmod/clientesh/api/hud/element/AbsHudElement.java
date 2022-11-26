@@ -3,7 +3,10 @@ package org.auioc.mcmod.clientesh.api.hud.element;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.auioc.mcmod.arnicalib.game.entity.EntityUtils;
-import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IBooleanValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IDoubleValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IIntegerValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IStringValue;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -102,15 +105,15 @@ public abstract class AbsHudElement implements IHudElement {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class BooleanElement extends AbsHudElement implements IOperableValue.BooleanValue {
+    public static abstract class AbsBooleanElement extends AbsHudElement implements IBooleanValue {
 
         private final boolean defaultValue;
 
-        public BooleanElement() { this(null); }
+        public AbsBooleanElement() { this(null); }
 
-        public BooleanElement(JsonObject json) { super(json); this.defaultValue = false; }
+        public AbsBooleanElement(JsonObject json) { super(json); this.defaultValue = false; }
 
-        public BooleanElement(JsonObject json, boolean requiresChunk, boolean defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
+        public AbsBooleanElement(JsonObject json, boolean requiresChunk, boolean defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
 
         protected abstract boolean booleanValue(boolean defaultValue);
 
@@ -124,15 +127,15 @@ public abstract class AbsHudElement implements IHudElement {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class IntegerElement extends AbsHudElement implements IOperableValue.IntegerValue {
+    public static abstract class AbsIntegerElement extends AbsHudElement implements IIntegerValue {
 
         private final int defaultValue;
 
-        public IntegerElement() { this(null); }
+        public AbsIntegerElement() { this(null); }
 
-        public IntegerElement(JsonObject json) { super(json); this.defaultValue = 0; }
+        public AbsIntegerElement(JsonObject json) { super(json); this.defaultValue = 0; }
 
-        public IntegerElement(JsonObject json, boolean requiresChunk, int defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
+        public AbsIntegerElement(JsonObject json, boolean requiresChunk, int defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
 
         public abstract int intValue(int defaultValue);
 
@@ -146,15 +149,15 @@ public abstract class AbsHudElement implements IHudElement {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class DoubleElement extends AbsHudElement implements IOperableValue.DoubleValue {
+    public static abstract class AbsDoubleElement extends AbsHudElement implements IDoubleValue {
 
         private final double defaultValue;
 
-        public DoubleElement() { this(null); }
+        public AbsDoubleElement() { this(null); }
 
-        public DoubleElement(JsonObject json) { super(json); this.defaultValue = 0.0D; }
+        public AbsDoubleElement(JsonObject json) { super(json); this.defaultValue = 0.0D; }
 
-        public DoubleElement(JsonObject json, boolean requiresChunk, double defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
+        public AbsDoubleElement(JsonObject json, boolean requiresChunk, double defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
 
         public abstract double doubleValue(double defaultValue);
 
@@ -168,15 +171,15 @@ public abstract class AbsHudElement implements IHudElement {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static abstract class StringElement extends AbsHudElement implements IOperableValue.StringValue {
+    public static abstract class AbsStringElement extends AbsHudElement implements IStringValue {
 
         private final String defaultValue;
 
-        public StringElement() { this(null); }
+        public AbsStringElement() { this(null); }
 
-        public StringElement(JsonObject json) { super(json); this.defaultValue = ""; }
+        public AbsStringElement(JsonObject json) { super(json); this.defaultValue = ""; }
 
-        public StringElement(JsonObject json, boolean requiresChunk, String defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
+        public AbsStringElement(JsonObject json, boolean requiresChunk, String defaultValue) { super(json, requiresChunk); this.defaultValue = defaultValue; }
 
         public abstract String stringValue(String defaultValue);
 

@@ -2,7 +2,10 @@ package org.auioc.mcmod.clientesh.content.hud.element.function;
 
 import javax.annotation.Nonnull;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
-import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IBooleanValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IDoubleValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IIntegerValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IStringValue;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
 import org.auioc.mcmod.clientesh.utils.GsonHelper;
 import com.google.gson.JsonObject;
@@ -35,10 +38,10 @@ public class FormatterElement implements IHudElement {
         var args = new Object[elements.length];
         for (int i = 0; i < elements.length; ++i) {
             var element = elements[i];
-            if (element instanceof IOperableValue.StringValue v) args[i] = v.stringValue();
-            else if (element instanceof IOperableValue.IntegerValue v) args[i] = v.intValue();
-            else if (element instanceof IOperableValue.DoubleValue v) args[i] = v.doubleValue();
-            else if (element instanceof IOperableValue.BooleanValue v) args[i] = v.booleanValue();
+            if (element instanceof IStringValue v) args[i] = v.stringValue();
+            else if (element instanceof IIntegerValue v) args[i] = v.intValue();
+            else if (element instanceof IDoubleValue v) args[i] = v.doubleValue();
+            else if (element instanceof IBooleanValue v) args[i] = v.booleanValue();
             else {
                 var text = element.getText();
                 args[i] = (text != null) ? text.getString() : "";

@@ -11,7 +11,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public interface OperableValueElement extends IOperableValue, IHudElement {
 
     @OnlyIn(Dist.CLIENT)
-    public static record DoubleElement(double value) implements OperableValueElement, DoubleValue {
+    public static record DoubleElement(double value) implements OperableValueElement, IDoubleValue {
 
         @Override
         public double doubleValue() { return value; }
@@ -23,7 +23,7 @@ public interface OperableValueElement extends IOperableValue, IHudElement {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static record IntegerElement(int value) implements OperableValueElement, IntegerValue {
+    public static record IntegerElement(int value) implements OperableValueElement, IIntegerValue {
 
         @Override
         public int intValue() { return value; }
@@ -35,7 +35,7 @@ public interface OperableValueElement extends IOperableValue, IHudElement {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static record BooleanElement(boolean value) implements OperableValueElement, BooleanValue {
+    public static record BooleanElement(boolean value) implements OperableValueElement, IBooleanValue {
 
         @Override
         public boolean booleanValue() { return value; }
@@ -47,7 +47,7 @@ public interface OperableValueElement extends IOperableValue, IHudElement {
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static record StringElement(String value) implements OperableValueElement, StringValue {
+    public static record StringElement(String value) implements OperableValueElement, IStringValue {
 
         @Override
         public String stringValue() { return value; }

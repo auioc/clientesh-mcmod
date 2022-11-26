@@ -1,5 +1,9 @@
 package org.auioc.mcmod.clientesh.api.hud.value;
 
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IBooleanValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IDoubleValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IIntegerValue;
+import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IStringValue;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
@@ -28,25 +32,25 @@ public class OperableValue {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    public static record DoubleValue(double value) implements IOperableValue.DoubleValue {
+    public static record DoubleValue(double value) implements IDoubleValue {
         @Override
         public double doubleValue() { return value; }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static record IntegerValue(int value) implements IOperableValue.IntegerValue {
+    public static record IntegerValue(int value) implements IIntegerValue {
         @Override
         public int intValue() { return value; }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static record BooleanValue(boolean value) implements IOperableValue.BooleanValue {
+    public static record BooleanValue(boolean value) implements IBooleanValue {
         @Override
         public boolean booleanValue() { return value; }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static record StringValue(String value) implements IOperableValue.StringValue {
+    public static record StringValue(String value) implements IStringValue {
         @Override
         public String stringValue() { return value; }
     }

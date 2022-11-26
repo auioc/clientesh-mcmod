@@ -7,7 +7,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class LiteralElement extends AbsHudElement.StringElement {
+public class LiteralElement extends AbsHudElement.AbsStringElement {
 
     private final String text;
 

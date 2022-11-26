@@ -1,6 +1,6 @@
 package org.auioc.mcmod.clientesh.content.hud.element.simple;
 
-import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.StringElement;
+import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsStringElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import com.google.gson.JsonObject;
 import net.minecraft.SharedConstants;
@@ -12,28 +12,28 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class VersionElement {
 
     public static IHudElement currentVersion(JsonObject json) {
-        return new StringElement(json) {
+        return new AbsStringElement(json) {
             @Override
             public String stringValue(String s) { return SharedConstants.getCurrentVersion().getName(); }
         };
     }
 
     public static IHudElement launchedVersion(JsonObject json) {
-        return new StringElement(json) {
+        return new AbsStringElement(json) {
             @Override
             public String stringValue(String s) { return MC.getLaunchedVersion(); }
         };
     }
 
     public static IHudElement clientModName(JsonObject json) {
-        return new StringElement(json) {
+        return new AbsStringElement(json) {
             @Override
             public String stringValue(String s) { return ClientBrandRetriever.getClientModName(); }
         };
     }
 
     public static IHudElement versionType(JsonObject json) {
-        return new StringElement(json) {
+        return new AbsStringElement(json) {
             @Override
             public String stringValue(String s) { return MC.getVersionType(); }
         };
