@@ -40,6 +40,10 @@ public final class CEHudElements {
     public static final HudElementEntry CONDITIONAL = register("conditional", ConditionalElement::new);
     public static final HudElementEntry MAX = register("max", BiFunctionElement.Max::new);
     public static final HudElementEntry MIN = register("min", BiFunctionElement.Min::new);
+    public static final HudElementEntry ADD = register("add", BiFunctionElement.Add::new);
+    public static final HudElementEntry SUBTRACT = register("subtract", BiFunctionElement.Subtract::new);
+    public static final HudElementEntry MULTIPLY = register("multiply", BiFunctionElement.Multiply::new);
+    public static final HudElementEntry DIVIDE = register("divide", BiFunctionElement.Divide::new);
 
     public static final HudElementEntry FPS_CURRENT = register("fps", FpsElement::current);
     public static final HudElementEntry FPS_LIMIT = register("fps_limit", FpsElement::limit);

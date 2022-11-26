@@ -1,12 +1,6 @@
 package org.auioc.mcmod.clientesh.content.hud.element.function;
 
-import org.auioc.mcmod.clientesh.api.hud.element.IFunctionElement;
-import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
-import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
-import org.auioc.mcmod.clientesh.api.hud.element.OperableValueElement.BooleanElement;
-import org.auioc.mcmod.clientesh.api.hud.element.OperableValueElement.DoubleElement;
-import org.auioc.mcmod.clientesh.api.hud.element.OperableValueElement.IntegerElement;
-import org.auioc.mcmod.clientesh.api.hud.element.OperableValueElement.StringElement;
+import org.auioc.mcmod.clientesh.api.hud.element.IOperableFunctionElement;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue;
 import org.auioc.mcmod.clientesh.api.hud.value.OperableValue;
 import com.google.gson.JsonObject;
@@ -14,7 +8,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class BiFunctionElement implements IFunctionElement, IOperableValue {
+public abstract class BiFunctionElement implements IOperableFunctionElement {
 
     protected final IOperableValue a;
     protected final IOperableValue b;
@@ -24,28 +18,6 @@ public abstract class BiFunctionElement implements IFunctionElement, IOperableVa
         this.b = OperableValue.parseValue(json.get("b"));
     }
 
-    protected abstract IOperableValue apply();
-
-    @Override
-    public IHudElement getResult() {
-        var r = apply();
-        if (r instanceof IHudElement v) return v;
-        if (r instanceof StringValue v) return new StringElement(v.stringValue());
-        if (r instanceof IntegerValue v) return new IntegerElement(v.intValue());
-        if (r instanceof DoubleValue v) return new DoubleElement(v.doubleValue());
-        if (r instanceof BooleanValue v) return new BooleanElement(v.booleanValue());
-        return new NullHudElement();
-    }
-
-    @Override
-    public double doubleValue() { return apply().doubleValue(); }
-
-    @Override
-    public boolean booleanValue() { return apply().booleanValue(); }
-
-    @Override
-    public boolean equals(IOperableValue other) { return apply().equals(other); }
-
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
@@ -54,7 +26,7 @@ public abstract class BiFunctionElement implements IFunctionElement, IOperableVa
         public Max(JsonObject json) { super(json); }
 
         @Override
-        protected IOperableValue apply() { return (a.doubleValue() >= b.doubleValue()) ? a : b; }
+        public IOperableValue apply() { return (a.doubleValue() >= b.doubleValue()) ? a : b; }
 
     }
 
@@ -64,7 +36,47 @@ public abstract class BiFunctionElement implements IFunctionElement, IOperableVa
         public Min(JsonObject json) { super(json); }
 
         @Override
-        protected IOperableValue apply() { return (a.doubleValue() <= b.doubleValue()) ? a : b; }
+        public IOperableValue apply() { return (a.doubleValue() <= b.doubleValue()) ? a : b; }
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class Add extends BiFunctionElement implements IMathFunction {
+
+        public Add(JsonObject json) { super(json); }
+
+        @Override
+        public double calculate() { return a.doubleValue() + b.doubleValue(); }
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class Subtract extends BiFunctionElement implements IMathFunction {
+
+        public Subtract(JsonObject json) { super(json); }
+
+        @Override
+        public double calculate() { return a.doubleValue() - b.doubleValue(); }
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class Multiply extends BiFunctionElement implements IMathFunction {
+
+        public Multiply(JsonObject json) { super(json); }
+
+        @Override
+        public double calculate() { return a.doubleValue() * b.doubleValue(); }
+
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class Divide extends BiFunctionElement implements IMathFunction {
+
+        public Divide(JsonObject json) { super(json); }
+
+        @Override
+        public double calculate() { return a.doubleValue() / b.doubleValue(); }
 
     }
 
