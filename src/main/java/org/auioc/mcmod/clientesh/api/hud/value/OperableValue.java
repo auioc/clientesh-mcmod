@@ -12,7 +12,7 @@ public class OperableValue {
 
     public static IOperableValue parseValue(JsonElement json, boolean objectOnly) {
         if (!objectOnly) {
-            if (GsonHelper.isNumberValue(json)) return new NumberValue(json.getAsDouble());
+            if (GsonHelper.isNumberValue(json)) return new DoubleValue(json.getAsDouble());
             if (GsonHelper.isBooleanValue(json)) return new BooleanValue(json.getAsBoolean());
             if (GsonHelper.isStringValue(json)) return new StringValue(json.getAsString());
         }
@@ -28,9 +28,15 @@ public class OperableValue {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    public static record NumberValue(double value) implements IOperableValue.DoubleValue {
+    public static record DoubleValue(double value) implements IOperableValue.DoubleValue {
         @Override
         public double doubleValue() { return value; }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static record IntegerValue(int value) implements IOperableValue.IntegerValue {
+        @Override
+        public int intValue() { return value; }
     }
 
     @OnlyIn(Dist.CLIENT)
