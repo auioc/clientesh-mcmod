@@ -3,8 +3,8 @@ package org.auioc.mcmod.clientesh.content.hud.element.complex;
 import java.util.Collection;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.arnicalib.game.effect.MobEffectUtils;
+import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IMultilineElement;
-import org.auioc.mcmod.clientesh.content.hud.element.basic.AbsCEHudElement;
 import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class StatusEffectsElement extends AbsCEHudElement implements IMultilineElement {
+public class StatusEffectsElement extends AbsHudElement implements IMultilineElement {
 
     private final boolean hideInvisibleEffects;
     private final boolean colorByCategory;

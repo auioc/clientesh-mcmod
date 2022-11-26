@@ -15,14 +15,14 @@ public class FpsElement {
     public static IHudElement current(JsonObject json) {
         return new IntegerElement(json) {
             @Override
-            public int intValue() { return ((MixinAccessorMinecraft) MC).getFps(); }
+            public int intValue(int i) { return ((MixinAccessorMinecraft) MC).getFps(); }
         };
     }
 
     public static IHudElement limit(JsonObject json) {
         return new IntegerElement(json) {
             @Override
-            public int intValue() {
+            public int intValue(int i) {
                 return ((double) MC.options.framerateLimit == Option.FRAMERATE_LIMIT.getMaxValue()) ? 0 : MC.options.framerateLimit;
             }
         };
@@ -31,7 +31,7 @@ public class FpsElement {
     public static IHudElement vsync(JsonObject json) {
         return new BooleanElement(json) {
             @Override
-            public boolean booleanValue() { return MC.options.enableVsync; }
+            public boolean booleanValue(boolean b) { return MC.options.enableVsync; }
         };
     }
 

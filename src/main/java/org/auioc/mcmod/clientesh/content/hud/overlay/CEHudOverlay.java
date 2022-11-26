@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
+import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IFunctionElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IMultilineElement;
 import org.auioc.mcmod.clientesh.api.hud.layout.HudLayout;
 import org.auioc.mcmod.clientesh.content.hud.config.CEHudConfig;
-import org.auioc.mcmod.clientesh.content.hud.element.basic.AbsCEHudElement;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -50,12 +50,12 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
         MC.getProfiler().push("clienteshHud");
         {
             if (MC.level == null) return;
-            AbsCEHudElement.setLevel(MC.level);
+            AbsHudElement.setLevel(MC.level);
             if (MC.player == null) return;
-            AbsCEHudElement.setPlayer(MC.player);
+            AbsHudElement.setPlayer(MC.player);
             if (MC.cameraEntity == null) return;
-            AbsCEHudElement.setCameraEntity(MC.cameraEntity);
-            AbsCEHudElement.setWaiting(false);
+            AbsHudElement.setCameraEntity(MC.cameraEntity);
+            AbsHudElement.setWaiting(false);
         }
         {
             this.leftColXOffset = CEHudConfig.leftColXOffset.get().intValue();
@@ -104,7 +104,7 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
             }
             lines.add(line);
         }
-        if (AbsCEHudElement.isWaiting()) {
+        if (AbsHudElement.isWaiting()) {
             lines.add(TextUtils.empty());
             lines.add(TextUtils.literal("§7§oWaiting for chunk.."));
         }

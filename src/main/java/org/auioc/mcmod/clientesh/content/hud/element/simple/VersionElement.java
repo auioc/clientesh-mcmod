@@ -14,28 +14,28 @@ public class VersionElement {
     public static IHudElement currentVersion(JsonObject json) {
         return new StringElement(json) {
             @Override
-            public String stringValue() { return SharedConstants.getCurrentVersion().getName(); }
+            public String stringValue(String s) { return SharedConstants.getCurrentVersion().getName(); }
         };
     }
 
     public static IHudElement launchedVersion(JsonObject json) {
         return new StringElement(json) {
             @Override
-            public String stringValue() { return MC.getLaunchedVersion(); }
+            public String stringValue(String s) { return MC.getLaunchedVersion(); }
         };
     }
 
     public static IHudElement clientModName(JsonObject json) {
         return new StringElement(json) {
             @Override
-            public String stringValue() { return ClientBrandRetriever.getClientModName(); }
+            public String stringValue(String s) { return ClientBrandRetriever.getClientModName(); }
         };
     }
 
     public static IHudElement versionType(JsonObject json) {
         return new StringElement(json) {
             @Override
-            public String stringValue() { return MC.getVersionType(); }
+            public String stringValue(String s) { return MC.getVersionType(); }
         };
     }
 
