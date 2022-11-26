@@ -2,6 +2,7 @@ package org.auioc.mcmod.clientesh.api.hud.element;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.arnicalib.game.entity.EntityUtils;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IBooleanValue;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IDoubleValue;
@@ -53,7 +54,15 @@ public abstract class AbsHudElement implements IHudElement {
     public static boolean isWaiting() { return waiting; }
 
     protected static MutableComponent format(String format, Object... args) {
-        return new TextComponent(String.format(format, args));
+        return TextUtils.literal(String.format(format, args));
+    }
+
+    protected static String translatable(String key, Object... args) {
+        return TextUtils.translatable(key, args).getString();
+    }
+
+    protected static String translatable(String key) {
+        return TextUtils.translatable(key).getString();
     }
 
     // ====================================================================== //
