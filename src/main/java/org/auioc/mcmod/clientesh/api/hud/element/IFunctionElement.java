@@ -15,7 +15,14 @@ public interface IFunctionElement extends IHudElement {
     }
 
     public static IHudElement reslove(IHudElement element) {
-        return (element instanceof IFunctionElement f) ? f.getResult() : element;
+        IHudElement r = element;
+        while (true) {
+            if (r instanceof IFunctionElement f) {
+                r = f.getResult();
+            } else {
+                return r;
+            }
+        }
     }
 
 }

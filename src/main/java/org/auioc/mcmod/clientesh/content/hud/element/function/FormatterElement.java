@@ -36,19 +36,14 @@ public class FormatterElement implements IHudElement {
     @Override
     @Nonnull
     public Component getText() {
-        final var copiedElements = elements.clone();
-        final var args = new Object[copiedElements.length];
-        for (int i = 0; i < copiedElements.length; ++i) {
-            var element = copiedElements[i];
+        var args = new Object[elements.length];
+        for (int i = 0; i < elements.length; ++i) {
+            var element = IFunctionElement.reslove(elements[i]);
             if (element instanceof IStringValue v) args[i] = v.stringValue();
             else if (element instanceof IIntegerValue v) args[i] = v.intValue();
             else if (element instanceof IDoubleValue v) args[i] = v.doubleValue();
             else if (element instanceof IBooleanValue v) args[i] = v.booleanValue();
-            else if (element instanceof IFunctionElement v) {
-                copiedElements[i] = v.getResult();
-                --i;
-                continue;
-            } else {
+            else {
                 var text = element.getText();
                 args[i] = (text != null) ? text.getString() : "";
             }
