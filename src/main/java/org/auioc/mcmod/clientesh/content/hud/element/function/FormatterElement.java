@@ -2,6 +2,7 @@ package org.auioc.mcmod.clientesh.content.hud.element.function;
 
 import javax.annotation.Nonnull;
 import org.auioc.mcmod.arnicalib.game.data.GsonHelper;
+import org.auioc.mcmod.clientesh.api.hud.element.IFunctionElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IBooleanValue;
 import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IDoubleValue;
@@ -35,14 +36,19 @@ public class FormatterElement implements IHudElement {
     @Override
     @Nonnull
     public Component getText() {
-        var args = new Object[elements.length];
-        for (int i = 0; i < elements.length; ++i) {
-            var element = elements[i];
+        final var copiedElements = elements.clone();
+        final var args = new Object[copiedElements.length];
+        for (int i = 0; i < copiedElements.length; ++i) {
+            var element = copiedElements[i];
             if (element instanceof IStringValue v) args[i] = v.stringValue();
             else if (element instanceof IIntegerValue v) args[i] = v.intValue();
             else if (element instanceof IDoubleValue v) args[i] = v.doubleValue();
             else if (element instanceof IBooleanValue v) args[i] = v.booleanValue();
-            else {
+            else if (element instanceof IFunctionElement v) {
+                copiedElements[i] = v.getResult();
+                --i;
+                continue;
+            } else {
                 var text = element.getText();
                 args[i] = (text != null) ? text.getString() : "";
             }
