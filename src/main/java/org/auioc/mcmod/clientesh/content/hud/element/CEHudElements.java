@@ -93,6 +93,10 @@ public interface CEHudElements {
     HudElementEntry VELOCITY_Y = register("velocity_y", SpeedElement::velocityY);
     HudElementEntry VELOCITY_Z = register("velocity_z", SpeedElement::velocityZ);
 
+    HudElementEntry LATENCY = register("latency", ServerElement::latency);
+    HudElementEntry TPS     = register("tps",     ServerElement::tps);
+    HudElementEntry MSPT    = register("mspt",    ServerElement::mspt);
+
     // @formatter:on
     // ============================================================================================================== //
 

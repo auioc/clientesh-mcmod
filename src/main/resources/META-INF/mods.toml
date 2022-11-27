@@ -29,6 +29,6 @@ description='''
 [[dependencies.clientesh]]
     modId="arnicalib"
     mandatory=true
-    versionRange="[5.6.4,)"
+    versionRange="[5.6.5,)"
     ordering="NONE"
     side="BOTH"
