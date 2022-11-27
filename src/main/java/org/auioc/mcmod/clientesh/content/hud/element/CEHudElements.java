@@ -9,10 +9,7 @@ import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.StatusEffectsElement;
-import org.auioc.mcmod.clientesh.content.hud.element.function.BiFunctionElement;
-import org.auioc.mcmod.clientesh.content.hud.element.function.ConditionalElement;
-import org.auioc.mcmod.clientesh.content.hud.element.function.FormatterElement;
-import org.auioc.mcmod.clientesh.content.hud.element.function.MultielementElement;
+import org.auioc.mcmod.clientesh.content.hud.element.function.*;
 import org.auioc.mcmod.clientesh.content.hud.element.simple.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -42,6 +39,8 @@ public interface CEHudElements {
     HudElementEntry SUBTRACT     = register("subtract",     BiFunctionElement.Subtract::new);
     HudElementEntry MULTIPLY     = register("multiply",     BiFunctionElement.Multiply::new);
     HudElementEntry DIVIDE       = register("divide",       BiFunctionElement.Divide::new);
+    HudElementEntry TO_INTEGER   = register("to_integer",   SiFunctionElement.ToInt::new);
+    HudElementEntry TO_DOUBLE    = register("to_double",    SiFunctionElement.ToDouble::new);
 
     HudElementEntry FPS_CURRENT = register("fps",       FpsElement::current);
     HudElementEntry FPS_LIMIT   = register("fps_limit", FpsElement::limit);

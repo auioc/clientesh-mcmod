@@ -15,14 +15,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class OperableValue {
 
     public static IOperableValue parseValue(JsonElement json, boolean objectOnly) {
-        if (!objectOnly) {
-            if (GsonHelper.isNumberValue(json)) return new DoubleValue(json.getAsDouble());
-            if (GsonHelper.isBooleanValue(json)) return new BooleanValue(json.getAsBoolean());
-            if (GsonHelper.isStringValue(json)) return new StringValue(json.getAsString());
+        if (json != null) {
+            if (!objectOnly) {
+                if (GsonHelper.isNumberValue(json)) return new DoubleValue(json.getAsDouble());
+                if (GsonHelper.isBooleanValue(json)) return new BooleanValue(json.getAsBoolean());
+                if (GsonHelper.isStringValue(json)) return new StringValue(json.getAsString());
+            }
+            var element = CEHudLayoutParser.parseElement(json);
+            if (element instanceof IOperableValue) return (IOperableValue) element;
+            throw new JsonParseException("Not a operable value: " + json);
         }
-        var element = CEHudLayoutParser.parseElement(json);
-        if (element instanceof IOperableValue) return (IOperableValue) element;
-        throw new JsonParseException("Not a operable value");
+        throw new JsonParseException("Not a operable value: null");
     }
 
     public static IOperableValue parseValue(JsonElement json) {
