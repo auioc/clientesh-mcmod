@@ -7,6 +7,7 @@ import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry.HudEleme
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElementDeserializer;
 import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralElement;
+import org.auioc.mcmod.clientesh.content.hud.element.basic.StyleElement;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.TranslatableElement;
 import org.auioc.mcmod.clientesh.content.hud.element.complex.StatusEffectsElement;
 import org.auioc.mcmod.clientesh.content.hud.element.function.*;
@@ -29,6 +30,7 @@ public interface CEHudElements {
 
     HudElementEntry LITERAL      = register("literal",      LiteralElement::new);
     HudElementEntry TRANSLATABLE = register("translatable", TranslatableElement::new);
+    HudElementEntry STYLE        = register("style",        StyleElement::new);
 
     HudElementEntry MULTIELEMENT = register("multielement", MultielementElement::new);
     HudElementEntry FORMATTER    = register("formatter",    FormatterElement::new);
