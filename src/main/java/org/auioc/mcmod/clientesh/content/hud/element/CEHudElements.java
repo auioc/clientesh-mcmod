@@ -89,12 +89,20 @@ public interface CEHudElements {
     HudElementEntry MOONPHASE        = register("moonphase",        TimeElement::moonphase);
     HudElementEntry MOONPHASE_NAME   = register("moonphase_name",   TimeElement::moonphaseName);
 
-    HudElementEntry POSITION_X       = register("position_x",       PositionElement::positionX);
-    HudElementEntry POSITION_Y       = register("position_y",       PositionElement::positionY);
-    HudElementEntry POSITION_Z       = register("position_z",       PositionElement::positionZ);
-    HudElementEntry BLOCK_POSITION_X = register("block_position_x", PositionElement::blockPositionX);
-    HudElementEntry BLOCK_POSITION_Y = register("block_position_y", PositionElement::blockPositionY);
-    HudElementEntry BLOCK_POSITION_Z = register("block_position_z", PositionElement::blockPositionZ);
+    HudElementEntry X              = register("x",              PositionElement::x);
+    HudElementEntry Y              = register("y",              PositionElement::y);
+    HudElementEntry Z              = register("z",              PositionElement::z);
+    HudElementEntry BLOCK_X        = register("block_x",        PositionElement::blockX);
+    HudElementEntry BLOCK_Y        = register("block_y",        PositionElement::blockY);
+    HudElementEntry BLOCK_Z        = register("block_z",        PositionElement::blockZ);
+    HudElementEntry SLIME_CHUNK    = register("slime_chunk",    PositionElement::isSlimeChunk);
+    HudElementEntry CHUNK_X        = register("chunk_x",        PositionElement::chunkX);
+    HudElementEntry CHUNK_Y        = register("chunk_y",        PositionElement::chunkY);
+    HudElementEntry CHUNK_Z        = register("chunk_z",        PositionElement::chunkZ);
+    HudElementEntry REGION_LOCAL_X = register("region_local_x", PositionElement::regionLocalX);
+    HudElementEntry REGION_LOCAL_Z = register("region_local_z", PositionElement::regionLocalZ);
+    HudElementEntry REGION_X       = register("region_x",       PositionElement::regionX);
+    HudElementEntry REGION_Z       = register("region_z",       PositionElement::regionZ);
 
     HudElementEntry SPEED      = register("speed",      SpeedElement::speed);
     HudElementEntry VELOCITY_X = register("velocity_x", SpeedElement::velocityX);

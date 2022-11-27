@@ -17,6 +17,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
@@ -32,6 +33,8 @@ public abstract class AbsHudElement implements IHudElement {
     protected static LocalPlayer player;
     protected static Vec3 position;
     protected static BlockPos blockPosition;
+    protected static ChunkPos chunkPosition;
+    @Nullable
     protected static LevelChunk chunk;
     protected static Vec3 velocity;
     protected static Entity cameraEntity;
@@ -44,7 +47,10 @@ public abstract class AbsHudElement implements IHudElement {
         AbsHudElement.position = player.position();
         AbsHudElement.blockPosition = player.blockPosition();
         AbsHudElement.velocity = EntityUtils.calcVelocity(player);
-        AbsHudElement.chunk = level.getChunkSource().getChunk(blockPosition.getX() >> 4, blockPosition.getZ() >> 4, false);
+        int chunkX = blockPosition.getX() >> 4;
+        int chunkZ = blockPosition.getZ() >> 4;
+        AbsHudElement.chunkPosition = new ChunkPos(chunkX, chunkZ);
+        AbsHudElement.chunk = level.getChunkSource().getChunk(chunkX, chunkZ, false);
     }
 
     public static void setCameraEntity(Entity cameraEntity) { AbsHudElement.cameraEntity = cameraEntity; }
@@ -67,12 +73,15 @@ public abstract class AbsHudElement implements IHudElement {
 
     // ====================================================================== //
 
-    private static final Style.Serializer STYLE = new Style.Serializer();
-
     protected final boolean requiresChunk;
 
     @Nullable
     private Style style = null;
+
+
+    public AbsHudElement(Style style, boolean requiresChunk) { this.style = style; this.requiresChunk = requiresChunk; }
+
+    public AbsHudElement(Style style) { this(style, false); }
 
     public AbsHudElement() { this.requiresChunk = false; }
 
@@ -80,7 +89,7 @@ public abstract class AbsHudElement implements IHudElement {
 
     public AbsHudElement(JsonObject json, boolean requiresChunk) {
         if (json != null && json.has("style")) {
-            this.style = STYLE.deserialize(json.get("style"), null, null);
+            this.style = TextUtils.deserializeStyle(json.get("style"));
         }
         this.requiresChunk = requiresChunk;
     }
