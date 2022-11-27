@@ -9,8 +9,7 @@
         "MixinAccessorCreeper",
         "MixinKeyboardHandler",
         "MixinGameRenderer",
-        "MixinScreenEffectRenderer",
-        "compat.MixinHLAdditionalServerData"
+        "MixinScreenEffectRenderer"
     ],
     "server": [],
     "injectors": {

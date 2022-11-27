@@ -38,7 +38,7 @@ public class MultielementElement implements IHudElement {
             MutableComponent prev = r;
             for (var _e : elements) {
                 var element = IFunctionElement.resolve(_e);
-                var rawText = _e.getText();
+                var rawText = element.getText();
                 var text = (rawText instanceof MutableComponent) ? (MutableComponent) rawText : TextUtils.empty().append(rawText);
                 prev.append(text);
                 prev = text;
