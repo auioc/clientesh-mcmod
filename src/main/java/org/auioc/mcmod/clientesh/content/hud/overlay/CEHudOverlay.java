@@ -85,8 +85,8 @@ public class CEHudOverlay extends GuiComponent implements IIngameOverlay {
         f1: for (var row : column) {
             var line = TextUtils.empty();
             for (int i = 0, l = row.size(); i < l; ++i) {
-                var element = IFunctionElement.reslove(row.get(i));
-                if (IMultilineElement.reslove(element, (me) -> Collections.addAll(lines, me.getLines()))) continue f1;
+                var element = IFunctionElement.resolve(row.get(i));
+                if (IMultilineElement.resolve(element, (me) -> Collections.addAll(lines, me.getLines()))) continue f1;
                 Component text;
                 try {
                     text = element.getText();

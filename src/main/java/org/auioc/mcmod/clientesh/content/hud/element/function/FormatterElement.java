@@ -38,7 +38,7 @@ public class FormatterElement implements IHudElement {
     public Component getText() {
         var args = new Object[elements.length];
         for (int i = 0; i < elements.length; ++i) {
-            var element = IFunctionElement.reslove(elements[i]);
+            var element = IFunctionElement.resolve(elements[i]);
             if (element instanceof IStringValue v) args[i] = v.stringValue();
             else if (element instanceof IIntegerValue v) args[i] = v.intValue();
             else if (element instanceof IDoubleValue v) args[i] = v.doubleValue();

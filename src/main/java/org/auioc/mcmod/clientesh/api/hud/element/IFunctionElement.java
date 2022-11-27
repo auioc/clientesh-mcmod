@@ -11,10 +11,10 @@ public interface IFunctionElement extends IHudElement {
 
     @Override
     public default Component getText() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Unresolved function element");
     }
 
-    public static IHudElement reslove(IHudElement element) {
+    public static IHudElement resolve(IHudElement element) {
         IHudElement r = element;
         while (true) {
             if (r instanceof IFunctionElement f) {

@@ -12,10 +12,10 @@ public interface IMultilineElement extends IHudElement {
 
     @Override
     public default Component getText() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("Unresolved multiline element");
     }
 
-    public static boolean reslove(IHudElement element, Consumer<IMultilineElement> consumer) {
+    public static boolean resolve(IHudElement element, Consumer<IMultilineElement> consumer) {
         if (element instanceof IMultilineElement m) { consumer.accept(m); return true; }
         return false;
     }

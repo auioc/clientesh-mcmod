@@ -3,6 +3,7 @@ package org.auioc.mcmod.clientesh.content.hud.element.function;
 import javax.annotation.Nonnull;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.arnicalib.game.data.GsonHelper;
+import org.auioc.mcmod.clientesh.api.hud.element.IFunctionElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.content.hud.layout.CEHudLayoutParser;
 import com.google.gson.JsonObject;
@@ -35,14 +36,15 @@ public class MultielementElement implements IHudElement {
         var r = TextUtils.empty();
         if (inheritStyle) {
             MutableComponent prev = r;
-            for (var e : elements) {
-                var rawText = e.getText();
+            for (var _e : elements) {
+                var element = IFunctionElement.resolve(_e);
+                var rawText = _e.getText();
                 var text = (rawText instanceof MutableComponent) ? (MutableComponent) rawText : TextUtils.empty().append(rawText);
                 prev.append(text);
                 prev = text;
             }
         } else {
-            for (var e : elements) r.append(e.getText());
+            for (var e : elements) r.append(IFunctionElement.resolve(e).getText());
         }
         return r;
     }
