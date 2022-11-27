@@ -55,7 +55,7 @@ public class SpeedElement {
         protected abstract double rawValue();
 
         @Override
-        public double value() { return unit.convertFrom(velocity.length()); }
+        public double value() { return unit.convertFrom(rawValue()); }
 
         @Override
         public MutableComponent getRawText() {
