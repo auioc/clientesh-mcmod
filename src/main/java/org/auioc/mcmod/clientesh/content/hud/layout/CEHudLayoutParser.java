@@ -1,12 +1,14 @@
 package org.auioc.mcmod.clientesh.content.hud.layout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
+import java.util.Map;
 import org.auioc.mcmod.clientesh.api.hud.element.EmptyHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.HudElementTypeRegistry;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import org.auioc.mcmod.clientesh.api.hud.element.NullHudElement;
+import org.auioc.mcmod.clientesh.api.hud.layout.HudAlignment;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,12 +20,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class CEHudLayoutParser {
 
-    public static Pair<List<List<IHudElement>>, List<List<IHudElement>>> parse(JsonObject json) {
+    public static Map<HudAlignment, List<List<IHudElement>>> parse(JsonObject json) {
         var columns = GsonHelper.getAsJsonObject(json, "columns");
-        return Pair.of(
-            parseColumn(GsonHelper.getAsJsonArray(columns, "left")),
-            parseColumn(GsonHelper.getAsJsonArray(columns, "right"))
-        );
+        var layout = new HashMap<HudAlignment, List<List<IHudElement>>>(4);
+        for (var alignment : HudAlignment.values()) {
+            var jC = columns.get(alignment.camelName());
+            if (jC != null && jC.isJsonArray()) {
+                layout.put(alignment, parseColumn(jC.getAsJsonArray()));
+            }
+        }
+        return layout;
     }
 
     public static List<List<IHudElement>> parseColumn(JsonArray json) {

@@ -1,5 +1,7 @@
 package org.auioc.mcmod.clientesh.content.hud.config;
 
+import org.auioc.mcmod.clientesh.api.hud.layout.HudAlignment;
+import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,10 +15,6 @@ public class CEHudConfig {
 
     public static BooleanValue enabled;
     public static BooleanValue autoReloadLayout;
-    public static ConfigValue<Integer> leftColXOffset;
-    public static ConfigValue<Integer> leftColYOffset;
-    public static ConfigValue<Integer> rightColXOffset;
-    public static ConfigValue<Integer> rightColYOffset;
     public static DoubleValue scale;
     public static BooleanValue background;
     public static BooleanValue fullBackground;
@@ -34,27 +32,48 @@ public class CEHudConfig {
 
         b.push("render");
         {
-            leftColXOffset = b.define("left.xOffset", 2, (o) -> validateScreenSize(o, false));
-            leftColYOffset = b.define("left.yOffset", 2, (o) -> validateScreenSize(o, true));
-            rightColXOffset = b.define("right.xOffset", 2, (o) -> validateScreenSize(o, false));
-            rightColYOffset = b.define("right.yOffset", 2, (o) -> validateScreenSize(o, true));
             scale = b.defineInRange("scale", 1.0D, 0.0D, 4.0D);
             background = b.define("background", true);
             fullBackground = b.define("fullBackground", true);
             backgroundColor = b.define("backgroundColor", -1873784752);
             fontColor = b.define("fontColor", 14737632);
+            for (var alignment : HudAlignment.values()) {
+                b.push(alignment.camelName());
+                {
+                    b.define("xOffset", 2, (o) -> validateScreenSize(o, false));
+                    b.define("yOffset", 2, (o) -> validateScreenSize(o, true));
+                }
+                b.pop();
+            }
         }
         b.pop();
     }
 
-    public static boolean validateScreenSize(Object o, boolean height) {
+    public static boolean validateScreenSize(Object o, boolean h) {
         if (Integer.class.isInstance(o)) {
             int i = (int) o;
             var windows = Minecraft.getInstance().getWindow();
-            int max = (height) ? windows.getGuiScaledHeight() : windows.getGuiScaledWidth();
+            int max = (h) ? windows.getGuiScaledHeight() : windows.getGuiScaledWidth();
             return i >= 0 && i <= max;
         }
         return false;
+    }
+
+    public static void onLoad(CommentedConfig config) {
+        config.getOptional("hud.render")
+            .ifPresent((c0) -> {
+                if (c0 instanceof CommentedConfig c1) {
+                    for (var alignment : HudAlignment.values()) {
+                        c1.getOptional(alignment.camelName())
+                            .ifPresent((c2) -> {
+                                if (c2 instanceof CommentedConfig c3) {
+                                    alignment.xOffset(c3.getIntOrElse("xOffset", 2));
+                                    alignment.yOffset(c3.getIntOrElse("yOffset", 2));
+                                }
+                            });
+                    }
+                }
+            });
     }
 
 }

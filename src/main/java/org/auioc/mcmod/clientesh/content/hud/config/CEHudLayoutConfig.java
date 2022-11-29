@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import org.auioc.mcmod.arnicalib.base.file.FileUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
+import org.auioc.mcmod.clientesh.api.hud.layout.HudAlignment;
 import org.auioc.mcmod.clientesh.api.hud.layout.HudLayout;
 import org.auioc.mcmod.clientesh.content.hud.CEHud;
 import org.auioc.mcmod.clientesh.content.hud.element.basic.LiteralElement;
@@ -33,7 +34,8 @@ public class CEHudLayoutConfig {
             HudLayout.load(CEHudLayoutParser.parse(readFile()));
         } catch (Exception e) {
             CEHud.error("Failed to load layout config", e);
-            HudLayout.load(createErrorMessage(e), null);
+            HudLayout.clear();
+            HudLayout.load(HudAlignment.TOP_LEFT, createErrorMessage(e));
         }
     }
 
