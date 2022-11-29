@@ -1,11 +1,10 @@
 package org.auioc.mcmod.clientesh.api.hud.layout;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
-import javax.annotation.Nullable;
-import org.apache.commons.lang3.tuple.Pair;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,34 +12,31 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class HudLayout {
 
-    private static final List<List<IHudElement>> L = new ArrayList<>(new ArrayList<>());
-    private static final List<List<IHudElement>> R = new ArrayList<>(new ArrayList<>());
+    private static final Map<HudAlignment, List<List<IHudElement>>> LAYOUT = new HashMap<>();
 
-    public static List<List<IHudElement>> getLeft() {
-        return Collections.unmodifiableList(L);
-    }
-
-    public static List<List<IHudElement>> getRight() {
-        return Collections.unmodifiableList(R);
+    public synchronized static Map<HudAlignment, List<List<IHudElement>>> getLayout() {
+        return LAYOUT;
     }
 
     public synchronized static void clear() {
-        L.clear();
-        R.clear();
+        LAYOUT.clear();
     }
 
-    public synchronized static void load(Optional<List<List<IHudElement>>> left, Optional<List<List<IHudElement>>> right) {
+    public synchronized static void load(Entry<HudAlignment, List<List<IHudElement>>> columnEntry) {
+        if (columnEntry.getValue() != null) LAYOUT.put(columnEntry.getKey(), columnEntry.getValue());
+    }
+
+    public synchronized static void load(HudAlignment alignment, Optional<List<List<IHudElement>>> column) {
+        column.ifPresent((c) -> LAYOUT.put(alignment, c));
+    }
+
+    public static void load(Map<HudAlignment, List<List<IHudElement>>> layout) {
         clear();
-        left.ifPresent(L::addAll);
-        right.ifPresent(R::addAll);
+        for (var columnEntry : layout.entrySet()) load(columnEntry);
     }
 
-    public static void load(Pair<List<List<IHudElement>>, List<List<IHudElement>>> layout) {
-        load(Optional.ofNullable(layout.getLeft()), Optional.ofNullable(layout.getRight()));
-    }
-
-    public static void load(@Nullable List<List<IHudElement>> left, @Nullable List<List<IHudElement>> right) {
-        load(Optional.ofNullable(left), Optional.ofNullable(right));
+    public static void load(HudAlignment alignment, List<List<IHudElement>> column) {
+        load(alignment, Optional.ofNullable(column));
     }
 
 }
