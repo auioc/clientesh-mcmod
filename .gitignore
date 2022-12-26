@@ -3,6 +3,7 @@ bin
 .settings
 .metadata
 .classpath
+.factorypath
 .project
 .vscode
 tmp
