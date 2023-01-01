@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import net.minecraft.client.gui.components.SubtitleOverlay;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 
 @Mixin(value = SubtitleOverlay.Subtitle.class)
@@ -16,6 +17,7 @@ public class MixinSubtitleOverlaySubtitle implements IMixinSubtitleOverlaySubtit
     private Component text;
 
     private SoundSource source;
+    private ResourceLocation soundEvent;
 
     @Override
     public void setSource(SoundSource source) {
@@ -25,6 +27,16 @@ public class MixinSubtitleOverlaySubtitle implements IMixinSubtitleOverlaySubtit
     @Override
     public SoundSource getSource() {
         return this.source;
+    }
+
+    @Override
+    public void setSoundEvent(ResourceLocation sound) {
+        this.soundEvent = sound;
+    }
+
+    @Override
+    public ResourceLocation getSoundEvent() {
+        return this.soundEvent;
     }
 
 }

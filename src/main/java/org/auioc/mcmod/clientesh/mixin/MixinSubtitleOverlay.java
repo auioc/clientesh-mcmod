@@ -59,7 +59,9 @@ public class MixinSubtitleOverlay {
     )
     private Subtitle onPlaySound_RedirectNewSubtitle(Component component, Vec3 vec3, SoundInstance p_94645_, WeighedSoundEvents p_94646_) {
         var subtitle = new Subtitle(component, vec3);
-        ((IMixinSubtitleOverlaySubtitle) subtitle).setSource(p_94645_.getSource());
+        var mixinSubtitle = (IMixinSubtitleOverlaySubtitle) subtitle;
+        mixinSubtitle.setSource(p_94645_.getSource());
+        mixinSubtitle.setSoundEvent(p_94646_.getResourceLocation());
         return subtitle;
     }
 
