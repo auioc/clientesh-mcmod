@@ -11,8 +11,6 @@ import net.minecraft.client.gui.components.SubtitleOverlay.Subtitle;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.WeighedSoundEvents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.phys.Vec3;
 
 @Mixin(value = SubtitleOverlay.class)
@@ -45,7 +43,7 @@ public class MixinSubtitleOverlay {
         allow = 1
     )
     private Component render_ClearComponentColor(Component component) {
-        return new TextComponent(component.getString()).setStyle(component.getStyle().withColor((TextColor) null));
+        return SubtitleHighlight.clearComponentColor(component);
     }
 
     // ============================================================================================================== //
