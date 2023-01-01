@@ -9,7 +9,9 @@
         "MixinAccessorCreeper",
         "MixinKeyboardHandler",
         "MixinGameRenderer",
-        "MixinScreenEffectRenderer"
+        "MixinScreenEffectRenderer",
+        "MixinSubtitleOverlaySubtitle",
+        "MixinSubtitleOverlay"
     ],
     "server": [],
     "injectors": {

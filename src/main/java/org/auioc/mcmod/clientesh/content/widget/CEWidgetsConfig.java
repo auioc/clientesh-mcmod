@@ -12,6 +12,7 @@ public class CEWidgetsConfig {
     public static void build(final ForgeConfigSpec.Builder b) {
         ConfigUtils.push(b, "additional_tooltip", AdditionalItemTooltip.Config::build);
         ConfigUtils.push(b, "explosion_countdown", ExplosionCountdown.Config::build);
+        ConfigUtils.push(b, "subtitle_highlight", SubtitleHighlight.Config::build);
     }
 
     public static void onLoad(CommentedConfig config) {
