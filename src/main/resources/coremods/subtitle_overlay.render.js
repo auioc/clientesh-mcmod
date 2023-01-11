@@ -17,34 +17,22 @@ function initializeCoreMod() {
                 methodDesc: '(Lcom/mojang/blaze3d/vertex/PoseStack;)V',
             },
             transformer: function (methodNode) {
-                var toInject = new InsnList();
-                {
-                    toInject.add(new VarInsnNode(Opcodes.ALOAD, 12));
-                    toInject.add(new VarInsnNode(Opcodes.ALOAD, 10));
-                    toInject.add(
-                        new MethodInsnNode(
-                            Opcodes.INVOKEVIRTUAL,
-                            'net/minecraft/client/gui/components/SubtitleOverlay$Subtitle',
-                            ASMAPI.mapMethod('m_94658_'),
-                            '()J',
-                            false
-                        )
-                    );
-                    toInject.add(new VarInsnNode(Opcodes.ILOAD, 25));
-                    toInject.add(
-                        new MethodInsnNode(
-                            Opcodes.INVOKESTATIC,
-                            'org/auioc/mcmod/clientesh/content/widget/SubtitleHighlight',
-                            'adjustColor',
-                            '(Lnet/minecraft/network/chat/Component;JI)I',
-                            false
-                        )
-                    );
-                    toInject.add(new VarInsnNode(Opcodes.ISTORE, 25));
-                }
+                var instructions = methodNode.instructions;
 
-                var at = methodNode.instructions.get(
-                    methodNode.instructions.indexOf(
+                var aloadSub2 = instructions.get(
+                    instructions.indexOf(
+                        ASMAPI.findFirstMethodCall(
+                            methodNode,
+                            ASMAPI.MethodType.VIRTUAL,
+                            'net/minecraft/client/gui/components/SubtitleOverlay$Subtitle',
+                            ASMAPI.mapMethod('m_94659_'),
+                            '()Lnet/minecraft/world/phys/Vec3;'
+                        )
+                    ) - 1
+                );
+
+                var istoreI2 = instructions.get(
+                    instructions.indexOf(
                         ASMAPI.findFirstMethodCall(
                             methodNode,
                             ASMAPI.MethodType.VIRTUAL,
@@ -52,9 +40,40 @@ function initializeCoreMod() {
                             ASMAPI.mapMethod('m_85836_'),
                             '()V'
                         )
+                    ) - 4
+                );
+
+                var aloadComp = instructions.get(
+                    instructions.indexOf(
+                        ASMAPI.findFirstMethodCallBefore(
+                            methodNode,
+                            ASMAPI.MethodType.VIRTUAL,
+                            'net/minecraft/client/gui/Font',
+                            ASMAPI.mapMethod('m_92852_'),
+                            '(Lnet/minecraft/network/chat/FormattedText;)I',
+                            instructions.indexOf(istoreI2)
+                        )
                     ) - 1
                 );
-                methodNode.instructions.insertBefore(at, toInject);
+
+                var toInject = new InsnList();
+                {
+                    toInject.add(new VarInsnNode(Opcodes.ALOAD, aloadComp.var));
+                    toInject.add(new VarInsnNode(Opcodes.ALOAD, aloadSub2.var));
+                    toInject.add(new VarInsnNode(Opcodes.ILOAD, istoreI2.var));
+                    toInject.add(
+                        new MethodInsnNode(
+                            Opcodes.INVOKESTATIC,
+                            'org/auioc/mcmod/clientesh/content/widget/SubtitleHighlight',
+                            'adjustColor',
+                            '(Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/SubtitleOverlay$Subtitle;I)I',
+                            false
+                        )
+                    );
+                    toInject.add(new VarInsnNode(Opcodes.ISTORE, istoreI2.var));
+                }
+
+                methodNode.instructions.insert(istoreI2, toInject);
 
                 // print(ASMAPI.methodNodeToString(methodNode));
                 return methodNode;
@@ -67,7 +86,8 @@ function initializeCoreMod() {
 /*
     m_94642_    render      net/minecraft/client/gui/components/SubtitleOverlay/render (Lcom/mojang/blaze3d/vertex/PoseStack;)V
     m_85836_    pushPose    com/mojang/blaze3d/vertex/PoseStack/pushPose ()V
-    m_94658_    getTime     net/minecraft/client/gui/components/SubtitleOverlay$Subtitle/getTime ()J
+    m_94659_    getLocation net/minecraft/client/gui/components/SubtitleOverlay$Subtitle/getLocation ()Lnet/minecraft/world/phys/Vec3;
+    m_92852_    width       net/minecraft/client/gui/Font/width (Lnet/minecraft/network/chat/FormattedText;)I
 */
 
 //! LocalVariableTable
@@ -111,7 +131,7 @@ function initializeCoreMod() {
                 //_ ...
                 int l1 = Mth.floor(Mth.clampedLerp(255.0F, 75.0F, (float)(Util.getMillis() - subtitleoverlay$subtitle1.getTime()) / 3000.0F));
                 int i2 = l1 << 16 | l1 << 8 | l1;
-+               i2 = org.auioc.mcmod.clientesh.content.widget.SubtitleHighlight.adjustColor(component, subtitleoverlay$subtitle1.getTime(), i2);
++               i2 = org.auioc.mcmod.clientesh.content.widget.SubtitleHighlight.adjustColor(component, subtitleoverlay$subtitle1, i2);
                 p_94643_.pushPose();
                 //_ ...
             }
@@ -119,28 +139,32 @@ function initializeCoreMod() {
         }
     }
 *   ========== ByteCode ==========   *
-    //_ ...
-    L41
-        LINENUMBER 75 L41
-        ILOAD 24
-        BIPUSH 16
-        ISHL
-        ILOAD 24
-        BIPUSH 8
-        ISHL
-        IOR
-        ILOAD 24
-        IOR
-        ISTORE 25
-    L42
-        LINENUMBER 76 L42
-+       ALOAD 12
-+       ALOAD 10
-+       INVOKEVIRTUAL net/minecraft/client/gui/components/SubtitleOverlay$Subtitle.getTime ()J
-+       ILOAD 25
-+       INVOKESTATIC org/auioc/mcmod/clientesh/content/widget/SubtitleHighlight.adjustColor (Lnet/minecraft/network/chat/Component;JI)I
-+       ISTORE 25
-        ALOAD 1
-~ -1B   INVOKEVIRTUAL com/mojang/blaze3d/vertex/PoseStack.pushPose ()V
-    //_ ...
+            //_ ...
+            L29
+                LINENUMBER 65 L29
+~ -1(aloadSub2) ALOAD 10
+~  0            INVOKEVIRTUAL net/minecraft/client/gui/components/SubtitleOverlay$Subtitle.getLocation ()Lnet/minecraft/world/phys/Vec3;
+                //_ ...
+            //_ ...
+            L39
+                LINENUMBER 73 L39
+                //_ ...
+~ -1(aloadComp) ALOAD 12
+~  0            INVOKEVIRTUAL net/minecraft/client/gui/Font.width (Lnet/minecraft/network/chat/FormattedText;)I
+   ↑            //_ ...
+   │        //_ ...
+   │        L41
+   │            LINENUMBER 75 L41
+   │            //_ ...
+~ -4(istoreI2)↓ ISTORE 25
++ ↑             ALOAD 12
++ │             ALOAD 10
++ │             ILOAD 25
++ │             INVOKESTATIC org/auioc/mcmod/clientesh/content/widget/SubtitleHighlight.adjustColor (Lnet/minecraft/network/chat/Component;Lnet/minecraft/client/gui/components/SubtitleOverlay$Subtitle;I)I
++ │             ISTORE 25
+  │-3       L42
+  │-2         LINENUMBER 76 L42
+  │-1         ALOAD 1
+~ 0           INVOKEVIRTUAL com/mojang/blaze3d/vertex/PoseStack.pushPose ()V
+            //_ ...
 */

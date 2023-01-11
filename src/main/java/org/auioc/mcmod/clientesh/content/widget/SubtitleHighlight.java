@@ -71,9 +71,9 @@ public class SubtitleHighlight {
     }
 
     // Coremod clientesh.subtitle_overlay.render
-    public static int adjustColor(Component text, long time, int i2) {
+    public static int adjustColor(Component text, Subtitle subtitle, int i2) {
         var color = text.getStyle().getColor();
-        return (color == null) ? i2 : adjustColor(color.getValue(), time);
+        return (color == null) ? i2 : adjustColor(color.getValue(), subtitle.getTime());
     }
 
     // ============================================================================================================== //
