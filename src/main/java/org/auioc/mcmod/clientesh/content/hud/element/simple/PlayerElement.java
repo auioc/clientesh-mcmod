@@ -40,6 +40,14 @@ public class PlayerElement {
         };
     }
 
+    // TODO support integrated server
+    public static IHudElement remainingFireTicks(JsonObject json) {
+        return new AbsIntegerElement(json) {
+            @Override
+            public int value() { return player.getRemainingFireTicks(); }
+        };
+    }
+
     public static IHudElement attackCooldown(JsonObject json) {
         return new AbsDoubleElement(json) {
             @Override
@@ -68,6 +76,7 @@ public class PlayerElement {
         };
     }
 
+    // TODO support integrated server
     public static IHudElement saturationLevel(JsonObject json) {
         return new AbsDoubleElement(json) {
             @Override
@@ -75,6 +84,7 @@ public class PlayerElement {
         };
     }
 
+    // TODO support integrated server
     public static IHudElement exhaustionLevel(JsonObject json) {
         return new AbsDoubleElement(json) {
             @Override

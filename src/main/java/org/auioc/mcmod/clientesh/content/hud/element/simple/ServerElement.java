@@ -12,6 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class ServerElement {
 
+    // TODO support integrated server
     public static IHudElement tps(JsonObject json) {
         return new AbsDoubleElement(json) {
             @Override
@@ -19,6 +20,7 @@ public class ServerElement {
         };
     }
 
+    // TODO support integrated server
     public static IHudElement mspt(JsonObject json) {
         return new AbsDoubleElement(json) {
             @Override

@@ -66,6 +66,7 @@ public interface CEHudElements {
     HudElementEntry MAX_AIR_SUPPLY           = register("max_air_supply",           PlayerElement::maxAirSupply);
     HudElementEntry FROZEN_TICKS             = register("frozen_ticks",             PlayerElement::frozenTicks);
     HudElementEntry TICKS_REQUIRED_TO_FREEZE = register("ticks_required_to_freeze", PlayerElement::ticksRequiredToFreeze);
+    HudElementEntry REMAINING_FIRE_TICKS     = register("remaining_fire_ticks",     PlayerElement::remainingFireTicks);
     HudElementEntry ATTACK_COOLDOWN          = register("attack_cooldown",          PlayerElement::attackCooldown);
     HudElementEntry HEALTH                   = register("health",                   PlayerElement::health);
     HudElementEntry MAX_HEALTH               = register("max_health",               PlayerElement::maxHealth);
