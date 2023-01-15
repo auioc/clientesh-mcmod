@@ -54,6 +54,7 @@ public interface CEHudElements {
     HudElementEntry VERSION_TYPE     = register("version_type",     VersionElement::versionType);
 
     HudElementEntry SKY_LIGHT      = register("sky_light",      LevelElement::skyLight);
+    HudElementEntry SKY_DARKEN     = register("sky_darken",     LevelElement::skyDarken);
     HudElementEntry BLOCK_LIGHT    = register("block_light",    LevelElement::blockLight);
     HudElementEntry BIOME_ID       = register("biome_id",       LevelElement::biomeId);
     HudElementEntry BIOME_NAME     = register("biome_name",     LevelElement::biomeName);

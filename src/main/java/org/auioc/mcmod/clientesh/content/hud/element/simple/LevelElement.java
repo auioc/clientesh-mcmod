@@ -24,6 +24,13 @@ public class LevelElement {
         };
     }
 
+    public static IHudElement skyDarken(JsonObject json) {
+        return new AbsIntegerElement(json, true, -1) {
+            @Override
+            public int value() { return getServerLevel().map((serverLevel) -> serverLevel.getSkyDarken()).orElseGet(() -> -1); }
+        };
+    }
+
     public static IHudElement blockLight(JsonObject json) {
         return new AbsIntegerElement(json, true, -1) {
             @Override

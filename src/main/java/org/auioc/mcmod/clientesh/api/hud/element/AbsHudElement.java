@@ -1,5 +1,6 @@
 package org.auioc.mcmod.clientesh.api.hud.element;
 
+import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
@@ -16,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -58,6 +60,11 @@ public abstract class AbsHudElement implements IHudElement {
     public static void setWaiting(boolean waiting) { AbsHudElement.waiting = waiting; }
 
     public static boolean isWaiting() { return waiting; }
+
+    protected Optional<ServerLevel> getServerLevel() {
+        var integratedServer = MC.getSingleplayerServer();
+        return integratedServer != null ? Optional.ofNullable(integratedServer.getLevel(level.dimension())) : Optional.empty();
+    }
 
     protected static MutableComponent format(String format, Object... args) {
         return TextUtils.literal(String.format(format, args));
