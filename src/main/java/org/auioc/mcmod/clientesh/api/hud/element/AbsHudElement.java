@@ -12,12 +12,14 @@ import org.auioc.mcmod.clientesh.api.hud.value.IOperableValue.IStringValue;
 import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.server.IntegratedServer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -61,9 +63,16 @@ public abstract class AbsHudElement implements IHudElement {
 
     public static boolean isWaiting() { return waiting; }
 
+    protected static Optional<IntegratedServer> getIntegratedServer() {
+        return Optional.ofNullable(MC.getSingleplayerServer());
+    }
+
     protected Optional<ServerLevel> getServerLevel() {
-        var integratedServer = MC.getSingleplayerServer();
-        return integratedServer != null ? Optional.ofNullable(integratedServer.getLevel(level.dimension())) : Optional.empty();
+        return getIntegratedServer().map((server) -> server.getLevel(level.dimension()));
+    }
+
+    protected Optional<ServerPlayer> getServerPlayer() {
+        return getIntegratedServer().map((server) -> server.getPlayerList().getPlayer(player.getUUID()));
     }
 
     protected static MutableComponent format(String format, Object... args) {
