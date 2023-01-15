@@ -7,7 +7,10 @@ import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsStringElement;
 import org.auioc.mcmod.clientesh.api.hud.element.IHudElement;
 import com.google.gson.JsonObject;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -53,6 +56,30 @@ public class LevelElement {
         return new AbsHudElement(json, true) {
             @Override
             protected MutableComponent getRawText() { return (MutableComponent) LevelUtils.getDimensionName(level); };
+        };
+    }
+
+    public static IHudElement weather(JsonObject json) {
+        return new AbsHudElement(json, true) {
+            @Override
+            protected MutableComponent getRawText() {
+                String weather;
+                if (level.dimensionType().effectsLocation().equals(DimensionType.OVERWORLD_EFFECTS)) {
+                    if (level.isRaining()) {
+                        boolean snow = level.getBiome(blockPosition).value().getPrecipitation() == Biome.Precipitation.SNOW;
+                        if (level.isThundering()) {
+                            weather = snow ? "blizzard" : "thunderstorm";
+                        } else {
+                            weather = snow ? "snowfall" : "rain";
+                        }
+                    } else {
+                        weather = "clear";
+                    }
+                } else {
+                    weather = "none";
+                }
+                return new TranslatableComponent("clientesh.hud.weather.value." + weather);
+            };
         };
     }
 

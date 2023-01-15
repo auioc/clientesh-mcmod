@@ -59,6 +59,7 @@ public interface CEHudElements {
     HudElementEntry BIOME_NAME     = register("biome_name",     LevelElement::biomeName);
     HudElementEntry DIMENSION_ID   = register("dimension_id",   LevelElement::dimensionId);
     HudElementEntry DIMENSION_NAME = register("dimension_name", LevelElement::dimensionName);
+    HudElementEntry WEATHER        = register("weather",        LevelElement::weather);
 
     HudElementEntry AIR_SUPPLY               = register("air_supply",               PlayerElement::airSupply);
     HudElementEntry MAX_AIR_SUPPLY           = register("max_air_supply",           PlayerElement::maxAirSupply);

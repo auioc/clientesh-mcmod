@@ -37,5 +37,12 @@
     "clientesh.hud.targeted_block.value.name": "Name: ",
     "clientesh.hud.targeted_block.value.xyz": "XYZ: ",
     "clientesh.hud.tick_time.label": "Tick time: ",
-    "clientesh.hud.velocity.label": "Velocity: "
+    "clientesh.hud.velocity.label": "Velocity: ",
+    "clientesh.hud.weather.label": "Weather: ",
+    "clientesh.hud.weather.value.blizzard": "Blizzard",
+    "clientesh.hud.weather.value.clear": "Clear",
+    "clientesh.hud.weather.value.none": "None",
+    "clientesh.hud.weather.value.rain": "Rain",
+    "clientesh.hud.weather.value.snowfall": "Snowfall",
+    "clientesh.hud.weather.value.thunderstorm": "Thunderstorm"
 }

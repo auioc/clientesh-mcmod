@@ -37,5 +37,12 @@
     "clientesh.hud.targeted_block.value.name": "名称：",
     "clientesh.hud.targeted_block.value.xyz": "坐标：",
     "clientesh.hud.tick_time.label": "游戏刻：",
-    "clientesh.hud.velocity.label": "速度："
+    "clientesh.hud.velocity.label": "速度：",
+    "clientesh.hud.weather.label": "天气：",
+    "clientesh.hud.weather.value.blizzard": "雷暴雪",
+    "clientesh.hud.weather.value.clear": "晴",
+    "clientesh.hud.weather.value.none": "无",
+    "clientesh.hud.weather.value.rain": "雨",
+    "clientesh.hud.weather.value.snowfall": "雪",
+    "clientesh.hud.weather.value.thunderstorm": "雷暴雨"
 }
