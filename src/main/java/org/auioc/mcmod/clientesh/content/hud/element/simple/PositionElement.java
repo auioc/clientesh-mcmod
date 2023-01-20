@@ -1,6 +1,7 @@
 package org.auioc.mcmod.clientesh.content.hud.element.simple;
 
 import org.auioc.mcmod.arnicalib.game.entity.EntityUtils;
+import org.auioc.mcmod.arnicalib.game.world.LevelUtils;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsBooleanElement;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsDoubleElement;
 import org.auioc.mcmod.clientesh.api.hud.element.AbsHudElement.AbsIntegerElement;
@@ -10,7 +11,6 @@ import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import com.google.gson.JsonObject;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
-import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -63,9 +63,8 @@ public class PositionElement {
         return new AbsBooleanElement(json) {
             @Override
             public boolean value() {
-                // TODO arnicalib
                 return (SeedGetter.hasSeed())
-                    ? WorldgenRandom.seedSlimeChunk(chunkPosition.x, chunkPosition.z, SeedGetter.get(), 987234911L).nextInt(10) == 0
+                    ? LevelUtils.isSlimeChunk(chunkPosition, SeedGetter.get())
                     : false;
             }
         };
