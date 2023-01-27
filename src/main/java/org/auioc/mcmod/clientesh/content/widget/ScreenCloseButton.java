@@ -20,13 +20,13 @@ import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 public class ScreenCloseButton {
 
     public static void handle(ScreenEvent.InitScreenEvent.Post event) {
-        if (event.getScreen() instanceof AbstractContainerScreen<?> screen) {
+        if (event.getScreen() instanceof AbstractContainerScreen<?> screen && !Config.isInBlacklist(screen)) {
             var padding = Config.getPadding(screen);
+            // TODO arnicalib closebuttom recalc pos before rendering
             int x = screen.getGuiLeft() + screen.getXSize() - CloseButton.CROSS_SIZE - padding.x();
             int y = screen.getGuiTop() + padding.y();
             event.addListener(new CloseButton(x, y, screen));
         }
-        return;
     }
 
     // ============================================================================================================== //
@@ -38,6 +38,7 @@ public class ScreenCloseButton {
         private static final Padding DEFAULT_PADDING = new Padding(6, 6);
 
         public static BooleanValue enabled;
+        public static ConfigValue<List<? extends String>> blacklist;
         public static ConfigValue<List<? extends String>> paddings;
         public static final Map<String, Padding> PADDING_MAP = new HashMap<>() {
             {
@@ -47,11 +48,16 @@ public class ScreenCloseButton {
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
+            blacklist = b.defineListAllowEmpty(
+                ConfigUtils.split("blacklist"),
+                () -> List.of("net.minecraft.client.gui.screens.inventory.BeaconScreen"),
+                (o) -> (o instanceof String str)
+            ); // TODO arnicalib defaultSupplier,validator
             paddings = b.defineListAllowEmpty(
                 ConfigUtils.split("paddings"),
                 Config::paddingMapToStringList,
                 (o) -> (o instanceof String str) ? PADDING_CONFIG_STRING_PATTERN.matcher(str).matches() : false
-            ); // TODO arnicalib
+            ); // TODO arnicalib defaultSupplier,validator
         }
 
         public static void onLoad(CommentedConfig config) {
@@ -61,6 +67,10 @@ public class ScreenCloseButton {
 
         public static <T extends AbstractContainerScreen<?>> Padding getPadding(T screen) {
             return PADDING_MAP.getOrDefault(screen.getClass().getName(), DEFAULT_PADDING);
+        }
+
+        public static <T extends AbstractContainerScreen<?>> boolean isInBlacklist(T screen) {
+            return blacklist.get().contains(screen.getClass().getName());
         }
 
         private static List<String> paddingMapToStringList() {
@@ -87,6 +97,7 @@ public class ScreenCloseButton {
 
     // ============================================================================================================== //
 
+    @OnlyIn(Dist.CLIENT)
     private static record Padding(int x, int y) {} // TODO arnicalib
 
 }
