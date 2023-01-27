@@ -9,6 +9,7 @@ import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
 import org.auioc.mcmod.clientesh.content.tweak.ScreenEffectTweaks;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
 import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
+import org.auioc.mcmod.clientesh.content.widget.ScreenCloseButton;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,6 +32,8 @@ public class CEForgeEventHandler {
         if (screen instanceof PauseScreen pauseScreen) {
             if (CETweaksConfig.enablePauseScreenTweaks.get()) PauseScreenTweaks.handle(event, pauseScreen);
         }
+
+        if (ScreenCloseButton.Config.enabled.get()) ScreenCloseButton.handle(event);
     }
 
     @SubscribeEvent
