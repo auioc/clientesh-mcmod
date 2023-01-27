@@ -19,6 +19,7 @@ public class CEWidgetsConfig {
     public static void onLoad(CommentedConfig config) {
         AdditionalItemTooltip.Config.onLoad(config);
         SubtitleHighlight.Config.onLoad(config);
+        ScreenCloseButton.Config.onLoad(config);
     }
 
 }
