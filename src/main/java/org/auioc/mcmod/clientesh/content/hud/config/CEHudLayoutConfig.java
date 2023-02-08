@@ -22,7 +22,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 public class CEHudLayoutConfig {
 
     private static final String FILE_NAME = "clientesh-hud.json";
-    private static final String DEFAULT = "{ \"left\": [], \"right\": [] }";
+    private static final String DEFAULT = "{ \"columns\": {} }";
 
     public static void init() {
         loadFromFile();

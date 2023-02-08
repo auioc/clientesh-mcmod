@@ -5,8 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import org.auioc.mcmod.arnicalib.base.tuple.IntPair;
 import org.auioc.mcmod.arnicalib.game.config.ConfigUtils;
-import org.auioc.mcmod.arnicalib.game.gui.component.CloseButton;
+import org.auioc.mcmod.arnicalib.game.gui.component.ContainerCloseButton;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,10 +23,7 @@ public class ScreenCloseButton {
     public static void handle(ScreenEvent.InitScreenEvent.Post event) {
         if (event.getScreen() instanceof AbstractContainerScreen<?> screen && !Config.isInBlacklist(screen)) {
             var padding = Config.getPadding(screen);
-            // TODO arnicalib closebuttom recalc pos before rendering
-            int x = screen.getGuiLeft() + screen.getXSize() - CloseButton.CROSS_SIZE - padding.x();
-            int y = screen.getGuiTop() + padding.y();
-            event.addListener(new CloseButton(x, y, screen));
+            event.addListener(new ContainerCloseButton(padding.x(), padding.y(), screen));
         }
     }
 
@@ -35,29 +33,29 @@ public class ScreenCloseButton {
     public static class Config {
 
         private static final Pattern PADDING_CONFIG_STRING_PATTERN = Pattern.compile("[\\w\\.\\$]+:\\d+,\\d+");
-        private static final Padding DEFAULT_PADDING = new Padding(6, 6);
+        private static final IntPair DEFAULT_PADDING = new IntPair(6, 6);
 
         public static BooleanValue enabled;
         public static ConfigValue<List<? extends String>> blacklist;
         public static ConfigValue<List<? extends String>> paddings;
-        public static final Map<String, Padding> PADDING_MAP = new HashMap<>() {
+        public static final Map<String, IntPair> PADDING_MAP = new HashMap<>() {
             {
-                put("net.minecraft.client.gui.screens.inventory.EnchantmentScreen", new Padding(8, 8));
+                put("net.minecraft.client.gui.screens.inventory.ShulkerBoxScreen", new IntPair(8, 8));
+                put("net.minecraft.client.gui.screens.inventory.ContainerScreen", new IntPair(8, 8));
             }
         };
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
-            blacklist = b.defineListAllowEmpty(
-                ConfigUtils.split("blacklist"),
-                () -> List.of("net.minecraft.client.gui.screens.inventory.BeaconScreen"),
-                (o) -> (o instanceof String str)
-            ); // TODO arnicalib defaultSupplier,validator
-            paddings = b.defineListAllowEmpty(
-                ConfigUtils.split("paddings"),
+            blacklist = ConfigUtils.defineStringList(
+                b, "blacklist",
+                () -> List.of("net.minecraft.client.gui.screens.inventory.BeaconScreen")
+            );
+            paddings = ConfigUtils.defineStringList(
+                b, "paddings",
                 Config::paddingMapToStringList,
-                (o) -> (o instanceof String str) ? PADDING_CONFIG_STRING_PATTERN.matcher(str).matches() : false
-            ); // TODO arnicalib defaultSupplier,validator
+                (str) -> PADDING_CONFIG_STRING_PATTERN.matcher(str).matches()
+            );
         }
 
         public static void onLoad(CommentedConfig config) {
@@ -65,7 +63,7 @@ public class ScreenCloseButton {
             PADDING_MAP.putAll(paddingStringListToMapEntries());
         }
 
-        public static <T extends AbstractContainerScreen<?>> Padding getPadding(T screen) {
+        public static <T extends AbstractContainerScreen<?>> IntPair getPadding(T screen) {
             return PADDING_MAP.getOrDefault(screen.getClass().getName(), DEFAULT_PADDING);
         }
 
@@ -80,24 +78,19 @@ public class ScreenCloseButton {
                 .toList();
         }
 
-        private static Map<String, Padding> paddingStringListToMapEntries() {
+        private static Map<String, IntPair> paddingStringListToMapEntries() {
             return paddings.get()
                 .stream()
                 .map((str) -> str.split(":|,"))
                 .collect(
                     Collectors.toMap(
                         (strArr) -> strArr[0],
-                        (strArr) -> new Padding(Integer.parseInt(strArr[1]), Integer.parseInt(strArr[2])),
+                        (strArr) -> new IntPair(Integer.parseInt(strArr[1]), Integer.parseInt(strArr[2])),
                         (v1, v2) -> v1
                     )
                 );
         }
 
     }
-
-    // ============================================================================================================== //
-
-    @OnlyIn(Dist.CLIENT)
-    private static record Padding(int x, int y) {} // TODO arnicalib
 
 }
