@@ -12,7 +12,8 @@
         "MixinScreenEffectRenderer",
         "MixinSubtitleOverlaySubtitle",
         "MixinSubtitleOverlay",
-        "MixinAbstractClientPlayer"
+        "MixinAbstractClientPlayer",
+        "MixinPotionItem"
     ],
     "server": [],
     "injectors": {

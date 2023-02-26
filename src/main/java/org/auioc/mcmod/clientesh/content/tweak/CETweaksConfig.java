@@ -18,6 +18,7 @@ public class CETweaksConfig {
         ConfigUtils.push(b, "screen_effect", ScreenEffectTweaks.Config::build);
         ConfigUtils.push(b, "hud_hidden", HudHiddenTweaks.Config::build);
         ConfigUtils.push(b, "scoping", ScopingTweaks.Config::build);
+        ConfigUtils.push(b, "item", ItemTweaks.Config::build);
     }
 
     public static void onLoad(CommentedConfig config) {
