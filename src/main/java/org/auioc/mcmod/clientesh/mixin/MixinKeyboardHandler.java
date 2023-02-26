@@ -2,14 +2,21 @@ package org.auioc.mcmod.clientesh.mixin;
 
 import org.auioc.mcmod.clientesh.content.tweak.HudHiddenTweaks;
 import org.objectweb.asm.Opcodes;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.KeyboardHandler;
+import net.minecraft.client.Minecraft;
 
 @Mixin(value = KeyboardHandler.class)
 public class MixinKeyboardHandler {
+
+    @Shadow
+    @Final
+    private Minecraft minecraft;
 
     @Inject(
         method = "Lnet/minecraft/client/KeyboardHandler;keyPress(JIIII)V",
@@ -23,7 +30,7 @@ public class MixinKeyboardHandler {
         allow = 1
     )
     private void keyPress(long p_90894_, int p_90895_, int p_90896_, int p_90897_, int p_90898_, CallbackInfo ci) {
-        HudHiddenTweaks.renderHandEvenHidden();
+        HudHiddenTweaks.onSwitchHudHidden(minecraft);
     }
 
 }
