@@ -15,5 +15,5 @@
 
 ## License
 
-ArnicaLib is licensed under the **GNU General Public License v3.0**.
+ClientEsh is licensed under the **GNU General Public License v3.0**.
 The full license is in the [LICENSE](/LICENSE) file.
