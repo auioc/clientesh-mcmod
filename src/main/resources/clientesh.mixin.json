@@ -11,11 +11,13 @@
         "MixinGameRenderer",
         "MixinScreenEffectRenderer",
         "MixinSubtitleOverlaySubtitle",
-        "MixinSubtitleOverlay"
+        "MixinSubtitleOverlay",
+        "MixinAbstractClientPlayer"
     ],
     "server": [],
     "injectors": {
-        "defaultRequire": 1
+        "defaultRequire": 1,
+        "maxShiftBy": 3
     },
     "refmap": "clientesh.mixin-refmap.json",
     "minVersion": "0.8"
