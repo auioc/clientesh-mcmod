@@ -18,6 +18,7 @@ apply from: 'gradle/a.gradle'
 
 repositories {
     maven { url "https://www.cursemaven.com" }
+    maven { url "https://dvs1.progwml6.com/files/maven/" }
 }
 
 dependencies {
@@ -25,6 +26,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*-deobf.jar', '*-api.jar', '*/*-deobf.jar', '*/*-api.jar'])
 
     if (System.getenv('CI') == null) {
+        runtimeOnly fg.deobf('mezz.jei:jei-1.18.2-forge:10.2.1.283')
         runtimeOnly fg.deobf("curse.maven:catalogue-459701:3803098")
         runtimeOnly fg.deobf("curse.maven:configured-457570:4010624")
     }
