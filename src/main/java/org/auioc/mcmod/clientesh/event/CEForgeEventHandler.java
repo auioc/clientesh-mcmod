@@ -3,13 +3,11 @@ package org.auioc.mcmod.clientesh.event;
 import org.auioc.mcmod.arnicalib.game.event.client.ClientPermissionsChangedEvent;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import org.auioc.mcmod.clientesh.content.command.CECommands;
-import org.auioc.mcmod.clientesh.content.tweak.CETweaksConfig;
-import org.auioc.mcmod.clientesh.content.tweak.OverlayTweaks;
-import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
-import org.auioc.mcmod.clientesh.content.tweak.ScreenEffectTweaks;
+import org.auioc.mcmod.clientesh.content.tweak.*;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
 import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
 import org.auioc.mcmod.clientesh.content.widget.ScreenCloseButton;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -72,9 +70,17 @@ public class CEForgeEventHandler {
             case FIRE -> ScreenEffectTweaks.handleFireOverlay(event);
             case WATER -> ScreenEffectTweaks.handleWaterOverlay(event);
             case BLOCK -> ScreenEffectTweaks.handleBlockOverlay(event);
-            default -> {
-            }
+            default -> {}
         }
+    }
+
+    @SubscribeEvent
+    public static void onMouseScroll(final InputEvent.MouseScrollEvent event) {
+        final var minecraft = Minecraft.getInstance();
+
+        boolean cancel = ScopingTweaks.onMouseScroll(minecraft, event.getScrollDelta());
+
+        if (cancel) event.setCanceled(cancel);
     }
 
 }
