@@ -17,7 +17,7 @@ public class CETweaksConfig {
         ConfigUtils.push(b, "overlay", OverlayTweaks.Config::build);
         ConfigUtils.push(b, "screen_effect", ScreenEffectTweaks.Config::build);
         ConfigUtils.push(b, "hud_hidden", HudHiddenTweaks.Config::build);
-        ConfigUtils.push(b, "scoping", ScopingTweaks.Config::build);
+        ConfigUtils.push(b, "spyglass", SpyglassTweaks.Config::build);
         ConfigUtils.push(b, "item", ItemTweaks.Config::build);
     }
 

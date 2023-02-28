@@ -9,7 +9,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 
 @OnlyIn(Dist.CLIENT)
-public class ScopingTweaks {
+public class SpyglassTweaks {
 
     private static final float DEFAULT_FOV_MODIFIER = 0.1F;
     private static final float MIN_FOV_MODIFIER = 0.1F;

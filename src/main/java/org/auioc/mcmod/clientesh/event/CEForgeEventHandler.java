@@ -78,7 +78,7 @@ public class CEForgeEventHandler {
     public static void onMouseScroll(final InputEvent.MouseScrollEvent event) {
         final var minecraft = Minecraft.getInstance();
 
-        boolean cancel = ScopingTweaks.onMouseScroll(minecraft, event.getScrollDelta());
+        boolean cancel = SpyglassTweaks.onMouseScroll(minecraft, event.getScrollDelta());
 
         if (cancel) event.setCanceled(cancel);
     }
