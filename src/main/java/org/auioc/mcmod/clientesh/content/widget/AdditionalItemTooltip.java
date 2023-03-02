@@ -1,8 +1,11 @@
 package org.auioc.mcmod.clientesh.content.widget;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.auioc.mcmod.arnicalib.base.collection.ListUtils;
+import org.auioc.mcmod.arnicalib.base.holder.LazyObjectHolder;
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.arnicalib.game.config.ConfigUtils;
 import org.auioc.mcmod.arnicalib.game.effect.MobEffectUtils;
@@ -10,6 +13,7 @@ import org.auioc.mcmod.arnicalib.game.entity.EntityUtils;
 import org.auioc.mcmod.arnicalib.game.input.KeyDownRule;
 import org.auioc.mcmod.arnicalib.game.item.ItemNbtUtils;
 import org.auioc.mcmod.arnicalib.game.language.LanguageUtils;
+import org.auioc.mcmod.arnicalib.game.world.MCTimeUnit;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
@@ -23,9 +27,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -46,7 +52,7 @@ public class AdditionalItemTooltip {
         if (!Config.enabled.get()) return;
         if (Config.onlyOnDebug.get() && !MC.options.advancedItemTooltips) return;
 
-        ItemStack itemStack = event.getItemStack();
+        final var itemStack = event.getItemStack();
         if (itemStack.isEmpty()) return;
 
         final List<Component> tooltip = event.getToolTip();
@@ -55,11 +61,7 @@ public class AdditionalItemTooltip {
 
         if (Config.multiLanguageName.get().test() && !itemStack.hasCustomHoverName() && !Config.MLN_LANGUAGES.isEmpty()) {
             var langKey = itemStack.getDescriptionId();
-            int i = ListUtils.indexOf(
-                tooltip, (l) -> (l instanceof TextComponent c
-                    && !c.getSiblings().isEmpty() && c.getSiblings().get(0) instanceof TranslatableComponent t
-                    && t.getKey().equals(langKey)) ? true : false
-            );
+            int i = ListUtils.indexOf(tooltip, (l) -> isNameLine(l, langKey));
             if (i >= 0) {
                 for (int j = 0; j < Config.MLN_LANGUAGES.size(); ++j) {
                     var name = TextUtils.literal(Config.MLN_LANGUAGES.get(j).getOrDefault(langKey));
@@ -103,6 +105,23 @@ public class AdditionalItemTooltip {
             }
         }
 
+        if (Config.burnTime.get().test()) {
+            int time = itemStack.getBurnTime(null);
+            if (time == -1) time = VANILLA_BURNS.get().getOrDefault(itemStack.getItem(), 0);
+            if (time != 0) {
+                String timeStr = "";
+                switch (Config.burnTimeUnit.get()) {
+                    case TICK -> timeStr = String.valueOf(time);
+                    case SECOND -> timeStr = String.format("%.1fs", time / 20.0D);
+                    case REAL -> timeStr = StringUtil.formatTickDuration(time);
+                };
+                tooltip.add(
+                    translatable("burn_time").setStyle(DARKGARY)
+                        .append(timeStr)
+                );
+            }
+        }
+
         if (Config.nbt.get().test() && nbt != null) {
             tooltip.add(
                 translatable("nbt").setStyle(DARKGARY)
@@ -125,10 +144,20 @@ public class AdditionalItemTooltip {
         }
     }
 
+    // ====================================================================== //
+
     private static TranslatableComponent translatable(String key) {
         return TextUtils.translatable(ClientEsh.i18n("additional_tooltip." + key));
     }
 
+    // ====================================================================== //
+
+    private static boolean isNameLine(Component l, String langKey) {
+        return l instanceof TextComponent c
+            && !c.getSiblings().isEmpty()
+            && c.getSiblings().get(0) instanceof TranslatableComponent t
+            && t.getKey().equals(langKey);
+    }
 
     private static Component foodEffect(float chance, MobEffect effect, int amplifier, int duration) {
         return TextUtils.literal("  ")
@@ -140,6 +169,15 @@ public class AdditionalItemTooltip {
     private static Component foodEffect(float chance, MobEffectInstance effect) {
         return foodEffect(chance, effect.getEffect(), effect.getAmplifier(), effect.getDuration());
     }
+
+    @SuppressWarnings("deprecation")
+    private static final LazyObjectHolder<Map<Item, Integer>> VANILLA_BURNS = new LazyObjectHolder<Map<Item, Integer>>(
+        () -> new HashMap<>() {
+            {
+                FurnaceBlockEntity.getFuel().entrySet().forEach(e -> put(e.getKey(), e.getValue()));
+            }
+        }
+    );
 
     // ============================================================================================================== //
 
@@ -154,6 +192,8 @@ public class AdditionalItemTooltip {
         public static EnumValue<KeyDownRule> foodProperties;
         public static EnumValue<KeyDownRule> axolotlVariant;
         public static EnumValue<KeyDownRule> multiLanguageName;
+        public static EnumValue<KeyDownRule> burnTime;
+        public static EnumValue<MCTimeUnit> burnTimeUnit;
         public static ConfigValue<List<? extends String>> mlnLanguages;
         public static BooleanValue mlnReplaceCurrentName;
         public static BooleanValue mlnSameLine;
@@ -169,14 +209,20 @@ public class AdditionalItemTooltip {
                 tags = b.defineEnum("tags", KeyDownRule.ALWAYS);
                 foodProperties = b.defineEnum("food_properties", KeyDownRule.ALWAYS);
                 axolotlVariant = b.defineEnum("axolotl_variant", KeyDownRule.ALWAYS);
-                b.push("multi_language_name");
                 {
+                    b.push("multi_language_name");
                     multiLanguageName = b.defineEnum("multi_language_name", KeyDownRule.ALWAYS);
                     mlnLanguages = ConfigUtils.defineStringList(b, "languages");
                     mlnReplaceCurrentName = b.define("replace_current_name", false);
                     mlnSameLine = b.define("same_line", true);
+                    b.pop();
                 }
-                b.pop();
+                {
+                    b.push("burn_time");
+                    burnTime = b.defineEnum("burn_time", KeyDownRule.ALWAYS);
+                    burnTimeUnit = b.defineEnum("unit", MCTimeUnit.TICK);
+                    b.pop();
+                }
             }
             b.pop();
         }
