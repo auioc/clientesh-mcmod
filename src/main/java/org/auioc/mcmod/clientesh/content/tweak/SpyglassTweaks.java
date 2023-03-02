@@ -13,7 +13,6 @@ import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 @OnlyIn(Dist.CLIENT)
 public class SpyglassTweaks {
 
-    private static final float DEFAULT_FOV_MODIFIER = 0.1F;
     private static final float MIN_FOV_MODIFIER = 0.1F;
     private static final float MAX_FOV_MODIFIER = 1.5F;
     private static float lastFovModifier;
@@ -58,7 +57,7 @@ public class SpyglassTweaks {
         public static DoubleValue scrollDeltaMultiplier;
 
         public static void build(final ForgeConfigSpec.Builder b) {
-            defaultFovModifier = b.defineInRange("defaultFovModifier", DEFAULT_FOV_MODIFIER, MIN_FOV_MODIFIER, MAX_FOV_MODIFIER);
+            defaultFovModifier = b.defineInRange("defaultFovModifier", 0.1D, 0.1D, 1.5D);
             scrollDeltaMultiplier = b.defineInRange("scrollDeltaMultiplier", 0.025D, 0.001D, 1.0D);
         }
 
