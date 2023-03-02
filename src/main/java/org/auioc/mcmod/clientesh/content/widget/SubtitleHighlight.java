@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 import org.auioc.mcmod.arnicalib.game.config.ConfigUtils;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import org.auioc.mcmod.clientesh.api.mixin.IMixinSubtitleOverlaySubtitle;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.ChatFormatting;
@@ -79,6 +81,7 @@ public class SubtitleHighlight {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.WIDGETS, path = "subtitle_highlight")
     public static class Config {
 
         public static BooleanValue enabled;

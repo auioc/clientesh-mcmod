@@ -7,8 +7,10 @@ import org.auioc.mcmod.arnicalib.base.log.LogUtil;
 import org.auioc.mcmod.arnicalib.base.version.VersionUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.forgespi.language.ModFileScanData;
 
 @Mod(ClientEsh.MOD_ID)
 public final class ClientEsh {
@@ -38,6 +40,11 @@ public final class ClientEsh {
 
     public static String i18n(String key) {
         return MOD_ID + "." + key;
+    }
+
+
+    public static ModFileScanData getScanData() {
+        return ModList.get().getModFileById(MOD_ID).getFile().getScanResult();
     }
 
 }

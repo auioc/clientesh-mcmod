@@ -1,5 +1,7 @@
 package org.auioc.mcmod.clientesh.content.tweak;
 
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
@@ -39,6 +41,7 @@ public class ScreenEffectTweaks {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.TWEAKS, path = "screen_effect")
     public static class Config {
 
         public static BooleanValue renderBlockOverlay;

@@ -1,5 +1,7 @@
 package org.auioc.mcmod.clientesh.content.tweak;
 
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -19,6 +21,7 @@ public class ItemTweaks {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.TWEAKS, path = "item")
     public static class Config {
 
         /**

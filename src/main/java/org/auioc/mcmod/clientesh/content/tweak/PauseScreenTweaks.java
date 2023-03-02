@@ -2,6 +2,8 @@ package org.auioc.mcmod.clientesh.content.tweak;
 
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.arnicalib.game.gui.GuiUtils;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.PauseScreen;
@@ -10,6 +12,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent.InitScreenEvent;
 import net.minecraftforge.client.gui.ModListScreen;
+import net.minecraftforge.common.ForgeConfigSpec.BooleanValue;
+import net.minecraftforge.common.ForgeConfigSpec.Builder;
 
 @OnlyIn(Dist.CLIENT)
 public class PauseScreenTweaks {
@@ -45,6 +49,20 @@ public class PauseScreenTweaks {
         rect.setWidth(widget.getWidth());
         rect.setHeight(widget.getHeight());
         event.removeListener(widget);
+    }
+
+    // ============================================================================================================== //
+
+    @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.TWEAKS, path = "pause_screen")
+    public static class Config {
+
+        public static BooleanValue enabled;
+
+        public static void build(final Builder b) {
+            enabled = b.define("enabled", true);
+        }
+
     }
 
 }

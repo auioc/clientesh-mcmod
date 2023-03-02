@@ -1,5 +1,7 @@
 package org.auioc.mcmod.clientesh.content.hud.config;
 
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import org.auioc.mcmod.clientesh.api.hud.layout.HudAlignment;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.client.Minecraft;
@@ -11,6 +13,7 @@ import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 
 @OnlyIn(Dist.CLIENT)
+@CEConfigAt(type = Type.HUD)
 public class CEHudConfig {
 
     public static BooleanValue enabled;

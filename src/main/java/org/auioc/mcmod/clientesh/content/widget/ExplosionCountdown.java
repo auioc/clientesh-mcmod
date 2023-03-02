@@ -2,6 +2,8 @@ package org.auioc.mcmod.clientesh.content.widget;
 
 import org.auioc.mcmod.arnicalib.game.chat.TextUtils;
 import org.auioc.mcmod.arnicalib.game.world.MCTimeUnit;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import org.auioc.mcmod.clientesh.mixin.MixinAccessorCreeper;
 import net.minecraft.world.entity.item.PrimedTnt;
 import net.minecraft.world.entity.monster.Creeper;
@@ -40,6 +42,7 @@ public class ExplosionCountdown {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.WIDGETS, path = "explosion_countdown")
     public static class Config {
 
         public static BooleanValue enabled;

@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.auioc.mcmod.arnicalib.base.tuple.IntPair;
 import org.auioc.mcmod.arnicalib.game.config.ConfigUtils;
 import org.auioc.mcmod.arnicalib.game.gui.component.ContainerCloseButton;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,6 +32,7 @@ public class ScreenCloseButton {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.WIDGETS, path = "screen_close_button")
     public static class Config {
 
         private static final Pattern PADDING_CONFIG_STRING_PATTERN = Pattern.compile("[\\w\\.\\$]+:\\d+,\\d+");

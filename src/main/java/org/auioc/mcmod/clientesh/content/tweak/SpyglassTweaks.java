@@ -1,5 +1,7 @@
 package org.auioc.mcmod.clientesh.content.tweak;
 
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -49,6 +51,7 @@ public class SpyglassTweaks {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.TWEAKS, path = "spyglass")
     public static class Config {
 
         public static DoubleValue defaultFovModifier;

@@ -1,6 +1,8 @@
 package org.auioc.mcmod.clientesh.content.tweak;
 
 import java.util.function.BooleanSupplier;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -57,6 +59,7 @@ public class HudHiddenTweaks {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.TWEAKS, path = "hud_hidden")
     public static class Config {
 
         public static BooleanValue renderHand;

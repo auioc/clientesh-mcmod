@@ -3,7 +3,10 @@ package org.auioc.mcmod.clientesh.event;
 import org.auioc.mcmod.arnicalib.game.event.client.ClientPermissionsChangedEvent;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import org.auioc.mcmod.clientesh.content.command.CECommands;
-import org.auioc.mcmod.clientesh.content.tweak.*;
+import org.auioc.mcmod.clientesh.content.tweak.OverlayTweaks;
+import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
+import org.auioc.mcmod.clientesh.content.tweak.ScreenEffectTweaks;
+import org.auioc.mcmod.clientesh.content.tweak.SpyglassTweaks;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
 import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
 import org.auioc.mcmod.clientesh.content.widget.ScreenCloseButton;
@@ -28,7 +31,7 @@ public class CEForgeEventHandler {
         var screen = event.getScreen();
 
         if (screen instanceof PauseScreen pauseScreen) {
-            if (CETweaksConfig.enablePauseScreenTweaks.get()) PauseScreenTweaks.handle(event, pauseScreen);
+            if (PauseScreenTweaks.Config.enabled.get()) PauseScreenTweaks.handle(event, pauseScreen);
         }
 
         if (ScreenCloseButton.Config.enabled.get()) ScreenCloseButton.handle(event);

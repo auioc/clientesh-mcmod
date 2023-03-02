@@ -11,6 +11,8 @@ import org.auioc.mcmod.arnicalib.game.input.KeyDownRule;
 import org.auioc.mcmod.arnicalib.game.item.ItemNbtUtils;
 import org.auioc.mcmod.arnicalib.game.language.LanguageUtils;
 import org.auioc.mcmod.clientesh.ClientEsh;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
+import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
@@ -142,6 +144,7 @@ public class AdditionalItemTooltip {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
+    @CEConfigAt(type = Type.WIDGETS, path = "additional_tooltip")
     public static class Config {
 
         public static BooleanValue enabled;
