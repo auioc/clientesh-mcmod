@@ -1,6 +1,6 @@
 package org.auioc.mcmod.clientesh.mixin;
 
-import org.auioc.mcmod.clientesh.content.tweak.SpyglassTweaks;
+import org.auioc.mcmod.clientesh.content.widget.SpyglassZoom;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,7 +23,7 @@ public abstract class MixinAbstractClientPlayer {
         cancellable = true
     )
     private void getFieldOfViewModifier(CallbackInfoReturnable<Float> cir) {
-        cir.setReturnValue(SpyglassTweaks.getFovModifier());
+        cir.setReturnValue(SpyglassZoom.getFovModifier());
     }
 
 }

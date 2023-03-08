@@ -1,4 +1,4 @@
-package org.auioc.mcmod.clientesh.content.tweak;
+package org.auioc.mcmod.clientesh.content.widget;
 
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
@@ -11,7 +11,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 
 @OnlyIn(Dist.CLIENT)
-public class SpyglassTweaks {
+public class SpyglassZoom {
 
     private static final float MIN_FOV_MODIFIER = 0.1F;
     private static final float MAX_FOV_MODIFIER = 1.5F;
@@ -50,7 +50,7 @@ public class SpyglassTweaks {
     // ============================================================================================================== //
 
     @OnlyIn(Dist.CLIENT)
-    @CEConfigAt(type = Type.TWEAKS, path = "spyglass")
+    @CEConfigAt(type = Type.WIDGETS, path = "spyglass_zoom")
     public static class Config {
 
         public static DoubleValue defaultFovModifier;

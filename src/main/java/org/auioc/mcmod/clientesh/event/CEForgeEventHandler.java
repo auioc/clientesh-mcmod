@@ -6,10 +6,10 @@ import org.auioc.mcmod.clientesh.content.command.CECommands;
 import org.auioc.mcmod.clientesh.content.tweak.OverlayTweaks;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
 import org.auioc.mcmod.clientesh.content.tweak.ScreenEffectTweaks;
-import org.auioc.mcmod.clientesh.content.tweak.SpyglassTweaks;
 import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
 import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
 import org.auioc.mcmod.clientesh.content.widget.ScreenCloseButton;
+import org.auioc.mcmod.clientesh.content.widget.SpyglassZoom;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -81,7 +81,7 @@ public class CEForgeEventHandler {
     public static void onMouseScroll(final InputEvent.MouseScrollEvent event) {
         final var minecraft = Minecraft.getInstance();
 
-        boolean cancel = SpyglassTweaks.onMouseScroll(minecraft, event.getScrollDelta());
+        boolean cancel = SpyglassZoom.onMouseScroll(minecraft, event.getScrollDelta());
 
         if (cancel) event.setCanceled(cancel);
     }
