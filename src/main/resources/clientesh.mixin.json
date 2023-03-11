@@ -13,6 +13,7 @@
         "MixinSubtitleOverlaySubtitle",
         "MixinSubtitleOverlay",
         "MixinAbstractClientPlayer",
+        "MixinItemStack",
         "MixinPotionItem"
     ],
     "server": [],
