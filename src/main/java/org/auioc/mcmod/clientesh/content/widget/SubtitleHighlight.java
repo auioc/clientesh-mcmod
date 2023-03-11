@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 import org.auioc.mcmod.arnicalib.game.config.ConfigUtils;
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
-import org.auioc.mcmod.clientesh.api.mixin.IMixinSubtitleOverlaySubtitle;
 import com.electronwill.nightconfig.core.CommentedConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -17,8 +16,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -29,26 +30,25 @@ import net.minecraftforge.common.ForgeConfigSpec.EnumValue;
 @OnlyIn(Dist.CLIENT)
 public class SubtitleHighlight {
 
-    public static Component highlight(Subtitle subtitle) {
-        var text = subtitle.getText();
-
+    public static Component highlight(Component text, ResourceLocation soundEvent, SoundSource source, Vec3 location) {
         if (!Config.enabled.get()) return text;
-
-        var mixinSubtitle = ((IMixinSubtitleOverlaySubtitle) subtitle);
 
         var langKey = (text instanceof TranslatableComponent _t) ? _t.getKey() : null;
         boolean flagLangKey = (langKey != null);
-        var event = mixinSubtitle.getSoundEvent().toString();
+
         for (var pattern : Config.BLACKLIST) {
-            if (pattern.matcher(event).matches()) return text;
+            if (pattern.matcher(soundEvent.toString()).matches()) return text;
             if (flagLangKey && pattern.matcher(langKey).matches()) return text;
         }
 
-        var source = mixinSubtitle.getSource();
+        var newText = new TextComponent("");
         if (Config.COLOR_MAP.containsKey(source)) {
-            return new TextComponent("").withStyle(Config.COLOR_MAP.get(source).get()).append(text);
+            newText.withStyle(Config.COLOR_MAP.get(source).get()).append(text);
         }
-        return text;
+        if (Config.soundLocation.get()) { // TODO move to another class
+            newText.append(String.format("(%.1f,%.1f,%.1f)", location.x(), location.y(), location.z()));
+        }
+        return newText;
     }
 
     public static Component clearComponentColor(Component text) {
@@ -85,12 +85,14 @@ public class SubtitleHighlight {
     public static class Config {
 
         public static BooleanValue enabled;
+        public static BooleanValue soundLocation;
         public static ConfigValue<List<? extends String>> blacklist;
         private static final List<Pattern> BLACKLIST = new ArrayList<>();
         public static final Map<SoundSource, EnumValue<ChatFormatting>> COLOR_MAP = new HashMap<>();
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
+            soundLocation = b.define("sound_location", false);
             blacklist = ConfigUtils.defineStringList(b, "blacklist");
             b.push("color_map");
             {
