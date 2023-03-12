@@ -16,6 +16,22 @@ import net.minecraft.world.phys.Vec3;
 @Mixin(value = SubtitleOverlay.class)
 public class MixinSubtitleOverlay {
 
+    @Redirect(
+        method = "Lnet/minecraft/client/gui/components/SubtitleOverlay;render(Lcom/mojang/blaze3d/vertex/PoseStack;)V",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/client/gui/components/SubtitleOverlay$Subtitle;getText()Lnet/minecraft/network/chat/Component;",
+            ordinal = 1
+        ),
+        require = 1,
+        allow = 1
+    )
+    private Component render_RedirectGetSubtitleText(Subtitle subtitle) {
+        return SubtitleHighlight.highlight(subtitle);
+    }
+
+    // ====================================================================== //
+
     @ModifyArg(
         method = "Lnet/minecraft/client/gui/components/SubtitleOverlay;render(Lcom/mojang/blaze3d/vertex/PoseStack;)V",
         at = @At(

@@ -71,21 +71,6 @@ function initializeCoreMod() {
                         )
                     );
                     toInject.add(new VarInsnNode(Opcodes.ISTORE, istoreI2.var));
-                    // toInject.add(new VarInsnNode(Opcodes.ILOAD, 7));
-                    // toInject.add(new VarInsnNode(Opcodes.ILOAD, 23));
-                    // toInject.add(
-                    //     new MethodInsnNode(
-                    //         Opcodes.INVOKESTATIC,
-                    //         'java/lang/Math',
-                    //         'max',
-                    //         '(II)I',
-                    //         false
-                    //     )
-                    // );
-                    // toInject.add(new InsnNode(Opcodes.ICONST_2));
-                    // toInject.add(new InsnNode(Opcodes.IDIV));
-                    // toInject.add(new VarInsnNode(Opcodes.ISTORE, 19));
-                    // // l = Math.max(j, k1) / 2;
                 }
 
                 methodNode.instructions.insert(istoreI2, toInject);
