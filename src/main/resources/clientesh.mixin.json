@@ -14,7 +14,9 @@
         "MixinSubtitleOverlay",
         "MixinAbstractClientPlayer",
         "MixinItemStack",
-        "MixinPotionItem"
+        "MixinPotionItem",
+        "MixinClientLanguage",
+        "MixinEnchantment"
     ],
     "server": [],
     "injectors": {
