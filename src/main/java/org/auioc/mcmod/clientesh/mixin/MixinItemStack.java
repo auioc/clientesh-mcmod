@@ -23,16 +23,15 @@ public class MixinItemStack {
     public static void appendEnchantmentNames(List<Component> p_41710_, ListTag p_41711_) {
         for (int i = 0; i < p_41711_.size(); ++i) {
             CompoundTag compoundtag = p_41711_.getCompound(i);
-            EnchantmentRegistry.get(EnchantmentHelper.getEnchantmentId(compoundtag)).ifPresent(
-                (p_41708_) -> {
-                    p_41710_.add(
-                        p_41708_.getFullname(
-                            //- EnchantmentHelper.getEnchantmentLevel(compoundtag)
-                            compoundtag.getInt("lvl")
-                        )
-                    );
-                }
-            );
+            var enchantment = EnchantmentRegistry.get(EnchantmentHelper.getEnchantmentId(compoundtag));
+            if (enchantment.isPresent()) {
+                p_41710_.add(
+                    enchantment.get().getFullname(
+                        //- EnchantmentHelper.getEnchantmentLevel(compoundtag)
+                        compoundtag.getInt("lvl")
+                    )
+                );
+            }
         }
 
     }
