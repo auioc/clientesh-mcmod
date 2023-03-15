@@ -1,7 +1,7 @@
 package org.auioc.mcmod.clientesh.event;
 
 import java.util.Map;
-import org.auioc.mcmod.arnicalib.game.event.client.ClientPermissionsChangedEvent;
+import org.auioc.mcmod.arnicalib.game.event.client.ClientPermissionChangedEvent;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import org.auioc.mcmod.clientesh.content.command.CECommands;
 import org.auioc.mcmod.clientesh.content.tweak.OverlayTweaks;
@@ -51,7 +51,7 @@ public class CEForgeEventHandler {
     }
 
     @SubscribeEvent
-    public static void onPermissionLevelChanged(final ClientPermissionsChangedEvent event) {
+    public static void onPermissionLevelChanged(final ClientPermissionChangedEvent event) {
         if (event.getOldLevel() < 2 && event.getNewLevel() >= 2) SeedGetter.sendQueryCommand(event.getClientPlayer());
     }
 
