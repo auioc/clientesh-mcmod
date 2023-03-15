@@ -1,9 +1,11 @@
 package org.auioc.mcmod.clientesh.event;
 
+import org.auioc.mcmod.arnicalib.game.event.client.ClientLanguageLoadEvent;
 import org.auioc.mcmod.clientesh.ClientEsh;
 import org.auioc.mcmod.clientesh.config.CEConfig;
 import org.auioc.mcmod.clientesh.content.hud.config.CEHudLayoutConfig;
 import org.auioc.mcmod.clientesh.content.hud.overlay.CEHudOverlay;
+import org.auioc.mcmod.clientesh.content.widget.EnchantmentLevelNames;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.gui.OverlayRegistry;
@@ -27,6 +29,11 @@ public class CEModEventHandler {
     public static void onClientSetup(final FMLClientSetupEvent event) {
         OverlayRegistry.registerOverlayTop(CEHudOverlay.NAME, CEHudOverlay.INSTANCE);
         CEHudLayoutConfig.init();
+    }
+
+    @SubscribeEvent
+    public static void onClientLanguageLoad(final ClientLanguageLoadEvent event) {
+        EnchantmentLevelNames.handleClientLanguage(event.getStorage());
     }
 
 }

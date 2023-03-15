@@ -1,13 +1,15 @@
 package org.auioc.mcmod.clientesh.event;
 
-import java.util.Map;
 import org.auioc.mcmod.arnicalib.game.event.client.ClientPermissionChangedEvent;
 import org.auioc.mcmod.clientesh.content.adapter.SeedGetter;
 import org.auioc.mcmod.clientesh.content.command.CECommands;
 import org.auioc.mcmod.clientesh.content.tweak.OverlayTweaks;
 import org.auioc.mcmod.clientesh.content.tweak.PauseScreenTweaks;
 import org.auioc.mcmod.clientesh.content.tweak.ScreenEffectTweaks;
-import org.auioc.mcmod.clientesh.content.widget.*;
+import org.auioc.mcmod.clientesh.content.widget.AdditionalItemTooltip;
+import org.auioc.mcmod.clientesh.content.widget.ExplosionCountdown;
+import org.auioc.mcmod.clientesh.content.widget.ScreenCloseButton;
+import org.auioc.mcmod.clientesh.content.widget.SpyglassZoom;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.PauseScreen;
 import net.minecraftforge.api.distmarker.Dist;
@@ -82,12 +84,6 @@ public class CEForgeEventHandler {
         boolean cancel = SpyglassZoom.onMouseScroll(minecraft, event.getScrollDelta());
 
         if (cancel) event.setCanceled(cancel);
-    }
-
-    // TODO ArnicaLib: LoadClientLanguageEvent
-    public static Map<String, String> onLoadClientLanguage(Map<String, String> map) {
-        EnchantmentLevelNames.handleClientLanguage(map);
-        return map;
     }
 
 }

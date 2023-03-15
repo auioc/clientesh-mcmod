@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.function.IntFunction;
 import org.auioc.mcmod.arnicalib.base.cache.LoadingCache;
 import org.auioc.mcmod.arnicalib.base.cache.PlainLoadingCache;
+import org.auioc.mcmod.arnicalib.base.math.NumberUtils;
+import org.auioc.mcmod.arnicalib.base.math.NumeralUtils;
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import net.minecraft.network.chat.Component;
@@ -39,11 +41,8 @@ public class EnchantmentLevelNames {
 
     // ============================================================================================================== //
 
-    private static final int[] ROMAN_VALUES = {1000000, 900000, 500000, 400000, 100000, 90000, 50000, 40000, 10000, 9000, 5000, 4000, 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-    private static final String[] ROMAN_SYMBOLS = {"M·", "C·M·", "D·", "C·D·", "C·", "X·C·", "L·", "X·L·", "X·", "MX·", "V·", "MV·", "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"}; // "M\u0305", "C\u0305M\u0305",
-
     @OnlyIn(Dist.CLIENT)
-    public enum NumeralType implements IntFunction<String> { // TODO ArnicaLib
+    public enum NumeralType implements IntFunction<String> {
 
         ARABIC {
             @Override
@@ -51,20 +50,23 @@ public class EnchantmentLevelNames {
         },
         ROMAN {
             @Override
-            public String apply(int lvl) {
-                if (lvl > 3999999) return String.valueOf(lvl);
-                if (lvl == 0) return "N";
-                var sb = new StringBuilder();
-                int i = 0;
-                while (i < ROMAN_VALUES.length) {
-                    while (lvl >= ROMAN_VALUES[i]) {
-                        sb.append(ROMAN_SYMBOLS[i]);
-                        lvl -= ROMAN_VALUES[i];
-                    }
-                    i++;
-                }
-                return sb.toString();
-            }
+            public String apply(int lvl) { return NumeralUtils.toRoman(lvl, true); }
+        },
+        CHINESE_BIG {
+            @Override
+            public String apply(int lvl) { return NumeralUtils.toChinese(lvl, true); }
+        },
+        CHINESE_SMALL {
+            @Override
+            public String apply(int lvl) { return NumeralUtils.toChinese(lvl, false); }
+        },
+        BINARY {
+            @Override
+            public String apply(int lvl) { return NumberUtils.toBinaryString(lvl, 32); }
+        },
+        HEXADECIMAL {
+            @Override
+            public String apply(int lvl) { return NumberUtils.toHexString(lvl, 8); }
         };
 
         private final LoadingCache<Integer, String> cache = new PlainLoadingCache<>((lvl) -> apply(lvl));

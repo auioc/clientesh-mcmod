@@ -15,7 +15,6 @@
         "MixinAbstractClientPlayer",
         "MixinItemStack",
         "MixinPotionItem",
-        "MixinClientLanguage",
         "MixinEnchantment"
     ],
     "server": [],
