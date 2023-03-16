@@ -15,7 +15,8 @@
         "MixinAbstractClientPlayer",
         "MixinItemStack",
         "MixinPotionItem",
-        "MixinEnchantment"
+        "MixinEnchantment",
+        "MixinEffectRenderingInventoryScreen"
     ],
     "server": [],
     "injectors": {

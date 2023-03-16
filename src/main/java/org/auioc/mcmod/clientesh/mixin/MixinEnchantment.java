@@ -21,11 +21,7 @@ public class MixinEnchantment {
         allow = 1
     )
     private MutableComponent getFullname_ModifyArgAppendLevelName(MutableComponent mutablecomponent, Component langBasedName, int p_44701_) {
-        if (p_44701_ < 256) {
-            return mutablecomponent.append(langBasedName);
-        } else {
-            return mutablecomponent.append(EnchantmentLevelNames.getLevelName(p_44701_, langBasedName));
-        }
+        return mutablecomponent.append(EnchantmentLevelNames.getEnchantmentLevelName(p_44701_, langBasedName));
     }
 
 }

@@ -11,6 +11,7 @@ import org.auioc.mcmod.clientesh.api.config.CEConfigAt;
 import org.auioc.mcmod.clientesh.api.config.CEConfigAt.Type;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -33,10 +34,22 @@ public class EnchantmentLevelNames {
         }
     }
 
-    public static Component getLevelName(int lvl, Component langBasedName) {
-        return (Config.enabled.get() && Config.supportHigherValues.get())
+    /**
+     * @see org.auioc.mcmod.clientesh.mixin.MixinEnchantment#getFullname_ModifyArgAppendLevelName
+     */
+    public static Component getEnchantmentLevelName(int lvl, Component langBasedName) {
+        return ((lvl > 255 || lvl < 0) && Config.enabled.get() && Config.supportAllValues.get())
             ? new TextComponent(Config.type.get().get(lvl))
             : langBasedName;
+    }
+
+    /**
+     * @see org.auioc.mcmod.clientesh.mixin.MixinEffectRenderingInventoryScreen#getEffectName
+     */
+    public static Component getEffectLevelName(int lvl) {
+        return ((lvl > 128 || lvl < 0) && Config.enabled.get() && Config.supportAllValues.get())
+            ? new TextComponent(Config.type.get().get(lvl))
+            : new TranslatableComponent("enchantment.level." + lvl);
     }
 
     // ============================================================================================================== //
@@ -50,7 +63,7 @@ public class EnchantmentLevelNames {
         },
         ROMAN {
             @Override
-            public String apply(int lvl) { return NumeralUtils.toRoman(lvl, true); }
+            public String apply(int lvl) { return (lvl < 0 ? "-" : "") + NumeralUtils.toRoman(lvl, true); }
         },
         CHINESE_BIG {
             @Override
@@ -93,14 +106,14 @@ public class EnchantmentLevelNames {
 
         public static BooleanValue enabled;
         public static BooleanValue replace;
-        public static BooleanValue supportHigherValues;
+        public static BooleanValue supportAllValues;
         public static EnumValue<NumeralType> type;
 
         public static void build(final ForgeConfigSpec.Builder b) {
             enabled = b.define("enabled", true);
             replace = b.define("replace", false);
             type = b.defineEnum("type", NumeralType.ROMAN);
-            supportHigherValues = b.define("support_higher_values", true);
+            supportAllValues = b.define("support_all_values", true);
         }
 
     }
